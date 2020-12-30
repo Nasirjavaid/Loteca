@@ -49,7 +49,7 @@ This Application is made for Online betting purpose.
 
 ## Login Page
 
-![Simulator Screen Shot - iPhone 11 Pro Max - 2020-12-30 at 23 49 13](https://user-images.githubusercontent.com/39884746/103375574-5bf61500-4afc-11eb-84f9-4b5097dd24bc.png)
+![Simulator Screen Shot - iPhone 11 Pro Max - 2020-12-31 at 00 21 32](https://user-images.githubusercontent.com/39884746/103376332-2fdb9380-4afe-11eb-939c-986ff53f8a0b.png)
 
 
 A few resources to get you started if this is your first Flutter project:
