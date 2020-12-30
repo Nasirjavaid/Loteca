@@ -65,7 +65,7 @@ class _ResultState extends State<Result> {
 
   Widget listofTeams(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.74,
+      height: MediaQuery.of(context).size.height * 0.73,
       decoration: BoxDecoration(
           // color: AppTheme.appCardColor,
           borderRadius: BorderRadius.all(

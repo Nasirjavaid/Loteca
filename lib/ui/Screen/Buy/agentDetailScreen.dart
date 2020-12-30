@@ -3,7 +3,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 
-class AgentDetailScreen extends StatefulWidget {
+class AgentDetailScreen extends StatefulWidget { 
   @override
   _AgentDetailScreenState createState() => _AgentDetailScreenState();
 }
