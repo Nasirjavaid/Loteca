@@ -56,8 +56,15 @@ class _ResultState extends State<Result> {
           // SizedBox(
           //   height: 12,
           // ),
-          headingCard(context),
-          listofTeams(context),
+          Flexible(
+            flex: 2,
+            child: headingCard(context),
+          ),
+          Flexible(
+            
+            flex: 15,
+            child: listofTeams(context),
+          )
         ],
       ),
     );
@@ -65,7 +72,7 @@ class _ResultState extends State<Result> {
 
   Widget listofTeams(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.73,
+      // height: MediaQuery.of(context).size.height * 0.73,
       decoration: BoxDecoration(
           // color: AppTheme.appCardColor,
           borderRadius: BorderRadius.all(
@@ -134,7 +141,7 @@ class _ResultState extends State<Result> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.6),
       child: Container(
-       // height: MediaQuery.of(context).size.height * 0.080,
+        // height: MediaQuery.of(context).size.height * 0.080,
         decoration: BoxDecoration(
             color: Colors.blue[100],
             borderRadius: BorderRadius.all(
@@ -145,12 +152,12 @@ class _ResultState extends State<Result> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1, "Team A", 15,
-                  FontWeight.w900, AppTheme.appDefaultColor),
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1, "Team B", 15,
-                  FontWeight.w900, AppTheme.appDefaultColor),
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1, "Winner", 15,
-                  FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
+                  "Team A", 15, FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
+                  "Team B", 15, FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
+                  "Winner", 15, FontWeight.w900, AppTheme.appDefaultColor),
               // Row(
               //   children: [
               //     Text(
@@ -213,9 +220,8 @@ class _ResultState extends State<Result> {
       double fontSize,
       FontWeight fontWeight,
       Color textColor) {
-
     return Container(
-        height: MediaQuery.of(context).size.height * 0.070,
+      height: MediaQuery.of(context).size.height * 0.070,
       decoration: BoxDecoration(
         color: bgColor,
         shape: BoxShape.circle,

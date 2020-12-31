@@ -1,8 +1,8 @@
-# locteca
+# Loteca
 
 A betting Application.
 
-## Getting Started
+## Dvelopment Purpose
 
 This Application is made for Online betting purpose.
 

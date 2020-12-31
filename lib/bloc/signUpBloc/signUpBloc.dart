@@ -11,9 +11,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> with ValidationMixin {
   @override
   SignUpState get initialState => SignUpInitialState();
 
- 
-
-
   UserSignUpRepository userSignUpRepository = UserSignUpRepository();
   UserLogin userLogin;
 
