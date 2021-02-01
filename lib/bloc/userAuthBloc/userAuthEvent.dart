@@ -26,7 +26,7 @@ class AuthLoggedIn extends UserAuthEvent {
   List<Object> get props => [userLogin];
 
   @override
-  String toString() => 'AuthLoggedIn {token:${userLogin.accessToken}}';
+  String toString() => 'AuthLoggedIn {token:${userLogin.data.token}}';
 }
 
 //When we need to log out the user we will use this event

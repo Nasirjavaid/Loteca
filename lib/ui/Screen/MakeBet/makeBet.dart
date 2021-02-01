@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/mainRoundBloc/mainRoundBloc.dart';
+import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
+import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
+import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+
+class MakeBetMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) {
+          return MainRoundBloc()..add(GetMainRoundEvent());
+        },
+        child: MakeBet(),
+      ),
+    );
+  }
+}
 
 class MakeBet extends StatefulWidget {
   @override
@@ -9,6 +31,88 @@ class MakeBet extends StatefulWidget {
 }
 
 class _MakeBetState extends State<MakeBet> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  bool widegtSwitch0 = false;
+  bool widegtSwitch1 = false;
+  bool widegtSwitch2 = false;
+  String selectedPackagePrice;
+  String selectedPackageAccumulativePrice;
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 5),
+    ));
+  }
+
+  void submitBetRequest(MainRound mainRound) {
+    if (mainRound.user.coins == 0 || mainRound.user.coins == null) {
+      //show message with no coins error
+      showMessageError("You dont have enough coins.");
+      print("Request not Submitted... Dont have enough coins");
+    } else if (selectedPackagePrice == null || selectedPackagePrice == "") {
+      // show error message to select a participation fee package
+      print("Request not Submitted... did not selected the participation fee");
+      showMessageError("Please select your bet fee");
+    } else {
+      bool checkPoint = true;
+      for (int i = 0; i < mainRound.round.games.length; i++) {
+        if (mainRound.round.games[i].widegtSwitch0 == false &&
+            mainRound.round.games[i].widegtSwitch1 == false &&
+            mainRound.round.games[i].widegtSwitch2 == false) {
+          //show error to slect all the team winners/losser/or draw
+          showMessageError(
+              "Must select your choice from All team listed above");
+          print(
+              "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
+          checkPoint = false;
+          break;
+        } else if (mainRound.round.games[i].widegtSwitch0 == null &&
+            mainRound.round.games[i].widegtSwitch1 == null &&
+            mainRound.round.games[i].widegtSwitch2 == null) {
+          //show error to slect all the team winners/losser/or draw
+          showMessageError(
+              "Must select your choice from All team listed above");
+          print(
+              "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
+          checkPoint = false;
+          break;
+        }
+      }
+
+      if (checkPoint) {
+        //Finally submit the request
+       // showMessageError("Bet Submitted Successfully");
+        print("Bet Submitted... Successfully");
+         BlocProvider.of<MainRoundBloc>(context).add(
+        SubmitBetButtonClickedEvent(mainRound:mainRound ));
+      }
+    }
+  }
+
+  bool checkIfAnyTeamIsNotSelected(MainRound mainRound) {
+    for (int i = 0; i < mainRound.round.games.length; i++) {
+      if (mainRound.round.games[i].widegtSwitch0 == false &&
+          mainRound.round.games[i].widegtSwitch1 == false &&
+          mainRound.round.games[i].widegtSwitch0 == false) {
+        //show error to slect all the team winners/losser/or draw
+        break;
+      } else if (mainRound.round.games[i].widegtSwitch0 == null &&
+          mainRound.round.games[i].widegtSwitch1 == null &&
+          mainRound.round.games[i].widegtSwitch0 == null) {
+        //show error to slect all the team winners/losser/or draw
+        break;
+      } else {
+        //finally submit the bet request
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,6 +120,7 @@ class _MakeBetState extends State<MakeBet> {
       child: SafeArea(
         maintainBottomViewPadding: true,
         child: Scaffold(
+          key: _scaffoldKey,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.white38),
@@ -49,26 +154,79 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.015,
+    return BlocListener<MainRoundBloc, MainRoundState>(listener:
+        (context, state) {
+      if (state is MainRoundFailureState) {
+        showMessageError("${state.errorMessage}");
+
+        print("Error : ${state.errorMessage}");
+      }
+    }, child:
+        BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
+      if (state is MainRoundSuccessState) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.014,
+              ),
+              liveTeamTagWidget(context),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.024,
+              ),
+              teamNameText(context, state.mainRound.round),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.024,
+              ),
+              listofTeams(context, state.mainRound),
+              Spacer(),
+              bottomCard(context, state.mainRound, state),
+            ],
           ),
-          liveTeamTagWidget(context),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.025,
-          ),
-          teamNameText(context),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.025,
-          ),
-          listofTeams(context),
-          Spacer(),
-          bottomCard(context),
-        ],
+        );
+      }
+
+      if (state is MainRoundInProgressState) {
+        return LoadingIndicator(Colors.white);
+      }
+      if (state is MainRoundFailureState) {
+        return failedWidget(context);
+      }
+
+      return Container(color: Colors.white);
+    }));
+  }
+
+  Widget failedWidget(BuildContext context) {
+    return FlatButton(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: Icon(Icons.refresh, size: 60, color: AppTheme.nearlyBlue),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Tap to reload",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white54),
+            ),
+          ],
+        ),
       ),
+      onPressed: () {
+        BlocProvider.of<MainRoundBloc>(context).add(GetMainRoundEvent());
+      },
     );
   }
 
@@ -103,91 +261,266 @@ class _MakeBetState extends State<MakeBet> {
     );
   }
 
-  Widget teamNameText(BuildContext context) {
+  Widget teamNameText(BuildContext context, Round round) {
     return Text(
-      "England Premier League",
+      round.name == null || round.name == " " ? "---" : "${round.name}",
       style: Theme.of(context).textTheme.bodyText2.copyWith(
           color: Colors.white60, fontSize: 22, fontWeight: FontWeight.w900),
     );
   }
 
-  Widget listofTeams(BuildContext context) {
+  Widget listofTeams(BuildContext context, MainRound mainRound) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.43,
-      width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height * 0.45,
+      width: MediaQuery.of(context).size.width * 0.95,
       decoration: BoxDecoration(
           color: AppTheme.appCardColor,
           borderRadius: BorderRadius.all(
-            Radius.circular(15),
+            Radius.circular(25),
           )),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(0.0),
         child: ListView.builder(
-            padding: EdgeInsets.all(10),
-            itemCount: 20,
+            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+            itemCount: mainRound.round.games.length,
             scrollDirection: Axis.vertical,
+            //reverse: true,
             itemBuilder: (BuildContext context, int index) {
-              return listWiewItemCard(context);
+              // mainRound.round.games[index].widegtSwitch0 = false;
+              // mainRound.round.games[index].widegtSwitch1 = false;
+              // mainRound.round.games[index].widegtSwitch2 = false;
+              return listWiewItemCard(context, mainRound, index);
             }),
       ),
     );
   }
 
-  Widget listWiewItemCard(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Row(
-          children: [
-            Icon(
-              Icons.flag,
-              size: 25,
-              color: Colors.white,
+  Widget listWiewItemCard(
+      BuildContext context, MainRound mainRound, int index) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.5),
+        child: Container(
+            decoration: BoxDecoration(
+                color: AppTheme.appDefaultColor2,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(25),
+                )),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 10.0, top: 10, bottom: 10, right: 10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            mainRound.round.games[index].widegtSwitch0 = true;
+                            mainRound.round.games[index].widegtSwitch1 = false;
+                            mainRound.round.games[index].widegtSwitch2 = false;
+                          });
+                          print(
+                              "(Game id is ${mainRound.round.games[index].id}) and User selected Answer  => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamA}");
+                          print("TeamA clicked");
+                        },
+                        child: mainRound.round.games[index].widegtSwitch0 ==
+                                    false ||
+                                mainRound.round.games[index].widegtSwitch0 ==
+                                    null
+                            ? teamNameContainerNormal(
+                                mainRound.round.games[index].teamA)
+                            : selectedTeamNameContainer(
+                                mainRound.round.games[index].teamA),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              mainRound.round.games[index].widegtSwitch0 =
+                                  false;
+                              mainRound.round.games[index].widegtSwitch1 = true;
+                              mainRound.round.games[index].widegtSwitch2 =
+                                  false;
+                            });
+
+                            print("Draw clicked");
+
+                            print(
+                                "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = "Draw"}");
+                          },
+                          child: mainRound.round.games[index].widegtSwitch1 ==
+                                      false ||
+                                  mainRound.round.games[index].widegtSwitch1 ==
+                                      null
+                              ? teamMatchDrawContainerNormal()
+                              : selectedTeamMatchDrawContainer()),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            mainRound.round.games[index].widegtSwitch0 = false;
+                            mainRound.round.games[index].widegtSwitch1 = false;
+                            mainRound.round.games[index].widegtSwitch2 = true;
+                            print(
+                                "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamB}");
+                          });
+
+                          print("TeamB clicked");
+                        },
+                        child: mainRound.round.games[index].widegtSwitch2 ==
+                                    false ||
+                                mainRound.round.games[index].widegtSwitch2 ==
+                                    null
+                            ? teamNameContainerNormal(
+                                mainRound.round.games[index].teamB)
+                            : selectedTeamNameContainer(
+                                mainRound.round.games[index].teamB),
+                      ),
+                    ),
+                  ]),
+            )));
+  }
+
+  Widget teamNameContainerNormal(
+    String teamName,
+  ) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.30,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.flag,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    teamName != null ? "$teamName" : "---",
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: Colors.white60, fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              width: 4,
-            ),
-            Text(
-              "Team Name",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white60),
-            ),
-          ],
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.close,
-            size: 30,
-            color: Colors.white,
           ),
-        ),
-        Row(
-          children: [
-            Text(
-              "Team Name",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white60),
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            Icon(
-              Icons.flag,
-              size: 25,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget bottomCard(BuildContext context) {
+  Widget selectedTeamNameContainer(String teamName) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.30,
+      decoration: BoxDecoration(
+          color: AppTheme.background1,
+          borderRadius: BorderRadius.all(
+            Radius.circular(25),
+          )),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.flag,
+                    size: 18,
+                    color: AppTheme.appDefaultColor,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    teamName != null ? "$teamName" : "---",
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appDefaultColor,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget teamMatchDrawContainerNormal() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.15,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                "Draw",
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Colors.white60, fontWeight: FontWeight.w800),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget selectedTeamMatchDrawContainer() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.15,
+      decoration: BoxDecoration(
+          color: AppTheme.background1,
+          borderRadius: BorderRadius.all(
+            Radius.circular(25),
+          )),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.close_rounded,
+                    size: 16,
+                    color: AppTheme.lightRed,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Draw",
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appDefaultColor,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomCard(
+      BuildContext context, MainRound mainRound, MainRoundState state) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.28,
       width: MediaQuery.of(context).size.width,
@@ -202,13 +535,21 @@ class _MakeBetState extends State<MakeBet> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
           ),
-          creditWidget(context),
+          creditWidget(context, mainRound),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
           ),
-          selectAmoutWidget(),
+          selectAmoutWidget(mainRound),
           Spacer(),
-          submitButton(),
+
+          BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
+            if (state is MainRoundBetSubmitingInProgressState) {
+              return CommonWidgets.progressIndicator;
+            } else {
+              return submitButton(mainRound);
+            }
+          }),
+          //  state is MainRoundBetSubmitingInProgressState ? CommonWidgets.progressIndicator : submitButton(mainRound),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.010,
           ),
@@ -217,7 +558,7 @@ class _MakeBetState extends State<MakeBet> {
     );
   }
 
-  Widget creditWidget(BuildContext context) {
+  Widget creditWidget(BuildContext context, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.background1,
@@ -233,7 +574,8 @@ class _MakeBetState extends State<MakeBet> {
             SizedBox(
               width: 14,
             ),
-            Text("345",
+            Text(
+                mainRound.user.coins != null ? "${mainRound.user.coins}" : "00",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
                     fontSize: 17,
@@ -244,7 +586,7 @@ class _MakeBetState extends State<MakeBet> {
     );
   }
 
-  Widget selectAmoutWidget() {
+  Widget selectAmoutWidget(MainRound mainRound) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -275,96 +617,58 @@ class _MakeBetState extends State<MakeBet> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: AppTheme.background1,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Rs: 345",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: AppTheme.appDefaultColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text("Accumulate Rs: 56",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: Colors.black26,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widegtSwitch0 = true;
+                    widegtSwitch1 = false;
+                    widegtSwitch2 = false;
+                    selectedPackagePrice =
+                        mainRound.round.packages[0].participationFee;
+                    selectedPackageAccumulativePrice =
+                        mainRound.round.packages[0].accumulativePrice;
+                  });
+                },
+                child: widegtSwitch0 == false
+                    ? priceAmountSimpleWidget(mainRound.round.packages[0])
+                    : priceAmountSelectedWidget(mainRound.round.packages[0]),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: AppTheme.background1,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Rs: 345",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: AppTheme.appDefaultColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text("Accumulate Rs: 56",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: Colors.black26,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widegtSwitch0 = false;
+                    widegtSwitch1 = true;
+                    widegtSwitch2 = false;
+                    selectedPackagePrice =
+                        mainRound.round.packages[1].participationFee;
+                    selectedPackageAccumulativePrice =
+                        mainRound.round.packages[1].accumulativePrice;
+                  });
+                },
+                child: widegtSwitch1 == false
+                    ? priceAmountSimpleWidget(mainRound.round.packages[1])
+                    : priceAmountSelectedWidget(mainRound.round.packages[1]),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: AppTheme.background1,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Rs: 345",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: AppTheme.appDefaultColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text("Accumulate Rs: 56",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                              color: Colors.black26,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widegtSwitch0 = false;
+                    widegtSwitch1 = false;
+                    widegtSwitch2 = true;
+                    selectedPackagePrice =
+                        mainRound.round.packages[2].participationFee;
+                    selectedPackageAccumulativePrice =
+                        mainRound.round.packages[2].accumulativePrice;
+                  });
+                },
+                child: widegtSwitch2 == false
+                    ? priceAmountSimpleWidget(mainRound.round.packages[2])
+                    : priceAmountSelectedWidget(mainRound.round.packages[2]),
               ),
+
+              //priceAmountSimpleWidget(mainRound.round.packages[1]),
+              // priceAmountSimpleWidget(mainRound.round.packages[2]),
+              // priceAmountSelectedWidget(mainRound.round.packages[2])
             ],
           ),
         ],
@@ -372,9 +676,85 @@ class _MakeBetState extends State<MakeBet> {
     );
   }
 
-  Widget submitButton() {
+  Widget priceAmountSimpleWidget(Packages packages) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppTheme.background1,
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                packages.participationFee != null
+                    ? "Rs: ${packages.participationFee}"
+                    : "--",
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: AppTheme.appDefaultColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700)),
+            SizedBox(
+              height: 2,
+            ),
+            Text(
+                packages.accumulativePrice != null
+                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    : "--",
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Colors.black26,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget priceAmountSelectedWidget(Packages packages) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppTheme.appDefaultColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                packages.participationFee != null
+                    ? "Rs: ${packages.participationFee}"
+                    : "--",
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: AppTheme.nearlyWhite,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700)),
+            SizedBox(
+              height: 2,
+            ),
+            Text(
+                packages.accumulativePrice != null
+                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    : "--",
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Colors.white60,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget submitButton(MainRound mainRound) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height*0.047,
+      height: MediaQuery.of(context).size.height * 0.047,
       width: MediaQuery.of(context).size.width * 0.95,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
@@ -414,15 +794,16 @@ class _MakeBetState extends State<MakeBet> {
               onPressed: () async {
                 print("submit button pressed");
 
-                // NetworkConnectivity.check().then((internet) {
-                //   if (internet) {
-                //     placeOrder();
-                //   } else {
-                //     //show network erro
+                NetworkConnectivity.check().then((internet) {
+                  if (internet) {
+                    submitBetRequest(mainRound);
+                  } else {
+                    //show network erro
 
-                //     Methods.showToast(context, "Check your network");
-                //   }
-                // });
+                    // Methods.showToast(context, "Check your network");
+                    print("No internet ..............");
+                  }
+                });
               }),
         ),
       ),

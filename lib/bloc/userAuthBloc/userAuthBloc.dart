@@ -27,7 +27,7 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
 
 
 
-      final bool hassToken = await userAuthRepository.hasToken();
+    bool  hassToken = await userAuthRepository.hasToken();
 
       // if token exists then return Login in success
       if (hassToken) {
@@ -43,7 +43,7 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     //Check if user token already exists then move to Dashboard
     if (event is AuthLoggedIn) {
       yield AuthInProgress();
-      await Future.delayed(Duration(milliseconds: 500));
+     // await Future.delayed(Duration(milliseconds: 500));
 
       await userAuthRepository.persistToken(event.userLogin);
 

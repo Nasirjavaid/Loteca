@@ -7,23 +7,26 @@ import 'package:locteca/model/userLogin.dart';
 
 class UserSignUpService {
   Future<UserLogin> registerNewUser(String name, String email, String password,
-      String phone, String address) async {
+      String role) async {
     UserLogin usersLogin = new UserLogin();
 
     HttpService httpService = new HttpService.internal();
 
-    Map<String, String> requestBody = <String, String>{
-      'customer_name': name,
-      'email': email,
-      'mobile': phone,
-      'Address': address,
-      'password': password,
-    };
+    // Map<String, String> requestBody = <String, String>{
+    //   'name': name,
+    //   'email': email,
+    //   'password': password,
+    //   'role': role,
+      
+    
+    // };
 
+    String completeSignUpUrl = APIConstants.userSignUpEndPoint+"name="+name+"&email="+email+"&password="+password+"&role="+role;
+//http://phpstack-526382-1675862.cloudwaysapps.com/api/register?name=User5&email=user7@email.com&password=Hello123&role=1
     final http.Response response = await httpService.postRequest(
-       endPoint: APIConstants.baseUrl, data:requestBody);
+       endPoint: completeSignUpUrl, );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode ==201) {
       print("response body  in user SignUp: ${response.body}");
 
       var json = jsonDecode(response.body);
@@ -40,7 +43,7 @@ class UserSignUpService {
 
       // usersLogin = UserLogin.fromJson(json);
     } else {
-      throw Exception("UserSignLogin service: Failed to Register new User");
+      throw Exception("UserSign up service: Failed to Register new User");
     }
 
     return usersLogin;

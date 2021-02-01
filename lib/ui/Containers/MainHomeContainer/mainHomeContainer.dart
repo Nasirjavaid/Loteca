@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,9 +33,9 @@ class _MainHomeContainerState extends State<MainHomeContainer>
   int _currentIndex = 0;
 
   final allScreenDestiNations = [
-    MakeBet(),
+    MakeBetMain(),
     MyLeague(),
-    Result(),
+    ResultMain(),
     GeneralRanking(),
     Buy()
   ];

@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthBloc.dart';
 import 'package:locteca/bloc/userLoginBloc/loginBloc.dart';
+import 'package:locteca/bloc/userLoginBloc/loginEvent.dart';
 import 'package:locteca/bloc/userLoginBloc/loginState.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
@@ -62,12 +64,12 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   _onLoginButtonPressed() {
-    // BlocProvider.of<LoginBloc>(context).add(
-    //   LoginButtonPressed(
-    //     userName: _usernameController.text,
-    //     password: _passwordController.text,
-    //   ),
-    // );
+    BlocProvider.of<LoginBloc>(context).add(
+      LoginButtonPressed(
+        userName: _usernameController.text,
+        password: _passwordController.text,
+      ),
+    );
   }
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
@@ -121,10 +123,11 @@ class _LoginScreenState extends State<LoginScreen>
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              leading: new IconButton(
-                icon: new Icon(Icons.arrow_back, color: Colors.black54),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+              leading: Container(),
+              // leading: new IconButton(
+              //   icon: new Icon(Icons.arrow_back, color: Colors.black54),
+              //   onPressed: () => Navigator.of(context).pop(),
+              // ),
             ),
             key: _scaffoldKey,
             body: SingleChildScrollView(
@@ -415,7 +418,17 @@ class _LoginScreenState extends State<LoginScreen>
               onPressed: () async {
                 print("Login Button clicked");
 
-                _onLoginButtonPressed();
+                    NetworkConnectivity.check().then((internet) {
+      if (internet) {
+       _onLoginButtonPressed();
+      } else {
+        //show network erro
+showMessageError("Check Network Conection");
+       
+      }
+    });
+
+                
 
                 // Navigator.push(context,
                 //     MaterialPageRoute(builder: (context) => DashboardScreen()));
@@ -473,7 +486,7 @@ class _LoginScreenState extends State<LoginScreen>
                   )),
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreenMain()));
+                MaterialPageRoute(builder: (context) => SignUpScreen()));
           },
         ),
       ],

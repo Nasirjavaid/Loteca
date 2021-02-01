@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/signUpBloc/signUpBloc.dart';
+import 'package:locteca/bloc/signUpBloc/signUpEvent.dart';
 import 'package:locteca/bloc/signUpBloc/signUpSate.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-// class SignUpScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         child: BlocProvider(
-//             create: (context) => SignUpBloc(), child: SignUpScreenMain()));
-//   }
-// }
+class SignUpScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: BlocProvider(
+            create: (context) => SignUpBloc(), child: SignUpScreenMain()));
+  }
+}
 
 class SignUpScreenMain extends StatefulWidget {
   @override
@@ -29,6 +31,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   TextEditingController etAddres = TextEditingController();
   TextEditingController etPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  int roleType = 1;
 
   void _showToast(BuildContext context, String message) {
     final scaffold = Scaffold.of(context);
@@ -42,14 +45,10 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     );
   }
 
-  // onRegisterButtonPressed() {
-  //   BlocProvider.of<SignUpBloc>(context).add(SignUpButtonPressed(
-  //       etUserName.text,
-  //       etEmail.text,
-  //       etPassword.text,
-  //       etMobile.text,
-  //       etAddres.text));
-  // }
+  onRegisterButtonPressed() {
+    BlocProvider.of<SignUpBloc>(context).add(SignUpButtonPressed(
+        etUserName.text, etEmail.text, etPassword.text, roleType.toString()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +129,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
                   SizedBox(
                     height: 10,
                   ),
+                  userTypeRadioButtons(context),
                   // passwordRepeatInputField(context),
                   // SizedBox(
                   //   height: 35,
@@ -146,17 +146,17 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
                   // SizedBox(
                   //   height: 10,
                   // ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: phoneNumberInputField(context),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: addressInputField(context),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  //   child: phoneNumberInputField(context),
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  //   child: addressInputField(context),
+                  // ),
                   SizedBox(
                     height: 40,
                   ),
@@ -216,7 +216,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     return TextFormField(
       controller: etEmail,
       keyboardType: TextInputType.emailAddress,
-      textCapitalization: TextCapitalization.words,
+      //textCapitalization: TextCapitalization.words,
       autocorrect: false,
 
       //controller: firstNameTextController,
@@ -279,7 +279,8 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     return TextFormField(
       controller: etPassword,
       keyboardType: TextInputType.text,
-      textCapitalization: TextCapitalization.words,
+      obscureText: true,
+     // textCapitalization: TextCapitalization.words,
       autocorrect: false,
 
       //controller: firstNameTextController,
@@ -335,6 +336,46 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
           return null;
         }
       },
+    );
+  }
+
+  Widget userTypeRadioButtons(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            child: ListTile(
+              title: const Text('Player'),
+              leading: Radio(
+                value: 1,
+                groupValue: roleType,
+                onChanged: (value) {
+                  setState(() {
+                    roleType = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            child: ListTile(
+              title: const Text('Agent'),
+              leading: Radio(
+                value: 2,
+                groupValue: roleType,
+                onChanged: (value) {
+                  setState(() {
+                    roleType = value;
+                  });
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -405,7 +446,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     return TextFormField(
       controller: etUserName,
       keyboardType: TextInputType.text,
-      textCapitalization: TextCapitalization.words,
+     // textCapitalization: TextCapitalization.words,
       autocorrect: false,
 
       //controller: firstNameTextController,
@@ -812,7 +853,15 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
               ),
               onPressed: () {
                 print("Register Button clicked");
-                // onRegisterButtonPressed();
+
+                NetworkConnectivity.check().then((internet) {
+                  if (internet) {
+                    onRegisterButtonPressed();
+                  } else {
+                    //show network erro
+                    _showToast(context, "Check Network Conection");
+                  }
+                });
               }
 
               // showInSnackBar("Login button pressed")

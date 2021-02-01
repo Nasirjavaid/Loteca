@@ -21,10 +21,29 @@ class HttpService {
     return http.get(url);
   }
 
+
+  Future<http.Response> postRequestWithToken(
+      {String endPoint,
+      Map<String, String> header,
+      Map<dynamic, dynamic> data}) {
+    String url = endPoint;
+    return http.post(url,
+        headers: header,
+        body: jsonEncode(data),
+        encoding: Encoding.getByName("utf-8"));
+  }
+
   Future<http.Response> postRequest(
       {String endPoint, Map<dynamic, dynamic> data}) {
     String url = endPoint;
     return http.post(url, body: data, encoding: Encoding.getByName("utf-8"));
+  }
+
+    Future<http.Response> getRequestWithAccessToken(
+      {String endPoint, Map<String, String> header}) {
+    String url = endPoint;
+    print("_get request : $url");
+    return http.get(url, headers: header);
   }
 
   // Map<String, dynamic> _convertJsonToMap(String response) {

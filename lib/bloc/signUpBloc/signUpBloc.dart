@@ -35,27 +35,26 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> with ValidationMixin {
         yield SignUpFailure(
             error: "Password length must be more or equal to 4 characters.");
         return;
-      } else if (this.isFieldEmpty(event.phone)) {
-        yield SignUpFailure(error: "Please enter Phone number");
+      } else if (event.role==null ||  event.role==""){
+         yield SignUpFailure(
+            error: "Password select user type.");
         return;
-      } else if (this.isFieldEmpty(event.address)) {
-        yield SignUpFailure(error: "Please enter address");
-        return;
-      } else {
+      }
+       else {
         userLogin = await userSignUpRepository.registerNewUser(event.name,
-            event.email, event.password, event.phone, event.address);
+            event.email, event.password, event.role, );
 
-        // if (userLogin.status == ("success")) {
-        //   yield SignUpInProgress();
-        //   await Future.delayed(Duration(seconds:1));
-        //   yield SignUpInSuccess(message: userLogin.message);
-        //   await Future.delayed(Duration(seconds: 2));
-        //   yield SignUpSuccessAndGoToLoginScreen();
-        // } else if (userLogin.status == ("failed")) {
-        //   yield SignUpFailure(error: userLogin.message);
-        // } else {
-        //   yield SignUpFailure(error: "Something went wrong.");
-        // }
+        if (userLogin.response == ("true")) {
+          yield SignUpInProgress();
+          await Future.delayed(Duration(seconds:1));
+          yield SignUpInSuccess(message: userLogin.message);
+          await Future.delayed(Duration(seconds: 2));
+          yield SignUpSuccessAndGoToLoginScreen();
+        } else if (userLogin.response == ("false")) {
+          yield SignUpFailure(error: userLogin.message);
+        } else {
+          yield SignUpFailure(error: "Something went wrong.");
+        }
       }
     }
   }

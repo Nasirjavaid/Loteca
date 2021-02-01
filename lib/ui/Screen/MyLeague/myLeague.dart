@@ -35,7 +35,7 @@ class _MyLeagueState extends State<MyLeague> {
   Widget build(BuildContext context) {
     return Container(
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           //  extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -67,7 +67,15 @@ class _MyLeagueState extends State<MyLeague> {
               tabs: [
                 Tab(
                     icon: Text(
-                  "My Leagues",
+                  "Active Leagues",
+                  style: Theme.of(context).textTheme.button.copyWith(
+                      color: Colors.white70,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
+                )),
+                Tab(
+                    icon: Text(
+                  "Closed Leagues",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
                       fontSize: 16,
@@ -86,8 +94,11 @@ class _MyLeagueState extends State<MyLeague> {
           ),
           body: TabBarView(
             children: [
-              groupedList(context),
+             // groupedList(context),
               listofTeams(context),
+              listofTeams(context),
+              listofTeams(context),
+              
             ],
           ),
           drawer: MyNaveDrawerMain(),

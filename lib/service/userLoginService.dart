@@ -3,22 +3,29 @@ import 'package:http/http.dart' as http;
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/http/httpService.dart';
 import 'package:locteca/model/userLogin.dart';
+import 'package:locteca/service/mainRoundService.dart';
 
 class UserLoginService {
   Future<UserLogin> getUser(String username,String password) async {
     UserLogin usersLogin;
 
     HttpService httpService = new HttpService.internal();
+
+    
+
+   
     
 
      Map<String, String> requestBody = <String,String>{
-     'Username':username,
+     'email':username,
      'password':password,
-     'grant_type':"password"
+   
   };
 
+  String completeUrlForLogin = APIConstants.userLoginEndPoint+ 'email='+username+'&password='+password;
+
     final http.Response response =
-        await httpService.postRequest(endPoint:APIConstants.userLoginEndPoint,data:requestBody);
+        await httpService.postRequest(endPoint:completeUrlForLogin,);
 
     if (response.statusCode == 200) {
       print("response body  in user login: ${response.body}");

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Methods {
   //Url Launcher
@@ -53,54 +57,54 @@ class Methods {
 //     return false;
 //   }
 
-  // //Storing user information in shared prefrences
-  // static storeUserToSharedPref(UserLogin userLogin) async {
-  //   SharedPreferences sharedUser = await SharedPreferences.getInstance();
+  //Storing user information in shared prefrences
+  static storeUserToSharedPref(UserLogin userLogin) async {
+    SharedPreferences sharedUser = await SharedPreferences.getInstance();
 
-  //   String user = jsonEncode(userLogin.toJson());
+    String user = jsonEncode(userLogin.toJson());
 
-  //   print("User object Stored in  shared pref :: $user");
-  //   sharedUser.setString('user', user);
-  // }
+    print("User object Stored in  shared pref :: $user");
+    sharedUser.setString('user', user);
+  }
 
-  // static Future<UserLogin> userInfoStoredInsharedPrefrences() async {
-  //   SharedPreferences sharedUser = await SharedPreferences.getInstance();
-  //   UserLogin userLogin = UserLogin();
-  //   Map userMap;
+  static Future<UserLogin> userInfoStoredInsharedPrefrences() async {
+    SharedPreferences sharedUser = await SharedPreferences.getInstance();
+    UserLogin userLogin = UserLogin();
+    Map userMap;
 
-  //   try {
-  //     userMap = jsonDecode(sharedUser.getString('user'));
+    try {
+      userMap = jsonDecode(sharedUser.getString('user'));
 
-  //     if (userMap.length.isNegative) {
-  //       return userLogin;
-  //     } else {
-  //       userLogin = UserLogin.fromJson(userMap);
-  //       print(
-  //           "Returned User info by shared prefrences   ${userLogin.data.customerName} ");
-  //       return userLogin;
-  //     }
-  //   } catch (ex) {
-  //     return userLogin;
-  //   }
-  // }
+      if (userMap.length.isNegative) {
+        return userLogin;
+      } else {
+        userLogin = UserLogin.fromJson(userMap);
+        print(
+            "Returned User info by shared prefrences   ${userLogin.data.token} ");
+        return userLogin;
+      }
+    } catch (ex) {
+      return userLogin;
+    }
+  }
 
-// //getting user information from shared pefrences
-//   static Future<UserLogin> getRealUserFromSharedPref() async {
-//     // SharedPreferences sharedUser = await SharedPreferences.getInstance();
-//     UserLogin userLogin = UserLogin();
-//     userLogin = await userInfoStoredInsharedPrefrences();
-//     try {
-//       //  Map userMap = jsonDecode(sharedUser.getString('user'));
+//getting user information from shared pefrences
+  static Future<UserLogin> getRealUserFromSharedPref() async {
+    // SharedPreferences sharedUser = await SharedPreferences.getInstance();
+    UserLogin userLogin = UserLogin();
+    userLogin = await userInfoStoredInsharedPrefrences();
+    try {
+      //  Map userMap = jsonDecode(sharedUser.getString('user'));
 
-//       if (userLogin.data.customerId != 0) {
-//         return userLogin;
-//       }
-//     } catch (ex) {
-//       print("Exception in Shared prefrences $ex");
-//       return userLogin;
-//     }
-//     return userLogin;
-//   }
+      if (userLogin.data.token !="") {
+        return userLogin;
+      }
+    } catch (ex) {
+      print("Exception in Shared prefrences $ex");
+      return userLogin;
+    }
+    return userLogin;
+  }
 
   static String dateToDateTimeConversion(String mydate) {
     DateTime dd = DateTime.parse(mydate);

@@ -17,7 +17,7 @@ class UserAuthService {
       };
   
       final http.Response response = await httpService.postRequest(
-         endPoint: APIConstants.userTokenValidationEndPoint, data:requestBody);
+         endPoint: APIConstants.baseUrl, data:requestBody);
   
       // if (response.statusCode == 200) {
       //   print("response body  in user Auth Service: ${response.body}");

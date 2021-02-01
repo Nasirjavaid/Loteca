@@ -1,8 +1,8 @@
+import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/service/userAuthService.dart';
 import 'package:locteca/service/userLoginService.dart';
 import 'package:meta/meta.dart';
-
 
 class UserAuthRepository {
   UserLoginService userLoginService = UserLoginService();
@@ -21,7 +21,7 @@ class UserAuthRepository {
   Future<void> deleteToken() async {
     // await Future.delayed(Duration(seconds: 1),
     UserLogin userLoginNull = new UserLogin();
-   // Methods.storeUserToSharedPref(userLoginNull);
+    Methods.storeUserToSharedPref(userLoginNull);
 
     //);
     return;
@@ -31,40 +31,34 @@ class UserAuthRepository {
   Future<void> persistToken(UserLogin userLogin) async {
     // await Future.delayed(Duration(seconds: 1));
 
-   // Methods.storeUserToSharedPref(userLogin);
+    Methods.storeUserToSharedPref(userLogin);
     return;
   }
 
 //check if user already logged in
   Future<bool> hasToken() async {
     try {
-     // bool tokenAsGuest = await Methods.getGuestFromSharedPref();
+      // bool tokenAsGuest = await Methods.getGuestFromSharedPref();
       UserAuthService userAuthService = UserAuthService();
-      UserLogin userLoginAuthToken = UserLogin();
+      //UserLogin userLoginAuthToken = UserLogin();
       UserLogin tokenFromSharedPref = UserLogin();
 
-     // tokenFromSharedPref = await Methods.getRealUserFromSharedPref();
+      tokenFromSharedPref = await Methods.getRealUserFromSharedPref();
 
-      // if (tokenAsGuest != null) {
-      //   if (tokenAsGuest) {
-      //     return true;
-      //   } else {
-      //     if (tokenFromSharedPref.data != null) {
-      //       userLoginAuthToken = await userAuthService
-      //           .getUserToken(tokenFromSharedPref.data.customerId);
+      if (tokenFromSharedPref.data.token != null) {
+        // userLoginAuthToken =
+        //     await userAuthService.getUserToken(tokenFromSharedPref.data.token);
 
-      //       if (userLoginAuthToken.status == "success") {
-      //         Methods.storeUserToSharedPref(userLoginAuthToken);
-      //         Methods.storeGuestValueToSharedPref(false);
-      //         return true;
-      //       } else if (userLoginAuthToken.status == "failed") {
-      //         Methods.storeGuestValueToSharedPref(false);
-      //         return false;
-      //       }
-      //     }
-      //   }
-      // }
-      
+        if (tokenFromSharedPref.response == "true") {
+          // Methods.storeUserToSharedPref(userLoginAuthToken);
+
+          return true;
+        } else if (tokenFromSharedPref.response == "false") {
+          return false;
+        }
+      } else {
+        return false;
+      }
     } catch (ex) {
       print("Error in user Auth repository  $ex");
     }
@@ -72,20 +66,20 @@ class UserAuthRepository {
     return false;
   }
 
-  // Future<UserLogin> getUserDataFromSharedPrefrences() async {
-  //   try {
-  //     UserLogin userLogin = await Methods.userInfoStoredInsharedPrefrences();
+  Future<UserLogin> getUserDataFromSharedPrefrences() async {
+    try {
+      UserLogin userLogin = await Methods.userInfoStoredInsharedPrefrences();
 
-  //     if (userLogin.data.customerId != null) {
-  //       return userLogin;
-  //     } else {
-  //       return null;
-  //     }
-  //   } catch (ex) {
-  //     print(
-  //         "Error in user Auth repository while getting User data from SharedPrefrnces: $ex");
-  //   }
+      if (userLogin.data.token != null) {
+        return userLogin;
+      } else {
+        return null;
+      }
+    } catch (ex) {
+      print(
+          "Error in user Auth repository while getting User data from SharedPrefrnces: $ex");
+    }
 
-  //   return userLogin;
-  // }
+    return userLogin;
+  }
 }

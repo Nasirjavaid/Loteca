@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultBloc.dart';
+import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultEvent.dart';
+import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
+import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
 import 'package:locteca/config/appTheme.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/model/lastRoundResult.dart';
+import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+
+class ResultMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) {
+          return LastRoundResulBloc()..add(GetLastRoundResultEvent());
+        },
+        child: Result(),
+      ),
+    );
+  }
+}
 
 class Result extends StatefulWidget {
   @override
@@ -43,34 +64,79 @@ class _ResultState extends State<Result> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 3),
-      // child: listofTeams(context),
-      child: Column(
-        children: [
-          // SizedBox(
-          //   height: 12,
-          // ),
-          // creditWidget(context, 10,Colors.blue[100], "Recent Closed Round", 24,
-          //     FontWeight.w900),
-          // SizedBox(
-          //   height: 12,
-          // ),
-          Flexible(
-            flex: 2,
-            child: headingCard(context),
+    return BlocListener<LastRoundResulBloc, LastRoundResultState>(
+        listener: (context, state) {
+      if (state is LastRoundResultFailureState) {
+        // showMessageError("${state.errorMessage}");
+
+        print("Error : ${state.errorMessage}");
+      }
+    }, child: BlocBuilder<LastRoundResulBloc, LastRoundResultState>(
+            builder: (context, state) {
+      if (state is LastRoundResultFailureState) {
+        return failedWidget(context);
+      }
+      if (state is LastRoundResultInProgressState) {
+        return LoadingIndicator(Colors.amber);
+      }
+      if (state is LastRoundResultSuccessState) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 3),
+          // child: listofTeams(context),
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: 12,
+              // ),
+              // creditWidget(context, 10,Colors.blue[100], "Recent Closed Round", 24,
+              //     FontWeight.w900),
+              // SizedBox(
+              //   height: 12,
+              // ),
+              Flexible(
+                flex: 2,
+                child: headingCard(context),
+              ),
+              Flexible(
+                flex: 15,
+                child: listofTeams(context,state.lastRoundResult.answers),
+              )
+            ],
           ),
-          Flexible(
-            
-            flex: 15,
-            child: listofTeams(context),
-          )
-        ],
-      ),
-    );
+        );
+      }
+
+      return Container();
+    }));
+
+    // return Container(
+    //   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 3),
+    //   // child: listofTeams(context),
+    //   child: Column(
+    //     children: [
+    //       // SizedBox(
+    //       //   height: 12,
+    //       // ),
+    //       // creditWidget(context, 10,Colors.blue[100], "Recent Closed Round", 24,
+    //       //     FontWeight.w900),
+    //       // SizedBox(
+    //       //   height: 12,
+    //       // ),
+    //       Flexible(
+    //         flex: 2,
+    //         child: headingCard(context),
+    //       ),
+    //       Flexible(
+
+    //         flex: 15,
+    //         child: listofTeams(context),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 
-  Widget listofTeams(BuildContext context) {
+  Widget listofTeams(BuildContext context,List<Answers> answers) {
     return Container(
       // height: MediaQuery.of(context).size.height * 0.73,
       decoration: BoxDecoration(
@@ -82,16 +148,48 @@ class _ResultState extends State<Result> {
         padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3),
         child: ListView.builder(
             padding: EdgeInsets.all(0),
-            itemCount: 20,
+            itemCount: answers.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return listWiewItemCard(context);
+              return listWiewItemCard(context,answers[index]);
             }),
       ),
     );
   }
 
-  Widget listWiewItemCard(BuildContext context) {
+   Widget failedWidget(BuildContext context) {
+    return FlatButton(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: Icon(Icons.refresh, size: 60, color: AppTheme.nearlyBlue),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Tap to reload",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white54),
+            ),
+          ],
+        ),
+      ),
+      onPressed: () {
+        BlocProvider.of<LastRoundResulBloc>(context).add(GetLastRoundResultEvent());
+      },
+    );
+  }
+
+  Widget listWiewItemCard(BuildContext context,Answers answers) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.6),
       child: Container(
@@ -105,11 +203,13 @@ class _ResultState extends State<Result> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidget(context, 10, AppTheme.background, "Australia", 14,
+              creditWidget(context, 10, AppTheme.background, "${answers.teamA != null || answers.teamA !="" ?  answers.teamA :"--"}", 14,
                   FontWeight.w900, Colors.black54),
-              creditWidget(context, 10, AppTheme.background, "England", 14,
+                  SizedBox(width: 5,),
+              creditWidget(context, 10, AppTheme.background,  "${answers.teamB != null || answers.teamB !="" ?  answers.teamB :"--"}", 14,
                   FontWeight.w900, Colors.black54),
-              creditWidget(context, 10, AppTheme.background, "Australia", 14,
+                   SizedBox(width: 5,),
+              creditWidget(context, 10, AppTheme.background, "${answers.winner != null || answers.winner !="" ?  answers.winner :"--"}", 14,
                   FontWeight.w900, Colors.cyan),
               // Row(
               //   children: [
@@ -154,6 +254,7 @@ class _ResultState extends State<Result> {
             children: [
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
                   "Team A", 15, FontWeight.w900, AppTheme.appDefaultColor),
+                  
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
                   "Team B", 15, FontWeight.w900, AppTheme.appDefaultColor),
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
@@ -186,27 +287,25 @@ class _ResultState extends State<Result> {
 
   Widget creditWidget(BuildContext context, double cornerRadius, Color bgColor,
       String text, double fontSize, FontWeight fontWeight, Color textColor) {
-    return Container(
-      decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(cornerRadius),
-          )),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon(FontAwesomeIcons.coins, size: 20, color: AppTheme.nearlyGold),
-            // SizedBox(
-            //   width: 14,
-            // ),
-            Text(text,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: textColor,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight)),
-          ],
+    return Expanded(
+          child: Container(
+        decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(cornerRadius),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 3),
+          
+             child: Center(
+               child: Text(text,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: textColor,
+                        fontSize: fontSize,
+                        fontWeight: fontWeight)),
+             ),
+            
+          
         ),
       ),
     );

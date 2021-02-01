@@ -3,13 +3,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:locteca/config/appTheme.dart';
 
 class LoadingIndicator extends StatelessWidget {
+
+  final Color color;
+  LoadingIndicator(this.color);
   @override
   Widget build(BuildContext context) => Center(
       child: Scaffold(
-          backgroundColor: AppTheme.background1,
+          backgroundColor: Colors.white,
           body: Center(
-              child: SpinKitDoubleBounce(
-            color: Colors.redAccent,
+              child: SpinKitFadingCircle(
+            color: AppTheme.appCardColor,
             size: 50.0,
           ))
 
