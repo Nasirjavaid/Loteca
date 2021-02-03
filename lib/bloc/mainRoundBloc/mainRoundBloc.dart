@@ -35,10 +35,15 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
     if (event is SubmitBetButtonClickedEvent) {
       try {
         yield MainRoundBetSubmitingInProgressState();
+        await Future.delayed(Duration(milliseconds: 4500));
         MainRound mainRound = MainRound();
         mainRound =
             await mainRoundRepository.submitBetOfMainRound(event.mainRound);
         if (mainRound.response == "true") {
+//          if(mainRound.bid){
+
+//  yield MainRoundSuccessState(mainRound: mainRound);
+//          }
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
           yield MainRoundFailureState(errorMessage: "Something Went Wrong");

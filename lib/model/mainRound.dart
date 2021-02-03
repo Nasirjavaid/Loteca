@@ -4,7 +4,7 @@ class MainRound {
   String message;
   User user;
   bool bid;
-  String userAnswers;
+  String userAns;
   Round round;
 
  MainRound(
@@ -14,7 +14,7 @@ class MainRound {
       this.bid,
       this.user,
       this.round,
-      this.userAnswers});
+      this.userAns});
 
    MainRound.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -23,7 +23,7 @@ class MainRound {
     bid = json['bid'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     round = json['round'] != null ? new Round.fromJson(json['round']) : null;
-    userAnswers = json['userAnswers'];
+    userAns = json['userAns'];
   }
 
   Map<String, dynamic> toJson() {
@@ -38,7 +38,7 @@ class MainRound {
     if (this.round != null) {
       data['round'] = this.round.toJson();
     }
-    data['userAnswers'] = this.userAnswers;
+    data['userAns'] = this.userAns;
     return data;
   }
 }
@@ -51,7 +51,7 @@ class User {
   String createdAt;
   String updatedAt;
   String roles;
-  String selectedPackagePrice;
+  String selectedPackageId;
   int coins;
 
   User(
@@ -62,7 +62,7 @@ class User {
       this.createdAt,
       this.updatedAt,
       this.roles,
-      this.coins,this.selectedPackagePrice});
+      this.coins,this.selectedPackageId});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -72,7 +72,7 @@ class User {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     roles = json['roles'];
-    selectedPackagePrice = json['selectedPackagePrice'];
+    selectedPackageId = json['selectedPackageId'];
     coins = json['coins'];
   }
 
@@ -85,7 +85,7 @@ class User {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['roles'] = this.roles;
-    data['selectedPackagePrice'] = this.selectedPackagePrice;
+    data['selectedPackageId'] = this.selectedPackageId;
     data['coins'] = this.coins;
     return data;
   }
@@ -99,7 +99,7 @@ class Round {
   String createdAt;
   String updatedAt;
   List<Packages> packages;
-  String selectedPackagePrice;
+  int selectedPackageId;
   String selectedPackageAccumulativePrice;
   List<Games> games;
 
@@ -112,7 +112,7 @@ class Round {
       this.createdAt,
       this.updatedAt,
       this.packages,
-      this.games,this.selectedPackagePrice,this.selectedPackageAccumulativePrice});
+      this.games,this.selectedPackageId,this.selectedPackageAccumulativePrice});
 
   Round.fromJson(Map<String, dynamic> json) {
      id = json['id'];
@@ -121,7 +121,7 @@ class Round {
     endingDate = json['ending_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    selectedPackagePrice = json['selectedPackagePrice'];
+    selectedPackageId = json['selectedPackageId'];
     selectedPackageAccumulativePrice = json['selectedPackageAccumulativePrice'];
     
     if (json['packages'] != null) {
@@ -146,7 +146,7 @@ class Round {
     data['ending_date'] = this.endingDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['selectedPackagePrice'] = this.selectedPackagePrice;
+    data['selectedPackageId'] = this.selectedPackageId;
     data['selectedPackageAccumulativePrice'] = this.selectedPackageAccumulativePrice;
     if (this.packages != null) {
       data['packages'] = this.packages.map((v) => v.toJson()).toList();

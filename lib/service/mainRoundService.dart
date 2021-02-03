@@ -48,7 +48,7 @@ class MainRoundService {
     return mainRound;
   }
 
-  Future<MainRound> subMitBetOfMainRound(int roundId,String dataListAsString) async {
+  Future<MainRound> subMitBetOfMainRound(int roundId,String slectedAnswers,String slectedGamesId,int selectedPackageId) async {
 
 
     MainRound mainRound;
@@ -60,8 +60,12 @@ class MainRoundService {
    
 
    Map<String, dynamic> requestBody = <String, dynamic>{
+      'selected_answers': slectedAnswers,
       'round_id': roundId,
-      'selected_answers': dataListAsString,
+      'package_id': selectedPackageId,
+      'game_ids': slectedGamesId,
+      
+      
     };
     final http.Response response = await httpService.postRequestWithToken(
         endPoint: APIConstants.submitMainRoundEndPoint, header: _getRequestHeaders(),data: requestBody);
@@ -72,10 +76,15 @@ class MainRoundService {
 
       var json = jsonDecode(response.body);
 
-     // mainRound = MainRound.fromJson(json);
+      mainRound = MainRound.fromJson(json);
 
       print("response body  in Submit Main round service : ${mainRound.message}");
-    } else {
+    } else if(response.statusCode== 409){
+
+       var json = jsonDecode(response.body);
+
+      mainRound = MainRound.fromJson(json);
+    }else {
       throw Exception("Submit Main Round Service: Failed to get Main Round");
     }
 

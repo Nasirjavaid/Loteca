@@ -36,8 +36,9 @@ class _MakeBetState extends State<MakeBet> {
   bool widegtSwitch0 = false;
   bool widegtSwitch1 = false;
   bool widegtSwitch2 = false;
-  String selectedPackagePrice;
+  int selectedPackageId = 0;
   String selectedPackageAccumulativePrice;
+     MainRound mainRoundGlobal;
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -55,7 +56,7 @@ class _MakeBetState extends State<MakeBet> {
       //show message with no coins error
       showMessageError("You dont have enough coins.");
       print("Request not Submitted... Dont have enough coins");
-    } else if (selectedPackagePrice == null || selectedPackagePrice == "") {
+    } else if (selectedPackageId == null || selectedPackageId == 0) {
       // show error message to select a participation fee package
       print("Request not Submitted... did not selected the participation fee");
       showMessageError("Please select your bet fee");
@@ -87,10 +88,12 @@ class _MakeBetState extends State<MakeBet> {
 
       if (checkPoint) {
         //Finally submit the request
-       // showMessageError("Bet Submitted Successfully");
+        // showMessageError("Bet Submitted Successfully");
+        mainRound.round.selectedPackageId = 0;
+        mainRound.round.selectedPackageId = selectedPackageId;
         print("Bet Submitted... Successfully");
-         BlocProvider.of<MainRoundBloc>(context).add(
-        SubmitBetButtonClickedEvent(mainRound:mainRound ));
+        BlocProvider.of<MainRoundBloc>(context)
+            .add(SubmitBetButtonClickedEvent(mainRound: mainRound));
       }
     }
   }
@@ -154,7 +157,27 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return BlocListener<MainRoundBloc, MainRoundState>(listener:
+
+
+// return BlocConsumer<MainRoundBloc, MainRoundState>(
+//       buildWhen: (previousState, state) {
+//         return state is! DontBuild;
+//       },
+//       builder: (BuildContext context, state) {
+//         return Text(state.text);
+//       },
+//       listener: (BuildContext context, state) {
+//         if (state is ShowFlushbar) {
+        
+//         }
+//       },
+//     );
+
+
+
+    return BlocListener<MainRoundBloc, MainRoundState>(
+      
+      listener:
         (context, state) {
       if (state is MainRoundFailureState) {
         showMessageError("${state.errorMessage}");
@@ -163,7 +186,12 @@ class _MakeBetState extends State<MakeBet> {
       }
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
+
+        
       if (state is MainRoundSuccessState) {
+
+        mainRoundGlobal = MainRound();
+        mainRoundGlobal =state.mainRound;
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -192,6 +220,33 @@ class _MakeBetState extends State<MakeBet> {
       }
       if (state is MainRoundFailureState) {
         return failedWidget(context);
+      }
+
+      if (state is MainRoundBetSubmitingInProgressState) {
+
+       
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.014,
+              ),
+             
+              liveTeamTagWidget(context),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.024,
+              ),
+              teamNameText(context, mainRoundGlobal.round),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.024,
+              ),
+              listofTeams(context, mainRoundGlobal),
+              Spacer(),
+              bottomCard(context,mainRoundGlobal, state),
+            ],
+          ),
+        );
       }
 
       return Container(color: Colors.white);
@@ -542,14 +597,16 @@ class _MakeBetState extends State<MakeBet> {
           selectAmoutWidget(mainRound),
           Spacer(),
 
-          BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
-            if (state is MainRoundBetSubmitingInProgressState) {
-              return CommonWidgets.progressIndicator;
-            } else {
-              return submitButton(mainRound);
-            }
-          }),
-          //  state is MainRoundBetSubmitingInProgressState ? CommonWidgets.progressIndicator : submitButton(mainRound),
+          // BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
+          //   if (state is MainRoundBetSubmitingInProgressState) {
+          //     return CommonWidgets.progressIndicator;
+          //   } else {
+          //     return submitButton(mainRound);
+          //   }
+          // }),
+          state is MainRoundBetSubmitingInProgressState
+              ? CommonWidgets.progressIndicator
+              : submitButton(mainRound),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.010,
           ),
@@ -623,8 +680,9 @@ class _MakeBetState extends State<MakeBet> {
                     widegtSwitch0 = true;
                     widegtSwitch1 = false;
                     widegtSwitch2 = false;
-                    selectedPackagePrice =
-                        mainRound.round.packages[0].participationFee;
+                    selectedPackageId = mainRound.round.packages[0].id;
+                    mainRound.round.selectedPackageId =
+                        mainRound.round.packages[0].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[0].accumulativePrice;
                   });
@@ -639,8 +697,9 @@ class _MakeBetState extends State<MakeBet> {
                     widegtSwitch0 = false;
                     widegtSwitch1 = true;
                     widegtSwitch2 = false;
-                    selectedPackagePrice =
-                        mainRound.round.packages[1].participationFee;
+                    selectedPackageId = mainRound.round.packages[1].id;
+                    mainRound.round.selectedPackageId =
+                        mainRound.round.packages[1].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[1].accumulativePrice;
                   });
@@ -655,8 +714,9 @@ class _MakeBetState extends State<MakeBet> {
                     widegtSwitch0 = false;
                     widegtSwitch1 = false;
                     widegtSwitch2 = true;
-                    selectedPackagePrice =
-                        mainRound.round.packages[2].participationFee;
+                    selectedPackageId = mainRound.round.packages[2].id;
+                    mainRound.round.selectedPackageId =
+                        mainRound.round.packages[2].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[2].accumulativePrice;
                   });
@@ -753,7 +813,7 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   Widget submitButton(MainRound mainRound) {
-    return SizedBox(
+  return  mainRound.bid == false ? SizedBox(
       height: MediaQuery.of(context).size.height * 0.047,
       width: MediaQuery.of(context).size.width * 0.95,
       child: Padding(
@@ -807,6 +867,60 @@ class _MakeBetState extends State<MakeBet> {
               }),
         ),
       ),
-    );
+    ) :SizedBox(
+      height: MediaQuery.of(context).size.height * 0.047,
+      width: MediaQuery.of(context).size.width * 0.95,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0),
+        child: Container(
+          // margin: EdgeInsets.only(top: 0.0),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            gradient: new LinearGradient(
+                colors: [AppTheme.grey, AppTheme.grey],
+                begin: const FractionalOffset(0.0, 1.0),
+                end: const FractionalOffset(0.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+          child: MaterialButton(
+              highlightColor: AppTheme.appDefaultButtonSplashColor,
+              splashColor: AppTheme.appDefaultButtonSplashColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2.0))),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+
+//checking user before placing the order
+                // child: guestUserValue
+                //     ? Text("Sign In",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white))
+                //     : Text("Check out",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white)),
+
+                child: Text("You are already submitted the bet.",
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.white)),
+              ),
+              onPressed: () async {
+                print("submit button pressed");
+
+                // NetworkConnectivity.check().then((internet) {
+                //   if (internet) {
+                //     submitBetRequest(mainRound);
+                //   } else {
+                //     //show network erro
+
+                //     // Methods.showToast(context, "Check your network");
+                //     print("No internet ..............");
+                //   }
+                // });
+              }),
+        ),
+      ),
+    ) ;
   }
 }

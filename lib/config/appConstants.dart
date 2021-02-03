@@ -7,4 +7,5 @@ class APIConstants {
   static final String mainRoundEndPoint = baseUrl + "/mainRound";
   static final String submitMainRoundEndPoint = baseUrl + "/submitResult";
   static final String lastRoundResultEndPoint = baseUrl + "/lastRoundResult";
+  static final String leaderBoardEndPoint = baseUrl + "/leaderBoard";
 }

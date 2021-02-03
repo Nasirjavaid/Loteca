@@ -25,10 +25,23 @@ class MainRoundRepository {
 
     MainRoundService mainRoundService = MainRoundService();
 
-   var dataString = mainRound.toJson().toString();
-   print("$dataString");
+
+    List<String> slectedAnswers = [];
+    mainRound.round.games.forEach((element) {
+      slectedAnswers.add(element.userSelctedTeamOrAnswer);
+    });
+
+     List<int> slectedGamesId = [];
+    mainRound.round.games.forEach((element) {
+      slectedGamesId.add(element.id);
+    });
+
+    int selectedPackageId = mainRound.round.selectedPackageId;
+
+    // var dataString = mainRound.toJson().toString();
+    // print("$dataString");
     mainRoundInner = await mainRoundService.subMitBetOfMainRound(
-        mainRound.round.id, dataString);
+        mainRound.round.id, slectedAnswers.toString(),slectedGamesId.toString(),selectedPackageId);
 
     if (mainRoundInner != null) {
       return mainRoundInner;
