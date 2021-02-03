@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultEvent.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
 import 'package:locteca/repository/lastRoundResultRepository.dart';
-import 'package:locteca/repository/mainRoundRepository.dart';
+
 
 
 class LastRoundResulBloc extends Bloc<LastRoundResultEvent, LastRoundResultState> {

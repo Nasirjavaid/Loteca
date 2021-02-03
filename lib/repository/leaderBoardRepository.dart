@@ -9,7 +9,7 @@ class LeaderBoardRepository {
     LeaderBoardModel leaderBoardModel = LeaderBoardModel();
     LeaderBoardService leaderBoardService = LeaderBoardService();
 
-    leaderBoardModel = await leaderBoardService.geleaderboard();
+    leaderBoardModel = await leaderBoardService.getLeaderboard();
 
     if (leaderBoardModel != null) {
       return leaderBoardModel;

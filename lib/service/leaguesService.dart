@@ -3,11 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/http/httpService.dart';
 import 'package:locteca/model/leaderBoard.dart';
+import 'package:locteca/model/leaguesModel.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 
-class LeaderBoardService{
+class LeaguesService{
 
 
 
@@ -22,8 +23,8 @@ class LeaderBoardService{
   }
 
 
-  Future<LeaderBoardModel> getLeaderboard() async {
-    LeaderBoardModel leaderBoardModel;
+  Future<LeaguesModel> getLeagues() async {
+    LeaguesModel leaguesModel;
 
     UserAuthRepository userAuthRepository = UserAuthRepository();
 
@@ -39,17 +40,17 @@ class LeaderBoardService{
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      print("response body  in lEADERBOARD service : : ${response.body}");
+      print("response body  in Leagues service : : ${response.body}");
 
       var json = jsonDecode(response.body);
 
-      leaderBoardModel = LeaderBoardModel.fromJson(json);
+      leaguesModel = LeaguesModel.fromJson(json);
 
-      print("response body  in lEADERBOARD service : ${leaderBoardModel.message}");
+      print("response body  in Leagues service : ${leaguesModel.message}");
     } else {
-      throw Exception("lEADERBOARD Service: Failed to get lEADERBOARD");
+      throw Exception("Leagues Service: Failed to get Leagues");
     }
 
-    return leaderBoardModel;
+    return leaguesModel;
   }
 }
