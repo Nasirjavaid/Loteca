@@ -9,4 +9,5 @@ class APIConstants {
   static final String lastRoundResultEndPoint = baseUrl + "/lastRoundResult";
   static final String leaderBoardEndPoint = baseUrl + "/leaderBoard";
   static final String leaguesEndPoint = baseUrl + "/leagues";
+  static final String agentsEndPoint = baseUrl + "/agents";
 }

@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/agentsBloc/agentsBloc.dart';
+import 'package:locteca/bloc/agentsBloc/agentsEvent.dart';
+import 'package:locteca/bloc/agentsBloc/agentsState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
+import 'package:locteca/model/agentsToBuyCoins.dart';
+import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+
+class BuyMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) {
+          return AgentsBloc()..add(GetAgentsListEvent());
+        },
+        child: Buy(),
+      ),
+    );
+  }
+}
 
 class Buy extends StatefulWidget {
   @override
@@ -39,20 +59,70 @@ class _BuyState extends State<Buy> {
 
         backgroundColor: AppTheme.appDefaultColor,
       ),
-      body: _buildBody(context),
+      // body: _buildBody(context),
+
+      body: BlocListener<AgentsBloc, AgentsState>(
+          listener: (BuildContext context, state) {
+        print("Printing state from bloc lstener, and state is :  $state");
+      }, child: BlocBuilder<AgentsBloc, AgentsState>(
+        builder: (BuildContext context, state) {
+          if (state is AgentsFailureState) {
+            return Center(child: failedWidget(context));
+          }
+          if (state is AgentsSuccessState) {
+            return _buildBody(context, state.agentsToBuyCoins);
+          }
+          if (state is AgentsInProgressState) {
+            return LoadingIndicator(Colors.indigo);
+          }
+          return Container();
+        },
+      )),
       drawer: MyNaveDrawerMain(),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    return Container(
-      //  color: Colors.white,
-      width: MediaQuery.of(context).size.width,
-      child: listofTeams(context),
+  Widget failedWidget(BuildContext context) {
+    return FlatButton(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: Icon(Icons.refresh, size: 60, color: AppTheme.nearlyBlue),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Tap to reload",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white54),
+            ),
+          ],
+        ),
+      ),
+      onPressed: () {
+        BlocProvider.of<AgentsBloc>(context).add(GetAgentsListEvent());
+      },
     );
   }
 
-  Widget listofTeams(BuildContext context) {
+  Widget _buildBody(BuildContext context, AgentsToBuyCoins agentsToBuyCoins) {
+    return Container(
+      //  color: Colors.white,
+      width: MediaQuery.of(context).size.width,
+      child: listofTeams(context, agentsToBuyCoins),
+    );
+  }
+
+  Widget listofTeams(BuildContext context, AgentsToBuyCoins agentsToBuyCoins) {
     return Container(
       decoration: BoxDecoration(
           // color: AppTheme.appCardColor,
@@ -63,20 +133,29 @@ class _BuyState extends State<Buy> {
         padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3),
         child: ListView.builder(
             padding: EdgeInsets.all(0),
-            itemCount: 20,
+            itemCount: agentsToBuyCoins.agents.length == 0
+                ? 1
+                : agentsToBuyCoins.agents.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return listWiewItemCard(context);
+              return agentsToBuyCoins.agents.length == 0
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: Text("No Items"),
+                    ))
+                  : listWiewItemCard(context, agentsToBuyCoins.agents[index]);
+              // return listWiewItemCard(context);
             }),
       ),
     );
   }
 
-  Widget listWiewItemCard(BuildContext context) {
+  Widget listWiewItemCard(BuildContext context, Agents agents) {
     return InkWell(
       highlightColor: Colors.amber,
       onTap: () {
-        Methods.showDialogWithAgentDetail(context);
+        Methods.showDialogWithAgentDetail(context,agents);
       },
       child: Card(
         elevation: 2,
@@ -84,7 +163,6 @@ class _BuyState extends State<Buy> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 0.6),
           child: Container(
-           
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(
@@ -107,8 +185,9 @@ class _BuyState extends State<Buy> {
                             circleWidth: 22,
                             height: 60,
                             width: 60,
-                            imageUrl:
-                                "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg",
+                            imageUrl: agents.image == null || agents.image == ""
+                                ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
+                                : agents.image,
                             radius: 40,
                             backgroundColor: Colors.white,
                             borderColor: Colors.grey.shade300,
@@ -123,7 +202,7 @@ class _BuyState extends State<Buy> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Agent Name",
+                           agents.name == null || agents.name ==""? "Agent Name" : agents.name ,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2
@@ -136,21 +215,21 @@ class _BuyState extends State<Buy> {
                             height: 6,
                           ),
                           Text(
-                            "Per coin rate : \$5",
+                            "Per coin rate :  N/A",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,
                                     ),
                           ),
                           Text(
-                            "Total avilable Coins: 267",
+                            "Total avilable Coins: ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,
                                     ),
                           ),
                           Text(
-                            "Address : Temple Road  GT# 12",
+                            "Phone : ${ agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,
@@ -205,7 +284,7 @@ class _BuyState extends State<Buy> {
             // SizedBox(
             //   width: 14,
             // ),
-            Text("Available",
+            Text("N/A",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.green,
                     fontSize: 10,

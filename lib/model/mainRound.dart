@@ -177,7 +177,7 @@ class Packages {
   Packages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     participationFee = json['participation_fee'];
-    accumulativePrice = json['accumulative Price'];
+    accumulativePrice = json['accumulative_price'];
     roundId = json['round_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -187,7 +187,7 @@ class Packages {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['participation_fee'] = this.participationFee;
-    data['accumulative Price'] = this.accumulativePrice;
+    data['accumulative_price'] = this.accumulativePrice;
     data['round_id'] = this.roundId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

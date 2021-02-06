@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,10 +33,10 @@ class _MainHomeContainerState extends State<MainHomeContainer>
 
   final allScreenDestiNations = [
     MakeBetMain(),
-    MyLeague(),
+    MyLeagueMain(),
     ResultMain(),
-    GeneralRanking(),
-    Buy()
+    GeneralRankingMain(),
+    BuyMain()
   ];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -80,11 +79,11 @@ class _MainHomeContainerState extends State<MainHomeContainer>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-     // extendBodyBehindAppBar: true,
-     
+      // extendBodyBehindAppBar: true,
+
       // appBar: AppBar(
       //   iconTheme: IconThemeData(color: Colors.white38),
-        
+
       //   elevation: 0.0,
       //   actions: [
       //     IconButton(

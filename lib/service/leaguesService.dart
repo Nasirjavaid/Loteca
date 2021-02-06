@@ -36,7 +36,7 @@ class LeaguesService{
     //     "&ToDate=" +
     //     toDate;
     final http.Response response = await httpService.getRequestWithAccessToken(
-        endPoint: APIConstants.leaderBoardEndPoint, header: _getRequestHeaders());
+        endPoint: APIConstants.leaguesEndPoint, header: _getRequestHeaders());
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {

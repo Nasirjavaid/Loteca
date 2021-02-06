@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:locteca/model/agentsToBuyCoins.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -143,7 +144,7 @@ class Methods {
   // }
 
   static void showDialogWithAgentDetail(
-    BuildContext context,
+    BuildContext context,agents
   ) {
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.5),
@@ -154,7 +155,7 @@ class Methods {
       context: context,
 
       pageBuilder: (_, __, ___) {
-        return AgentDetailDialogue();
+        return AgentDetailDialogue(agents:agents);
       },
 
       // transitionBuilder: (context, animation, anotherAnimation, child) {

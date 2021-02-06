@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/leaderBoardBloc/leaderBoardBloc.dart';
+import 'package:locteca/bloc/leaguesBloc/leaguesBloc.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthState.dart';
 import 'package:locteca/config/appTheme.dart';
@@ -11,6 +13,7 @@ import 'package:locteca/ui/Containers/MainHomeContainer/mainHomeContainer.dart';
 import 'package:locteca/ui/Screen/LoginScreen/loginScreen.dart';
 import 'package:locteca/ui/Screen/NetworkFailureScreen/networkFailureScreen.dart';
 import 'package:locteca/ui/Screen/SplashScreen/spalshScreen.dart';
+import 'bloc/agentsBloc/agentsBloc.dart';
 import 'bloc/userAuthBloc/userAuthBloc.dart';
 
 // void main() {
@@ -44,9 +47,8 @@ import 'bloc/userAuthBloc/userAuthBloc.dart';
 //   }
 // }
 
-
 void main() async {
- // BlocSupervisor.delegate = SimpleBlocDelegate();
+  // BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserAuthRepository();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,12 +57,20 @@ void main() async {
     DeviceOrientation.portraitDown
   ]).then((_) => runApp(MultiBlocProvider(
           providers: [
-           
             BlocProvider<UserAuthBloc>(
               create: (context) {
                 return UserAuthBloc(userAuthRepository: userRepository)
                   ..add(AuthStarted());
               },
+            ),
+            BlocProvider<LeaderBoardBloc>(
+              create: (context) => LeaderBoardBloc(),
+            ),
+            BlocProvider<LeaguesBloc>(
+              create: (context) => LeaguesBloc(),
+            ),
+             BlocProvider<AgentsBloc>(
+              create: (context) => AgentsBloc(),
             ),
           ],
           child: App(
@@ -132,4 +142,3 @@ class _AppState extends State<App> {
     );
   }
 }
-
