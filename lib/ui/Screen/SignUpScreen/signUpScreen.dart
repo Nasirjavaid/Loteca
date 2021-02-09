@@ -28,6 +28,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   TextEditingController etUserName = TextEditingController();
   TextEditingController etEmail = TextEditingController();
   TextEditingController etMobile = TextEditingController();
+  TextEditingController etWhatsAppNumber = TextEditingController();
   TextEditingController etAddres = TextEditingController();
   TextEditingController etPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -47,7 +48,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
 
   onRegisterButtonPressed() {
     BlocProvider.of<SignUpBloc>(context).add(SignUpButtonPressed(
-        etUserName.text, etEmail.text, etPassword.text, roleType.toString()));
+        etUserName.text, etEmail.text, etMobile.text,etWhatsAppNumber.text, etPassword.text, roleType.toString()));
   }
 
   @override
@@ -80,6 +81,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
         etEmail.text = "";
         etPassword.text = "";
         etMobile.text = "";
+        etWhatsAppNumber.text = "";
         etAddres.text = "";
       }
       if (state is SignUpSuccessAndGoToLoginScreen) {
@@ -118,6 +120,20 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: emailInputField(context),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: phoneInputField(context),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: whatsAppPhoneInputField(context),
                   ),
                   SizedBox(
                     height: 10,
@@ -268,6 +284,130 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       validator: (String userName) {
         if (userName.isEmpty) {
           return "Email";
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+  Widget phoneInputField(BuildContext context) {
+    return TextFormField(
+      controller: etMobile,
+      keyboardType: TextInputType.phone,
+      //textCapitalization: TextCapitalization.words,
+      autocorrect: false,
+
+      //controller: firstNameTextController,
+      //validator: _validateFirstName,
+      maxLength: 128,
+      style: TextStyle(
+        color: Colors.black54,
+        //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+      ),
+      decoration: InputDecoration(
+          counterText: "",
+          // prefixIcon: Icon(
+          //   Icons.person,
+          //   size: 22,
+          //   color: Color(0xFF72868a),
+          // ),
+          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          // border: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // enabledBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // focusedBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // errorBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          labelText: "Phone Number",
+          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+
+          // errorStyle: AppTypoGraphy.errorHintStyle
+          ),
+
+      validator: (String userName) {
+        if (userName.isEmpty) {
+          return "Phone Number";
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+  Widget whatsAppPhoneInputField(BuildContext context) {
+    return TextFormField(
+      controller: etWhatsAppNumber,
+      keyboardType: TextInputType.phone,
+      //textCapitalization: TextCapitalization.words,
+      autocorrect: false,
+
+      //controller: firstNameTextController,
+      //validator: _validateFirstName,
+      maxLength: 128,
+      style: TextStyle(
+        color: Colors.black54,
+        //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+      ),
+      decoration: InputDecoration(
+          counterText: "",
+          // prefixIcon: Icon(
+          //   Icons.person,
+          //   size: 22,
+          //   color: Color(0xFF72868a),
+          // ),
+          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          // border: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // enabledBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // focusedBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // errorBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          labelText: "WhatsApp Number",
+          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+
+          // errorStyle: AppTypoGraphy.errorHintStyle
+          ),
+
+      validator: (String userName) {
+        if (userName.isEmpty) {
+          return "WhatsApp Number";
         } else {
           return null;
         }

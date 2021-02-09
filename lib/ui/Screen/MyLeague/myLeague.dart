@@ -28,7 +28,7 @@ class MyLeague extends StatefulWidget {
   _MyLeagueState createState() => _MyLeagueState();
 }
 
-class _MyLeagueState extends State<MyLeague> {
+class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
   // List _elements = [
   //   {'name': 'John', 'group': 'Active League'},
   //   {'name': 'John mall', 'group': 'Active League'},
@@ -50,6 +50,34 @@ class _MyLeagueState extends State<MyLeague> {
   //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
   //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
   // ];
+   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        BlocProvider.of<LeaguesBloc>(context).add(GetLeaguesListEvent());
+        break;
+      case AppLifecycleState.inactive:
+        //onPaused();
+        break;
+      case AppLifecycleState.paused:
+       // onInactive();
+        break;
+      case AppLifecycleState.detached:
+        //onDetached();
+        break;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,7 +131,7 @@ class _MyLeagueState extends State<MyLeague> {
                 )),
                 Tab(
                     icon: Text(
-                  "Participated",
+                  "Inited Leagues",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
                       fontSize: 16,
@@ -264,7 +292,7 @@ class _MyLeagueState extends State<MyLeague> {
           borderRadius: BorderRadius.all(
             Radius.circular(5),
           )),
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         child: Row(

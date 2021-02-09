@@ -229,7 +229,7 @@ class _BuyState extends State<Buy> {
                                     ),
                           ),
                           Text(
-                            "Phone : ${ agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}",
+                         agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,

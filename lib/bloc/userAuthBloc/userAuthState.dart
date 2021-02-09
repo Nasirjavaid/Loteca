@@ -10,6 +10,7 @@ abstract class UserAuthState extends Equatable {
 class AuthInitial extends UserAuthState {}
 //Success state
 class AuthSuccess extends UserAuthState {}
+class AuthSuccessAsAgent extends UserAuthState {}
 //failure state
 class AuthFailure extends UserAuthState {}
 //in progress state

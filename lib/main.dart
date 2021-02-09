@@ -10,6 +10,7 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Containers/MainHomeContainer/mainHomeContainer.dart';
+import 'package:locteca/ui/Screen/Buy/agentDetailScreen.dart';
 import 'package:locteca/ui/Screen/LoginScreen/loginScreen.dart';
 import 'package:locteca/ui/Screen/NetworkFailureScreen/networkFailureScreen.dart';
 import 'package:locteca/ui/Screen/SplashScreen/spalshScreen.dart';
@@ -69,7 +70,7 @@ void main() async {
             BlocProvider<LeaguesBloc>(
               create: (context) => LeaguesBloc(),
             ),
-             BlocProvider<AgentsBloc>(
+            BlocProvider<AgentsBloc>(
               create: (context) => AgentsBloc(),
             ),
           ],
@@ -127,6 +128,9 @@ class _AppState extends State<App> {
 
                 if (state is AuthSuccess) {
                   return MainHomeContainer();
+                }
+                if (state is AuthSuccessAsAgent) {
+                  return AgentDetailScreen();
                 }
 
                 if (state is AuthFailure) {

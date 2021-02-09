@@ -105,8 +105,8 @@ class Images {
   int id;
   String url;
   int userId;
-  Null createdAt;
-  Null updatedAt;
+  String createdAt;
+  String updatedAt;
 
   Images({this.id, this.url, this.userId, this.createdAt, this.updatedAt});
 

@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundBloc.dart';
@@ -38,7 +39,7 @@ class _MakeBetState extends State<MakeBet> {
   bool widegtSwitch2 = false;
   int selectedPackageId = 0;
   String selectedPackageAccumulativePrice;
-     MainRound mainRoundGlobal;
+  MainRound mainRoundGlobal;
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -157,8 +158,6 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   Widget _buildBody(BuildContext context) {
-
-
 // return BlocConsumer<MainRoundBloc, MainRoundState>(
 //       buildWhen: (previousState, state) {
 //         return state is! DontBuild;
@@ -168,16 +167,12 @@ class _MakeBetState extends State<MakeBet> {
 //       },
 //       listener: (BuildContext context, state) {
 //         if (state is ShowFlushbar) {
-        
+
 //         }
 //       },
 //     );
 
-
-
-    return BlocListener<MainRoundBloc, MainRoundState>(
-      
-      listener:
+    return BlocListener<MainRoundBloc, MainRoundState>(listener:
         (context, state) {
       if (state is MainRoundFailureState) {
         showMessageError("${state.errorMessage}");
@@ -186,12 +181,9 @@ class _MakeBetState extends State<MakeBet> {
       }
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
-
-        
       if (state is MainRoundSuccessState) {
-
         mainRoundGlobal = MainRound();
-        mainRoundGlobal =state.mainRound;
+        mainRoundGlobal = state.mainRound;
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -223,8 +215,6 @@ class _MakeBetState extends State<MakeBet> {
       }
 
       if (state is MainRoundBetSubmitingInProgressState) {
-
-       
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -232,7 +222,6 @@ class _MakeBetState extends State<MakeBet> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.014,
               ),
-             
               liveTeamTagWidget(context),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.024,
@@ -243,7 +232,7 @@ class _MakeBetState extends State<MakeBet> {
               ),
               listofTeams(context, mainRoundGlobal),
               Spacer(),
-              bottomCard(context,mainRoundGlobal, state),
+              bottomCard(context, mainRoundGlobal, state),
             ],
           ),
         );
@@ -297,11 +286,29 @@ class _MakeBetState extends State<MakeBet> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("LIVE",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
+            SizedBox(
+              width: 30.0,
+              child: ScaleAnimatedTextKit(
+                repeatForever: true,
+                duration:const Duration(milliseconds: 1000 ),
+                onTap: () {
+                  print("Tap Event");
+                },
+                text: ["LIVE", "LIVE", "LIVE"],
+                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
                     fontSize: 14,
-                    fontWeight: FontWeight.w900)),
+                    fontWeight: FontWeight.w900,),
+               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                textAlign: TextAlign.start,
+              ),
+            ),
+
+            // Text("LIVE",
+            //     style: Theme.of(context).textTheme.bodyText2.copyWith(
+            //         color: AppTheme.appDefaultColor,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.w900)),
             SizedBox(
               width: 14,
             ),
@@ -813,114 +820,118 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   Widget submitButton(MainRound mainRound) {
-  return  mainRound.bid == false ? SizedBox(
-      height: MediaQuery.of(context).size.height * 0.047,
-      width: MediaQuery.of(context).size.width * 0.95,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
-        child: Container(
-          // margin: EdgeInsets.only(top: 0.0),
-          decoration: new BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            gradient: new LinearGradient(
-                colors: [AppTheme.appDefaultColor, AppTheme.appCardColor],
-                begin: const FractionalOffset(0.0, 1.0),
-                end: const FractionalOffset(0.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
-          child: MaterialButton(
-              highlightColor: AppTheme.appDefaultButtonSplashColor,
-              splashColor: AppTheme.appDefaultButtonSplashColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2.0))),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+    return mainRound.bid == false
+        ? SizedBox(
+            height: MediaQuery.of(context).size.height * 0.047,
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 0.0),
+              child: Container(
+                // margin: EdgeInsets.only(top: 0.0),
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  gradient: new LinearGradient(
+                      colors: [AppTheme.appDefaultColor, AppTheme.appCardColor],
+                      begin: const FractionalOffset(0.0, 1.0),
+                      end: const FractionalOffset(0.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+                child: MaterialButton(
+                    highlightColor: AppTheme.appDefaultButtonSplashColor,
+                    splashColor: AppTheme.appDefaultButtonSplashColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(2.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 12.0),
 
 //checking user before placing the order
-                // child: guestUserValue
-                //     ? Text("Sign In",
-                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                //             fontWeight: FontWeight.w600, color: Colors.white))
-                //     : Text("Check out",
-                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                //             fontWeight: FontWeight.w600, color: Colors.white)),
+                      // child: guestUserValue
+                      //     ? Text("Sign In",
+                      //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      //             fontWeight: FontWeight.w600, color: Colors.white))
+                      //     : Text("Check out",
+                      //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Submit",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.white)),
+                      child: Text("Submit",
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
+                    ),
+                    onPressed: () async {
+                      print("submit button pressed");
+
+                      NetworkConnectivity.check().then((internet) {
+                        if (internet) {
+                          submitBetRequest(mainRound);
+                        } else {
+                          //show network erro
+
+                          // Methods.showToast(context, "Check your network");
+                          print("No internet ..............");
+                        }
+                      });
+                    }),
               ),
-              onPressed: () async {
-                print("submit button pressed");
-
-                NetworkConnectivity.check().then((internet) {
-                  if (internet) {
-                    submitBetRequest(mainRound);
-                  } else {
-                    //show network erro
-
-                    // Methods.showToast(context, "Check your network");
-                    print("No internet ..............");
-                  }
-                });
-              }),
-        ),
-      ),
-    ) :SizedBox(
-      height: MediaQuery.of(context).size.height * 0.047,
-      width: MediaQuery.of(context).size.width * 0.95,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
-        child: Container(
-          // margin: EdgeInsets.only(top: 0.0),
-          decoration: new BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            gradient: new LinearGradient(
-                colors: [AppTheme.grey, AppTheme.grey],
-                begin: const FractionalOffset(0.0, 1.0),
-                end: const FractionalOffset(0.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
-          child: MaterialButton(
-              highlightColor: AppTheme.appDefaultButtonSplashColor,
-              splashColor: AppTheme.appDefaultButtonSplashColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2.0))),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+            ),
+          )
+        : SizedBox(
+            height: MediaQuery.of(context).size.height * 0.047,
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 0.0),
+              child: Container(
+                // margin: EdgeInsets.only(top: 0.0),
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  gradient: new LinearGradient(
+                      colors: [AppTheme.grey, AppTheme.grey],
+                      begin: const FractionalOffset(0.0, 1.0),
+                      end: const FractionalOffset(0.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+                child: MaterialButton(
+                    highlightColor: AppTheme.appDefaultButtonSplashColor,
+                    splashColor: AppTheme.appDefaultButtonSplashColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(2.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 12.0),
 
 //checking user before placing the order
-                // child: guestUserValue
-                //     ? Text("Sign In",
-                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                //             fontWeight: FontWeight.w600, color: Colors.white))
-                //     : Text("Check out",
-                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                //             fontWeight: FontWeight.w600, color: Colors.white)),
+                      // child: guestUserValue
+                      //     ? Text("Sign In",
+                      //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      //             fontWeight: FontWeight.w600, color: Colors.white))
+                      //     : Text("Check out",
+                      //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("You are already submitted the bet.",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.white)),
+                      child: Text("You are already submitted the bet.",
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
+                    ),
+                    onPressed: () async {
+                      print("submit button pressed");
+
+                      // NetworkConnectivity.check().then((internet) {
+                      //   if (internet) {
+                      //     submitBetRequest(mainRound);
+                      //   } else {
+                      //     //show network erro
+
+                      //     // Methods.showToast(context, "Check your network");
+                      //     print("No internet ..............");
+                      //   }
+                      // });
+                    }),
               ),
-              onPressed: () async {
-                print("submit button pressed");
-
-                // NetworkConnectivity.check().then((internet) {
-                //   if (internet) {
-                //     submitBetRequest(mainRound);
-                //   } else {
-                //     //show network erro
-
-                //     // Methods.showToast(context, "Check your network");
-                //     print("No internet ..............");
-                //   }
-                // });
-              }),
-        ),
-      ),
-    ) ;
+            ),
+          );
   }
 }

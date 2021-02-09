@@ -57,6 +57,7 @@ dependencies:
   flutter_datetime_picker: ^1.4.0
   grouped_list: ^3.7.1
   flutter_open_whatsapp: ^0.1.2
+  animated_text_kit: ^3.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

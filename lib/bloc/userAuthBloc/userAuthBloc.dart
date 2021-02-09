@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthState.dart';
+import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
-
-
-
-
 
 class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   @override
@@ -24,15 +21,26 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   Stream<UserAuthState> mapEventToState(UserAuthEvent event) async* {
     //check if Authentication is confirmed from repostory
     if (event is AuthStarted) {
-
-
-
-    bool  hassToken = await userAuthRepository.hasToken();
+      bool hassToken = await userAuthRepository.hasToken();
 
       // if token exists then return Login in success
       if (hassToken) {
         await Future.delayed(Duration(milliseconds: 500));
-        yield AuthSuccess();
+
+        UserLogin userLoginWithRole = UserLogin();
+        userLoginWithRole =
+            await userAuthRepository.getUserDataFromSharedPrefrences();
+
+        if (userLoginWithRole.data.user.roles == "1") {
+          yield AuthSuccess();
+        } else if (userLoginWithRole.data.user.roles == "2") {
+          yield AuthSuccessAsAgent();
+        } else if (userLoginWithRole.data.user.roles == null ||
+            userLoginWithRole.data.user.roles == "") {
+          yield AuthFailure();
+        } else {
+          yield AuthFailure();
+        }
       } else {
         // if token doens not exist then return Login in  failure
         await Future.delayed(Duration(milliseconds: 500));
@@ -43,11 +51,20 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     //Check if user token already exists then move to Dashboard
     if (event is AuthLoggedIn) {
       yield AuthInProgress();
-     // await Future.delayed(Duration(milliseconds: 500));
+      // await Future.delayed(Duration(milliseconds: 500));
 
       await userAuthRepository.persistToken(event.userLogin);
 
-      yield AuthSuccess();
+      if (event.userLogin.data.user.roles == "1") {
+        yield AuthSuccess();
+      } else if (event.userLogin.data.user.roles == "2") {
+        yield AuthSuccessAsAgent();
+      } else if (event.userLogin.data.user.roles == null ||
+          event.userLogin.data.user.roles == "") {
+        yield AuthFailure();
+      } else {
+        yield AuthFailure();
+      }
     }
     //Check if user token does not exist then move to Login Screen
     if (event is AuthLoggedOut) {

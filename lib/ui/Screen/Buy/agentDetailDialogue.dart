@@ -102,7 +102,7 @@ final Agents agents;
                                   ),
                             ),
                             Text(
-                                "Phone : ${ agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}",
+                         agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -133,7 +133,7 @@ final Agents agents;
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           buttonCall(Icons.call_outlined, Colors.blue[500], Colors.white,agents.contacts[0].phone),
-          buttonWhatsApp(Icons.call_outlined, Colors.green[500], Colors.white,agents.contacts[0].phone),
+          buttonWhatsApp(Icons.call_outlined, Colors.green[500], Colors.white,agents.contacts[0].whatsapp),
           buttonEmail(Icons.mail_outline, Colors.red[500], Colors.white,agents.contacts[0].email)
         ],
       ),

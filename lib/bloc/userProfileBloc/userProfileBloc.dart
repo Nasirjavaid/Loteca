@@ -15,7 +15,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
       yield InProgresssGettingUserProfileState();
       UserAuthRepository userAuthRepository = UserAuthRepository();
       UserLogin userLogin = UserLogin();
-     // userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
+      userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
 
       if (userLogin != null) {
         yield UserProfiledetailTakenSuccessfully(userLogin: userLogin);

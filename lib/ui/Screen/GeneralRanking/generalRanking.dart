@@ -42,16 +42,31 @@ class _GeneralRankingState extends State<GeneralRanking> {
       }
     }
 
-    return SingleChildScrollView(
-      child: Container(
-          child: Column(
-        children: [
+    return CustomScrollView(
+      slivers: [
+
+          // SliverAppBar(
+        //  // pinned: true,
+        //   leading: Container(),
+        //   toolbarHeight: MediaQuery.of(context).size.height * 0.135,
+        //   flexibleSpace: horizontalCalender(context),
+        // ),
+
+        SliverToBoxAdapter(
+            child: 
           leaderBoardMonthly.length > 3
               ? postionedBaseUserCards(leaderBoardMonthlyTopThree)
               : listofTeams(context, leaderBoardMonthly),
-          listofTeams(context, leaderBoardMonthly)
-        ],
-      )),
+        ),
+
+        SliverToBoxAdapter(
+            child:
+            //CommonWidgets.mycustomDivider(context),
+           leaderBoardMonthly.length > 3 ? listofTeams(context, leaderBoardMonthly) :Container()
+          
+        ),
+        // listofTeams(context, leaderBoardMonthly)
+      ],
     );
   }
 
@@ -97,6 +112,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
+              circleText: "2",
               circleShow: true,
               circleColor: Colors.blueGrey,
               circleHeight: 22,
@@ -137,6 +153,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 30,
             ),
             Avatar(
+              circleText: "1",
               circleShow: true,
               circleColor: Colors.green,
               circleHeight: 32,
@@ -177,6 +194,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
+              circleText: "3",
               circleShow: true,
               circleColor: Colors.amber,
               circleHeight: 22,
@@ -284,7 +302,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0),
           child: ListView.builder(
-              // physics: NeverScrollableScrollPhysics(),
+               
               padding: EdgeInsets.symmetric(vertical: 10),
               itemCount: leaderBoardGenericList.length == 0
                   ? 1
@@ -488,6 +506,7 @@ class Avatar extends StatelessWidget {
     this.circleHeight,
     this.circleWidth,
     this.circleShow,
+    this.circleText,
   }) : super(key: key);
 
   final Color backgroundColor;
@@ -500,6 +519,7 @@ class Avatar extends StatelessWidget {
   final String imageUrl;
   final double radius;
   final double height, width;
+  final String circleText;
 
   @override
   Widget build(BuildContext context) {
@@ -525,7 +545,7 @@ class Avatar extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "1",
+                        circleText,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2

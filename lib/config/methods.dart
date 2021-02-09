@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/agentsToBuyCoins.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
@@ -28,6 +29,18 @@ class Methods {
     print(
         "Current date and time sent to server while placing order::   $date ");
     return date.toString();
+  }
+  
+  static void showToast(BuildContext context, String message) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        duration: Duration(milliseconds: 2000),
+        backgroundColor: AppTheme.appDefaultColor,
+        content:
+            Text("$message", style: TextStyle(fontWeight: FontWeight.w700)),
+      ),
+    );
   }
 
 //   static storeGuestValueToSharedPref(bool guestBoolValue) async {

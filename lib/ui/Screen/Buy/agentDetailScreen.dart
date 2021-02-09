@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
+import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 
-class AgentDetailScreen extends StatefulWidget { 
+class AgentDetailScreen extends StatefulWidget {
   @override
   _AgentDetailScreenState createState() => _AgentDetailScreenState();
 }
@@ -24,13 +25,15 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
           extendBodyBehindAppBar: true,
           backgroundColor: AppTheme.background1,
           appBar: AppBar(
-              leading: Container(),
+              //leading: Container(),
+              iconTheme: IconThemeData(color: Colors.white38),
               backgroundColor: AppTheme.appDefaultColor,
               elevation: 0,
               actions: [
                 actionWidget(context),
               ]),
           body: _buildBody(context),
+          drawer: AgentNavDrawerMain(),
         ),
       ),
     );

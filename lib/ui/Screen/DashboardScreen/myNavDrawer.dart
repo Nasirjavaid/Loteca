@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/bloc/userAuthBloc/userAuthBloc.dart';
+import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailScreen.dart';
+import 'package:locteca/ui/Screen/CreateMyLeagueScreen/createMyLeagueScreen.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
-import 'package:locteca/ui/Screen/LoginScreen/loginScreen.dart';
 
 class MyNaveDrawerMain extends StatelessWidget {
   @override
@@ -118,10 +120,26 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                         //     ),
                         //   ),
                       }),
+                       Divider(),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.user,
+                  text: 'Create My League',
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateMyLeagueScreenMain(),
+                          ),
+                        ),
+                      }),
               Divider(),
               SizedBox(
                 height: 0,
               ),
+              
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
                   text: 'Feedback',
@@ -206,65 +224,29 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                 builder: (
                   BuildContext context,
                 ) {
-                  if (guestUserValue == false) {
-                    return MyDrawerItems(context).drawerItem(
-                        icon: FontAwesomeIcons.powerOff,
-                        text: 'Login',
-                        onTap: () => {
-                              //clossing the nav drawer after click
-                              Navigator.pop(context),
-                              // Methods.storeGuestValueToSharedPref(false),
-                              // BlocProvider.of<CartBloc>(context)
-                              //     .add(SaveDataToSharedPrefrencesCartEvent()),
-                              // BlocProvider.of<UserAuthBloc>(context)
-                              //     .add(AuthLoggedOut()),
-                              // Navigator.pushReplacement(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => App(
-                              //       userRepository: userAuthRepository,
-                              //     ),
-                              //   ),
-                              //  ),
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginPage(
-                                      userAuthRepository: userAuthRepository,
-                                    ),
-                                  )),
-                            });
-                  } else {
-                    return MyDrawerItems(context).drawerItem(
-                        icon: FontAwesomeIcons.powerOff,
-                        text: 'Logout',
-                        onTap: () {
-                          // Methods.storeGuestValueToSharedPref(false);
-                          // BlocProvider.of<UserAuthBloc>(context)
-                          //     .add(AuthLoggedOut());
-
-                          // BlocProvider.of<CartBloc>(context).add(
-                          //     RemoveDataFromSharedPrefrencesOfCartWhenLogout());
-                        });
-                  }
+                  return MyDrawerItems(context).drawerItem(
+                      icon: FontAwesomeIcons.powerOff,
+                      text: 'Logout',
+                      onTap: () {
+                        BlocProvider.of<UserAuthBloc>(context)
+                            .add(AuthLoggedOut());
+                      });
                 },
               ),
               Divider(),
-
-                  new MyDrawerItems(context).drawerItem(
+              new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.user,
                   text: 'Aegent Profile View',
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AgentDetailScreen(),
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AgentDetailScreen(),
                           ),
+                        ),
                       }),
               Divider(),
               SizedBox(
@@ -296,14 +278,15 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                     shape: BoxShape.circle,
                   ),
                   child: Avatar(
-                    circleShow: true,
+                    circleText: "",
+                    circleShow: false,
                     circleColor: Colors.green,
                     circleHeight: 22,
                     circleWidth: 22,
-                    height: 65,
-                    width: 65,
+                    height: 75,
+                    width: 75,
                     imageUrl:
-                        "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg",
+                        "https://fastly.syfy.com/sites/syfy/files/styles/1170xauto/public/dummy-murdock1.jpg",
                     radius: 40,
                     backgroundColor: Colors.white,
                     borderColor: Colors.grey.shade300,
@@ -311,12 +294,16 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.01,
                 ),
                 Text(
-                  "Agent Name",
+                  userLogin.data.user.name == null ||
+                          userLogin.data.user.name == ""
+                      ? "N/A"
+                      : userLogin.data.user.name,
+                    
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.black45, fontWeight: FontWeight.w700),
+                      color: Colors.black45, fontWeight: FontWeight.w900,fontSize:18,inherit: true),
                 ),
               ],
             ),

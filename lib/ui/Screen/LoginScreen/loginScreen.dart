@@ -147,23 +147,9 @@ class _LoginScreenState extends State<LoginScreen>
                         //Image logo
                         Center(
                           child: Container(
-                            height: 100,
-                            width: 100,
-                            child: Avatar(
-                              circleShow: false,
-                              circleColor: Colors.green,
-                              circleHeight: 22,
-                              circleWidth: 22,
-                              height: 100,
-                              width: 100,
-                              imageUrl:
-                                  "https://developers.google.com/web/images/contributors/no-photo.jpg",
-                              radius: 40,
-                              backgroundColor: Colors.white,
-                              borderColor: Colors.black,
-                              borderWidth: 0.0,
-                            ),
-                          ),
+                height: 150,
+                width: 250,
+                child: Image.asset('assets/images/splash.png')),
                         ),
                         SizedBox(height: 30),
                         // loginText(context),
