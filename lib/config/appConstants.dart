@@ -11,4 +11,10 @@ class APIConstants {
   static final String leaguesEndPoint = baseUrl + "/leagues";
   static final String agentsEndPoint = baseUrl + "/agents";
   static final String createMyLeagueEndPoint = baseUrl + "/myleague";
+
+
+
+
+  static final String userImagePlaceHolder =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/768px-Circle-icons-profile.svg.png";
 }

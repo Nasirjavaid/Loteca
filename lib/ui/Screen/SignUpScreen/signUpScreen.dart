@@ -31,7 +31,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   TextEditingController etWhatsAppNumber = TextEditingController();
   TextEditingController etAddres = TextEditingController();
   TextEditingController etPassword = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+ 
   int roleType = 1;
 
   void _showToast(BuildContext context, String message) {

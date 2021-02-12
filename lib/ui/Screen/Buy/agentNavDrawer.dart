@@ -6,7 +6,7 @@ import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
-import 'package:locteca/ui/Screen/Buy/agentDetailScreen.dart';
+
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
@@ -261,7 +261,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                     shape: BoxShape.circle,
                   ),
                   child: Avatar(
-                    circleText: "",
+                    circleTextWidget: Container(),
                     circleShow: false,
                     circleColor: Colors.green,
                     circleHeight: 22,

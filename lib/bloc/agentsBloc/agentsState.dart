@@ -1,5 +1,5 @@
 import 'package:locteca/model/agentsToBuyCoins.dart';
-import 'package:locteca/model/leaguesModel.dart';
+
 
 abstract class AgentsState {
   const AgentsState();

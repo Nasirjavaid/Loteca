@@ -1,4 +1,4 @@
-import 'package:locteca/model/leaderBoard.dart';
+
 import 'package:locteca/model/mainRound.dart';
 
 abstract class CreateMyLeagueState {

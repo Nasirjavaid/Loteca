@@ -76,7 +76,7 @@ final Agents agents;
                                   .textTheme
                                   .bodyText2
                                   .copyWith(
-                                      fontSize: 18,
+                                      fontSize: 12.5,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.w700),
                             ),
@@ -87,27 +87,36 @@ final Agents agents;
                               "Per coin rate :  N/A",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText1
                                   .copyWith(
                                     color: Colors.black45,
+                                    fontSize: 10
                                   ),
+                            ),
+                             SizedBox(
+                              height: 2,
                             ),
                             Text(
                                "Total avilable Coins: ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText1
                                   .copyWith(
                                     color: Colors.black45,
+                                    fontSize: 10
                                   ),
+                            ),
+                             SizedBox(
+                              height: 2,
                             ),
                             Text(
                          agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText1
                                   .copyWith(
                                     color: Colors.black45,
+                                    fontSize: 10
                                   ),
                             ),
                             Spacer(),
@@ -142,15 +151,15 @@ final Agents agents;
 
   Widget buttonCall(IconData myIcon, Color bgColor, Color iconColor,String phoneNumber) {
     return Container(
-      height:50,
-      width: 50,
+      height:40,
+      width: 40,
       alignment: Alignment.center,
       child: FloatingActionButton(
         elevation: 1,
         backgroundColor: bgColor,
         child: Icon(
           FontAwesomeIcons.phone,
-          size: 20,
+          size: 16,
           color: iconColor,
         ),
         onPressed: () {
@@ -161,15 +170,15 @@ final Agents agents;
   }
     Widget buttonEmail(IconData myIcon, Color bgColor, Color iconColor,String emailAddress) {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       alignment: Alignment.center,
       child: FloatingActionButton(
         elevation: 1,
         backgroundColor: bgColor,
         child: Icon(
           Icons.email,
-          size: 20,
+          size: 16,
           color: iconColor,
         ),
         onPressed: () {
@@ -181,19 +190,19 @@ final Agents agents;
 
     Widget buttonWhatsApp(IconData myIcon, Color bgColor, Color iconColor,String phoneNumber) {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       alignment: Alignment.center,
       child: FloatingActionButton(
         elevation: 1,
         backgroundColor: bgColor,
         child: Icon(
           FontAwesomeIcons.whatsapp,
-          size: 20,
+          size: 16,
           color: iconColor,
         ),
         onPressed: () {
-               FlutterOpenWhatsapp.sendSingleMessage(phoneNumber, "Hi, I want To Buy Coins !");
+               FlutterOpenWhatsapp.sendSingleMessage("55"+phoneNumber, "Hi, I want To Buy Coins !");
         },
       ),
     );

@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:locteca/config/appTheme.dart';
-import 'package:locteca/model/agentsToBuyCoins.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
 import 'package:shared_preferences/shared_preferences.dart';

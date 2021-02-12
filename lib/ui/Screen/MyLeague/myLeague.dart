@@ -7,7 +7,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:grouped_list/grouped_list.dart';
+
 
 class MyLeagueMain extends StatelessWidget {
   @override
@@ -115,26 +115,26 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
               tabs: [
                 Tab(
                     icon: Text(
-                  "Active Leagues",
+                  "Active",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700),
                 )),
                 Tab(
                     icon: Text(
-                  "Closed Leagues",
+                  "Closed",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700),
                 )),
                 Tab(
                     icon: Text(
-                  "Inited Leagues",
+                  "Invited",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700),
                 )),
               ],
@@ -320,9 +320,9 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         ? "N/A"
                         : leaguesItem.name,
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: Colors.black54,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w800,
-                        fontSize: 16),
+                        fontSize: 12.5),
                   ),
                   SizedBox(
                     height: 4,
@@ -335,7 +335,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         "Startting Date",
                         textAlign: TextAlign.end,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black38,
+                              color: Colors.black38,fontSize: 10
                             ),
                       ),
                       Container(
@@ -354,7 +354,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                 .bodyText1
                                 .copyWith(
                                     color: Colors.blue[900],
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w600,fontSize: 10),
                           ),
                         ),
                       ),
@@ -371,7 +371,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
-                            .copyWith(color: Colors.black38),
+                            .copyWith(color: Colors.black38,fontSize: 10),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -389,7 +389,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                 .bodyText1
                                 .copyWith(
                                     color: Colors.red[900],
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w600,fontSize: 10),
                           ),
                         ),
                       ),

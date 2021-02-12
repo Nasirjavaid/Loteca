@@ -5,7 +5,7 @@ class MyDrawerItems {
   BuildContext context;
 
   MyDrawerItems(this.context);
-  Widget drawerItem({IconData icon, String text, GestureTapCallback onTap}) {
+  Widget drawerItem({IconData icon, String text, GestureTapCallback onTap, Color colorData}) {
     return SizedBox(
         height: 25,
         child: InkWell(
@@ -16,7 +16,7 @@ class MyDrawerItems {
                   child: Row(children: <Widget>[
                     Icon(
                       icon,
-                      color: Colors.black54,
+                      color: colorData,
                       size: 16,
                     ),
                     Padding(

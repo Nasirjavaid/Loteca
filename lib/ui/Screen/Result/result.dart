@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultBloc.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultEvent.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
-import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
+
 import 'package:locteca/config/appTheme.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -203,13 +203,13 @@ class _ResultState extends State<Result> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidget(context, 10, AppTheme.background, "${answers.teamA != null || answers.teamA !="" ?  answers.teamA :"--"}", 14,
+              creditWidget(context, 10, AppTheme.background, "${answers.teamA != null || answers.teamA !="" ?  answers.teamA :"--"}", 12.5,
                   FontWeight.w900, Colors.black54),
                   SizedBox(width: 5,),
-              creditWidget(context, 10, AppTheme.background,  "${answers.teamB != null || answers.teamB !="" ?  answers.teamB :"--"}", 14,
+              creditWidget(context, 10, AppTheme.background,  "${answers.teamB != null || answers.teamB !="" ?  answers.teamB :"--"}", 12.5,
                   FontWeight.w900, Colors.black54),
                    SizedBox(width: 5,),
-              creditWidget(context, 10, AppTheme.background, "${answers.winner != null || answers.winner !="" ?  answers.winner :"--"}", 14,
+              creditWidget(context, 10, AppTheme.background, "${answers.winner != null || answers.winner !="" ?  answers.winner :"--"}", 12.5,
                   FontWeight.w900, Colors.cyan),
               // Row(
               //   children: [

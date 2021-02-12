@@ -79,7 +79,7 @@ class MainRoundService {
       mainRound = MainRound.fromJson(json);
 
       print("response body  in Submit Main round service : ${mainRound.message}");
-    } else if(response.statusCode== 409){
+    } else if(response.statusCode > 400){
 
        var json = jsonDecode(response.body);
 

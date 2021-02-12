@@ -12,7 +12,7 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+
 
 class LoginPage extends StatelessWidget {
   final UserAuthRepository userAuthRepository;

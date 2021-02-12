@@ -1,6 +1,6 @@
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/userLogin.dart';
-import 'package:locteca/service/userAuthService.dart';
+
 import 'package:locteca/service/userLoginService.dart';
 import 'package:meta/meta.dart';
 
@@ -39,7 +39,7 @@ class UserAuthRepository {
   Future<bool> hasToken() async {
     try {
       // bool tokenAsGuest = await Methods.getGuestFromSharedPref();
-      UserAuthService userAuthService = UserAuthService();
+     // UserAuthService userAuthService = UserAuthService();
       //UserLogin userLoginAuthToken = UserLogin();
       UserLogin tokenFromSharedPref = UserLogin();
 

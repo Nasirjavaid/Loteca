@@ -297,7 +297,7 @@ class _MakeBetState extends State<MakeBet> {
                 text: ["LIVE", "LIVE", "LIVE"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
-                    fontSize: 14,
+                    fontSize: 10,
                     fontWeight: FontWeight.w900,),
                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
@@ -360,7 +360,7 @@ class _MakeBetState extends State<MakeBet> {
   Widget listWiewItemCard(
       BuildContext context, MainRound mainRound, int index) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3),
         child: Container(
             decoration: BoxDecoration(
                 color: AppTheme.appDefaultColor2,
@@ -368,8 +368,8 @@ class _MakeBetState extends State<MakeBet> {
                   Radius.circular(25),
                 )),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 10.0, top: 10, bottom: 10, right: 10),
+              padding: const EdgeInsets.all(
+                  5),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -460,7 +460,7 @@ class _MakeBetState extends State<MakeBet> {
                 children: [
                   Icon(
                     Icons.flag,
-                    size: 18,
+                    size: 16,
                     color: Colors.white,
                   ),
                   SizedBox(
@@ -468,7 +468,7 @@ class _MakeBetState extends State<MakeBet> {
                   ),
                   Text(
                     teamName != null ? "$teamName" : "---",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.white60, fontWeight: FontWeight.w800),
                   ),
                 ],
@@ -499,7 +499,7 @@ class _MakeBetState extends State<MakeBet> {
                 children: [
                   Icon(
                     Icons.flag,
-                    size: 18,
+                    size: 16,
                     color: AppTheme.appDefaultColor,
                   ),
                   SizedBox(
@@ -507,7 +507,7 @@ class _MakeBetState extends State<MakeBet> {
                   ),
                   Text(
                     teamName != null ? "$teamName" : "---",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: AppTheme.appDefaultColor,
                         fontWeight: FontWeight.w800),
                   ),
@@ -522,17 +522,17 @@ class _MakeBetState extends State<MakeBet> {
 
   Widget teamMatchDrawContainerNormal() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.15,
+      width: MediaQuery.of(context).size.width * 0.10,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Text(
                 "Draw",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white60, fontWeight: FontWeight.w800),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.white60, fontWeight: FontWeight.w800,fontSize:10),
               ),
             ),
           ),
@@ -543,9 +543,9 @@ class _MakeBetState extends State<MakeBet> {
 
   Widget selectedTeamMatchDrawContainer() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.15,
+      width: MediaQuery.of(context).size.width * 0.10,
       decoration: BoxDecoration(
-          color: AppTheme.background1,
+          color: Colors.white70,
           borderRadius: BorderRadius.all(
             Radius.circular(25),
           )),
@@ -553,24 +553,24 @@ class _MakeBetState extends State<MakeBet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.close_rounded,
-                    size: 16,
+                    FontAwesomeIcons.minusCircle,
+                    size: 10,
                     color: AppTheme.lightRed,
                   ),
                   SizedBox(
-                    width: 5,
+                    width: 4,
                   ),
                   Text(
                     "Draw",
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appDefaultColor,
-                        fontWeight: FontWeight.w800),
+                        fontWeight: FontWeight.w800,fontSize:10),
                   ),
                 ],
               ),
@@ -751,7 +751,7 @@ class _MakeBetState extends State<MakeBet> {
             Radius.circular(15),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -772,8 +772,8 @@ class _MakeBetState extends State<MakeBet> {
                     ? "Accumulate Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.black26,
-                    fontSize: 10,
+                    color: Colors.black45,
+                    fontSize: 9,
                     fontWeight: FontWeight.w500)),
           ],
         ),
@@ -789,7 +789,7 @@ class _MakeBetState extends State<MakeBet> {
             Radius.circular(15),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -810,8 +810,8 @@ class _MakeBetState extends State<MakeBet> {
                     ? "Accumulate Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white60,
-                    fontSize: 10,
+                    color: Colors.white70,
+                    fontSize: 9,
                     fontWeight: FontWeight.w500)),
           ],
         ),

@@ -10,7 +10,7 @@ final double height,width,borderWidth;
                       height: height,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: borderWidth),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderRadius: BorderRadius.only(bottomLeft:Radius.circular(5),bottomRight:Radius.circular(5)),
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                             image: AssetImage('assets/images/table.jpg'),

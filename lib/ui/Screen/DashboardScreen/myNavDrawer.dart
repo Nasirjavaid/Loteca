@@ -6,13 +6,15 @@ import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
-import 'package:locteca/ui/Screen/Buy/agentDetailScreen.dart';
+import 'package:locteca/config/appConstants.dart';
+
 import 'package:locteca/ui/Screen/CreateMyLeagueScreen/createMyLeagueScreen.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart' as newAvater;
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
+import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart';
 
 class MyNaveDrawerMain extends StatelessWidget {
   @override
@@ -40,8 +42,6 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
   final UserAuthRepository userAuthRepository = UserAuthRepository();
 
   bool guestUserValue = false;
-  String userImagePlaceHolder =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/768px-Circle-icons-profile.svg.png";
 
   @override
   void initState() {
@@ -108,21 +108,23 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               ),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.user,
-                  text: 'Profile',
+                  colorData: Colors.blue,
+                  text: 'My Profile',
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
 
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => UserProfileScreen(),
-                        //     ),
-                        //   ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserProfileScreen(),
+                            ),
+                          ),
                       }),
-                       Divider(),
+              Divider(),
               new MyDrawerItems(context).drawerItem(
-                  icon: FontAwesomeIcons.user,
+                  icon: FontAwesomeIcons.gamepad,
+                  colorData: Colors.amber,
                   text: 'Create My League',
                   onTap: () => {
                         //clossing the nav drawer after click
@@ -139,9 +141,10 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               SizedBox(
                 height: 0,
               ),
-              
+
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
+                  colorData: Colors.green,
                   text: 'Feedback',
                   onTap: () => {
                         //clossing the nav drawer after click
@@ -163,6 +166,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               ),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.addressBook,
+                  colorData: Colors.indigo,
                   text: 'About us',
                   onTap: () => {
                         // Navigator.pop(context),
@@ -192,6 +196,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               ),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.mailBulk,
+                  colorData: Colors.cyan,
                   text: 'Contact us',
                   onTap: () => {
                         //clossing the nav drawer after click
@@ -226,6 +231,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                 ) {
                   return MyDrawerItems(context).drawerItem(
                       icon: FontAwesomeIcons.powerOff,
+                      colorData: Colors.red,
                       text: 'Logout',
                       onTap: () {
                         BlocProvider.of<UserAuthBloc>(context)
@@ -234,24 +240,24 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                 },
               ),
               Divider(),
-              new MyDrawerItems(context).drawerItem(
-                  icon: FontAwesomeIcons.user,
-                  text: 'Aegent Profile View',
-                  onTap: () => {
-                        //clossing the nav drawer after click
-                        Navigator.pop(context),
+              // new MyDrawerItems(context).drawerItem(
+              //     icon: FontAwesomeIcons.user,
+              //     text: 'Aegent Profile View',
+              //     onTap: () => {
+              //           //clossing the nav drawer after click
+              //           Navigator.pop(context),
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AgentDetailScreen(),
-                          ),
-                        ),
-                      }),
-              Divider(),
-              SizedBox(
-                height: 0,
-              ),
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => AgentDetailScreen(),
+              //             ),
+              //           ),
+              //         }),
+              // Divider(),
+              // SizedBox(
+              //   height: 0,
+              // ),
             ]),
           )
         ],
@@ -277,16 +283,18 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                     //borderRadius: BorderRadius.all(Radius.circular(25)),
                     shape: BoxShape.circle,
                   ),
-                  child: Avatar(
-                    circleText: "",
+                  child: newAvater.Avatar(
+                     circleTextWidget: Container(),
                     circleShow: false,
                     circleColor: Colors.green,
                     circleHeight: 22,
                     circleWidth: 22,
                     height: 75,
                     width: 75,
-                    imageUrl:
-                        "https://fastly.syfy.com/sites/syfy/files/styles/1170xauto/public/dummy-murdock1.jpg",
+                    imageUrl: userLogin.data.user.images[0].url == "" ||
+                            userLogin.data.user.images[0].url == null
+                        ? APIConstants.userImagePlaceHolder
+                        : userLogin.data.user.images[0].url,
                     radius: 40,
                     backgroundColor: Colors.white,
                     borderColor: Colors.grey.shade300,
@@ -301,9 +309,11 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           userLogin.data.user.name == ""
                       ? "N/A"
                       : userLogin.data.user.name,
-                    
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.black45, fontWeight: FontWeight.w900,fontSize:18,inherit: true),
+                      color: Colors.black45,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18,
+                      inherit: true),
                 ),
               ],
             ),

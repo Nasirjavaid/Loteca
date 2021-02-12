@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueBloc.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueEvent.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueState.dart';
-import 'package:locteca/bloc/mainRoundBloc/mainRoundBloc.dart';
-import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
-import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
+
 import 'package:locteca/config/appTheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/main.dart';
 import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
-import 'package:locteca/ui/Containers/MainHomeContainer/mainHomeContainer.dart';
+
 import 'package:locteca/ui/Screen/CreateMyLeagueScreen/createMyLeagueForm.dart';
-import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+
 
 class CreateMyLeagueScreenMain extends StatelessWidget {
   @override
@@ -43,6 +43,7 @@ class _CreateMyLeagueScreenState extends State<CreateMyLeagueScreen> {
   int selectedPackageId = 0;
   String selectedPackageAccumulativePrice;
   MainRound mainRoundGlobal;
+  final userRepository = UserAuthRepository();
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -57,11 +58,7 @@ class _CreateMyLeagueScreenState extends State<CreateMyLeagueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Scaffold(
+    return Scaffold(
           key: _scaffoldKey,
           // extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -97,8 +94,8 @@ class _CreateMyLeagueScreenState extends State<CreateMyLeagueScreen> {
           ),
           backgroundColor: AppTheme.background,
           body: _buildBody(context),
-        ),
-      ),
+        
+      
     );
   }
 
@@ -158,8 +155,9 @@ class _CreateMyLeagueScreenState extends State<CreateMyLeagueScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => MainHomeContainer(),
-            ),
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
           );
         });
       }

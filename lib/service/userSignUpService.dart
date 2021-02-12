@@ -25,15 +25,15 @@ class UserSignUpService {
       'whatsapp_phone': whatsAppNumber,
     };
 
-    String completeSignUpUrl = APIConstants.userSignUpEndPoint +
-        "name=" +
-        name +
-        "&email=" +
-        email +
-        "&password=" +
-        password +
-        "&role=" +
-        role;
+    // String completeSignUpUrl = APIConstants.userSignUpEndPoint +
+    //     "name=" +
+    //     name +
+    //     "&email=" +
+    //     email +
+    //     "&password=" +
+    //     password +
+    //     "&role=" +
+    //     role;
 //http://phpstack-526382-1675862.cloudwaysapps.com/api/register?name=User5&email=user7@email.com&password=Hello123&role=1
     final http.Response response = await httpService.postRequest(
         endPoint: APIConstants.userSignUpEndPoint, data: requestBody);

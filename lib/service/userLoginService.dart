@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/http/httpService.dart';
 import 'package:locteca/model/userLogin.dart';
-import 'package:locteca/service/mainRoundService.dart';
+
 
 class UserLoginService {
   Future<UserLogin> getUser(String username,String password) async {
@@ -16,11 +16,11 @@ class UserLoginService {
    
     
 
-     Map<String, String> requestBody = <String,String>{
-     'email':username,
-     'password':password,
+  //    Map<String, String> requestBody = <String,String>{
+  //    'email':username,
+  //    'password':password,
    
-  };
+  // };
 
   String completeUrlForLogin = APIConstants.userLoginEndPoint+ 'email='+username+'&password='+password;
 

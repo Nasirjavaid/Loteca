@@ -1,9 +1,11 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardBloc.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardEvent.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardState.dart';
+import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/leaderBoard.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
@@ -36,9 +38,9 @@ class _GeneralRankingState extends State<GeneralRanking> {
     List<LeaderBoardMonthly> leaderBoardMonthlyTopThree =
         List<LeaderBoardMonthly>();
     if (leaderBoardMonthly.length > 3) {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i<3; i++) {
         leaderBoardMonthlyTopThree.add(leaderBoardMonthly[i]);
-        leaderBoardMonthly.removeAt(i);
+        //leaderBoardMonthly.remove(leaderBoardMonthly[i]);
       }
     }
 
@@ -112,7 +114,20 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
-              circleText: "2",
+            circleTextWidget:  ScaleAnimatedTextKit(
+                repeatForever: true,
+                duration:const Duration(milliseconds: 1000 ),
+                onTap: () {
+                  print("Tap Event");
+                },
+                text: ["2"],
+                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,),
+               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                textAlign: TextAlign.start,
+              ),
               circleShow: true,
               circleColor: Colors.blueGrey,
               circleHeight: 22,
@@ -121,7 +136,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               width: 65,
               imageUrl: leaderBoardMonthly[1].image == null ||
                       leaderBoardMonthly[1].image == ""
-                  ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
+                  ? APIConstants.userImagePlaceHolder
                   : leaderBoardMonthly[1].image,
               radius: 40,
               backgroundColor: Colors.white,
@@ -141,7 +156,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                     fontSize: 12,
                     fontWeight: FontWeight.w900)),
             SizedBox(
-              height: 8,
+              height: 10,
             ),
             creditWidget(
                 context, Colors.amberAccent, leaderBoardMonthly[1].coins),
@@ -153,7 +168,20 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 30,
             ),
             Avatar(
-              circleText: "1",
+              circleTextWidget:  ScaleAnimatedTextKit(
+                repeatForever: true,
+                duration:const Duration(milliseconds: 1000 ),
+                onTap: () {
+                  print("Tap Event");
+                },
+                text: ["1"],
+                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,),
+               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                textAlign: TextAlign.start,
+              ),
               circleShow: true,
               circleColor: Colors.green,
               circleHeight: 32,
@@ -162,7 +190,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               width: 100,
               imageUrl: leaderBoardMonthly[0].image == null ||
                       leaderBoardMonthly[0].image == ""
-                  ? "https://fastly.syfy.com/sites/syfy/files/styles/1170xauto/public/dummy-murdock1.jpg"
+                  ? APIConstants.userImagePlaceHolder
                   : leaderBoardMonthly[0].image,
               radius: 40,
               backgroundColor: Colors.white,
@@ -170,7 +198,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               borderWidth: 4.0,
             ),
             SizedBox(
-              height: 15,
+              height: 18,
             ),
             Text(
                 leaderBoardMonthly[0].name == null ||
@@ -194,16 +222,29 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
-              circleText: "3",
+               circleTextWidget:  ScaleAnimatedTextKit(
+                repeatForever: true,
+                duration:const Duration(milliseconds: 1000 ),
+                onTap: () {
+                  print("Tap Event");
+                },
+                text: ["3"],
+                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color:Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,),
+               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                textAlign: TextAlign.start,
+              ),
               circleShow: true,
-              circleColor: Colors.amber,
+              circleColor: Colors.cyan,
               circleHeight: 22,
               circleWidth: 22,
               height: 65,
               width: 65,
               imageUrl: leaderBoardMonthly[2].image == null ||
                       leaderBoardMonthly[2].image == ""
-                  ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
+                  ? APIConstants.userImagePlaceHolder
                   : leaderBoardMonthly[2].image,
               radius: 40,
               backgroundColor: Colors.white,
@@ -211,7 +252,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               borderWidth: 4.0,
             ),
             SizedBox(
-              height: 10,
+              height: 12,
             ),
             Text(
                 leaderBoardMonthly[2].name == null ||
@@ -360,7 +401,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                   width: 45,
                   imageUrl: leaderBordGenericItem.image == null ||
                           leaderBordGenericItem.image == ""
-                      ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
+                      ? APIConstants.userImagePlaceHolder
                       : leaderBordGenericItem.image,
                   radius: 40,
                   backgroundColor: Colors.white,
@@ -372,6 +413,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       leaderBordGenericItem.name == null ||
@@ -381,7 +423,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
-                          .copyWith(color: Colors.black38),
+                          .copyWith(color: Colors.black87,fontSize: 12.5),
                     ),
                     SizedBox(
                       height: 4,
@@ -390,18 +432,18 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       leaderBordGenericItem.winningCoins == null ||
                               leaderBordGenericItem.winningCoins == ""
                           ? "N/A"
-                          : "${leaderBordGenericItem.winningCoins}",
+                          : "Total Coins : ${leaderBordGenericItem.coins}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Colors.black38),
+                          .copyWith(color: Colors.black38,fontSize: 10),
                     ),
                   ],
                 ),
               ],
             ),
             creditWidgetForListItemCard(
-                context, AppTheme.background3, leaderBordGenericItem.coins),
+                context, AppTheme.background3, leaderBordGenericItem.winningCoins),
           ],
         ),
       ),
@@ -447,7 +489,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                 "This Month",
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700),
               )),
               Tab(
@@ -455,7 +497,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                 "All Time",
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700),
               )),
             ],
@@ -506,7 +548,7 @@ class Avatar extends StatelessWidget {
     this.circleHeight,
     this.circleWidth,
     this.circleShow,
-    this.circleText,
+    this.circleTextWidget,
   }) : super(key: key);
 
   final Color backgroundColor;
@@ -519,7 +561,7 @@ class Avatar extends StatelessWidget {
   final String imageUrl;
   final double radius;
   final double height, width;
-  final String circleText;
+  final Widget circleTextWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -544,13 +586,7 @@ class Avatar extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text(
-                        circleText,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .copyWith(color: Colors.white),
-                      ),
+                      child: circleTextWidget
                     ),
                   ),
                 ),

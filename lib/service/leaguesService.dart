@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/http/httpService.dart';
-import 'package:locteca/model/leaderBoard.dart';
+
 import 'package:locteca/model/leaguesModel.dart';
-import 'package:locteca/model/mainRound.dart';
+
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 

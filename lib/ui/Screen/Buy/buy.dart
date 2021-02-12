@@ -207,7 +207,7 @@ class _BuyState extends State<Buy> {
                                 .textTheme
                                 .bodyText2
                                 .copyWith(
-                                    fontSize: 14,
+                                    fontSize: 12.5,
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w700),
                           ),
@@ -218,21 +218,21 @@ class _BuyState extends State<Buy> {
                             "Per coin rate :  N/A",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,
+                                      color: Colors.black45,fontSize: 10
                                     ),
                           ),
                           Text(
                             "Total avilable Coins: ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,
+                                      color: Colors.black45,fontSize: 10
                                     ),
                           ),
                           Text(
                          agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,
+                                      color: Colors.black45,fontSize: 10
                                     ),
                           ),
                         ],

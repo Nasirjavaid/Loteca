@@ -49,7 +49,7 @@ import 'bloc/userAuthBloc/userAuthBloc.dart';
 // }
 
 void main() async {
-  // BlocSupervisor.delegate = SimpleBlocDelegate();
+  
   final userRepository = UserAuthRepository();
 
   WidgetsFlutterBinding.ensureInitialized();

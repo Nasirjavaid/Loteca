@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueEvent.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueState.dart';
-import 'package:locteca/bloc/leaguesBloc/leaguesBloc.dart';
-import 'package:locteca/bloc/leaguesBloc/leaguesEvent.dart';
+
 import 'package:locteca/repository/createMyLeagueRepository.dart';
 
 class CreateMyLeagueBloc
@@ -22,8 +21,7 @@ class CreateMyLeagueBloc
   @override
   Stream<CreateMyLeagueState> mapEventToState(
       CreateMyLeagueEvent event) async* {
-    //final currentState = state;
-   LeaguesBloc leaguesBloc = LeaguesBloc();
+
     if (event is CreateNewMyLeagueEvent) {
       try {
         yield CreateMyLeagueProgressState();
@@ -36,9 +34,9 @@ class CreateMyLeagueBloc
           
    
 //custom delay
-          await Future.delayed(Duration(milliseconds: 1500));
+          await Future.delayed(Duration(milliseconds: 800));
           yield CreateMyLeagueAutoCloseAndReCallMyLeaguesApiState();
-                //leaguesBloc.add(GetLeaguesListEvent());
+                
         } else {
           yield CreateMyLeagueFailureState(
               errorMessage: "Something Went Wrong");

@@ -26,15 +26,17 @@ class RoundedCornerImageViewWithoutBorderDynamic extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(cornerRadius),
+                   // topRight: Radius.circular(cornerRadius),
                     bottomLeft: Radius.circular(cornerRadius),
                     bottomRight: Radius.circular(cornerRadius),
-                    topLeft: Radius.circular(cornerRadius)),
+                   // topLeft: Radius.circular(cornerRadius)
+                   ),
                 image: DecorationImage(
+                    scale: 10.5,
                     image: imageProvider,
                     fit: BoxFit.cover,
-                    colorFilter:
-                        ColorFilter.mode(Colors.transparent, BlendMode.colorBurn)),
+                    colorFilter: ColorFilter.mode(
+                        Colors.black12, BlendMode.colorBurn)),
               ),
             ),
             placeholder: (context, url) => Column(
