@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/agentDashoardBloc/agentDashboardBloc.dart';
+import 'package:locteca/bloc/agentDashoardBloc/agentDashboardEvent.dart';
+import 'package:locteca/bloc/agentDashoardBloc/agentDashboardState.dart';
+import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/methods.dart';
+import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/model/agentDashboardModel.dart';
+import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
+
+
+class AgentDetailScreenMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) {
+          return AgentDashboardBloc()..add(GetAgentDashboardDataEvent());
+        },
+        child: AgentDetailScreen(),
+      ),
+    );
+  }
+}
 
 class AgentDetailScreen extends StatefulWidget {
   @override
@@ -31,8 +55,36 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               elevation: 0,
               actions: [
                 actionWidget(context),
-              ]),
-          body: _buildBody(context),
+              ]
+              
+              ),
+          // body: _buildBody(context),
+
+          body: BlocListener<AgentDashboardBloc, AgentDashboardState>(
+              listener: (BuildContext context, state) {
+            print("Printing state from bloc lstener, and state is :  $state");
+          }, child: BlocBuilder<AgentDashboardBloc, AgentDashboardState>(
+            builder: (BuildContext context, state) {
+              if (state is AgentDashboardFailureState) {
+                //return Center(child: failedWidget(context));
+                return failedWidget(context);
+              }
+              if (state is AgentDashboardSuccessState) {
+                return _buildBody(context, state.agentDashboardModel, state);
+              }
+
+              if (state is AgentDashboardInProgressState) {
+                AgentDashboardModel agentDashboardModel = AgentDashboardModel();
+                return Stack(
+                  children: [
+                    _buildBody(context, agentDashboardModel, state),
+                    CommonWidgets.progressIndicatorCustom
+                  ],
+                );
+              }
+              return Container();
+            },
+          )),
           drawer: AgentNavDrawerMain(),
         ),
       ),
@@ -41,25 +93,50 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
 
   Widget actionWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: Avatar(
-        circleShow: false,
-        circleColor: Colors.green,
-        circleHeight: 22,
-        circleWidth: 22,
-        height: 45,
-        width: 45,
-        imageUrl:
-            "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg",
-        radius: 40,
-        backgroundColor: Colors.white,
-        borderColor: Colors.grey,
-        borderWidth: 1.0,
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<AgentDashboardBloc>(context)
+                  .add(GetAgentDashboardDataEvent());
+            }));
+  }
+
+  Widget failedWidget(BuildContext context) {
+    return FlatButton(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 0.0),
+              child: Icon(Icons.refresh, size: 60, color: AppTheme.nearlyBlue),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Tap to reload",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white54),
+            ),
+          ],
+        ),
       ),
+      onPressed: () {
+        BlocProvider.of<AgentDashboardBloc>(context)
+            .add(GetAgentDashboardDataEvent());
+      },
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(
+      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return Stack(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.21,
@@ -69,11 +146,12 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40))),
       ),
-      innerBodyOfStack(context),
+      innerBodyOfStack(context, agentDashboardModel, state),
     ]);
   }
 
-  Widget innerBodyOfStack(BuildContext context) {
+  Widget innerBodyOfStack(
+      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -95,13 +173,17 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                     child: Align(
                   alignment: Alignment(-0.8, -1.60),
                   child: Card(
-                    elevation: 12,
+                    elevation: 0,
                     color: Colors.transparent,
                     child: RoundedCornerImageViewWithoutBorderDynamic(
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.16,
-                      imageLink:
-                          "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg",
+                      imageLink: state is AgentDashboardInProgressState ||
+                              agentDashboardModel.data.user.images[0].url ==
+                                  null ||
+                              agentDashboardModel.data.user.images[0].url == ""
+                          ? APIConstants.userImagePlaceHolder
+                          : agentDashboardModel.data.user.images[0].url,
                       cornerRadius: 10,
                       borderWidth: 1.0,
                     ),
@@ -115,7 +197,11 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Agent Name",
+                          state is AgentDashboardInProgressState ||
+                                  agentDashboardModel.data.user.name == null ||
+                                  agentDashboardModel.data.user.name == ""
+                              ? "N/A"
+                              : agentDashboardModel.data.user.name,
                           style: Theme.of(context)
                               .textTheme
                               .headline6
@@ -135,7 +221,12 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
-                              "576",
+                              state is AgentDashboardInProgressState ||
+                                      agentDashboardModel.data.user.coins ==
+                                          null
+                                  ? "0"
+                                  : agentDashboardModel.data.user.coins
+                                      .toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -147,7 +238,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "Phone:      34567890-098",
+                          "Phone:      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -157,12 +248,22 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "Address:  Temple Road GT No. 59-BT-9",
+                          "WhatsApp:      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               .copyWith(color: Colors.black87),
                         ),
+                        // SizedBox(
+                        //   height: 3,
+                        // ),
+                        // Text(
+                        //   "Address:  Temple Road GT No. 59-BT-9",
+                        //   style: Theme.of(context)
+                        //       .textTheme
+                        //       .bodyText2
+                        //       .copyWith(color: Colors.black87),
+                        // ),
                       ]),
                 )),
               ]),
@@ -170,15 +271,17 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             SizedBox(
               height: 12,
             ),
-            sendCoinsButton(context),
+            sendCoinsButton(
+              context,
+            ),
             SizedBox(
               height: 12,
             ),
-            perDayAndWeeklySaleWidget(context),
+            perDayAndWeeklySaleWidget(context, agentDashboardModel, state),
             SizedBox(
               height: 12,
             ),
-            totalSaleAndCommissionWidget(context)
+            totalSaleAndCommissionWidget(context, agentDashboardModel, state)
           ],
         ),
       ),
@@ -187,7 +290,24 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
 
   Widget sendCoinsButton(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+
+
+         NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SendCoinScreenMain(),
+                              ),
+                            );
+                          } else {
+                            //show network erro
+
+                            Methods.showToast(context, "Check your network");
+                          }
+                        });
+      },
       child: Container(
         height: MediaQuery.of(context).size.height * 0.062,
         width: MediaQuery.of(context).size.width,
@@ -208,7 +328,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
     );
   }
 
-  Widget perDayAndWeeklySaleWidget(BuildContext context) {
+  Widget perDayAndWeeklySaleWidget(
+      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.30,
       decoration: BoxDecoration(
@@ -222,12 +343,16 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Today Sale", "35"),
-                saleInnerCard(context, "Today Commission", "20")
+                saleInnerCard(context, "Today Sale",
+                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.sales == null || agentDashboardModel.data.dailyData.sales == "" ? "N/A" : agentDashboardModel.data.dailyData.sales}"),
+                saleInnerCard(context, "Today Commission",
+                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.comission == null || agentDashboardModel.data.dailyData.comission == "" ? "N/A" : agentDashboardModel.data.dailyData.comission}"),
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Weekly Sale", "4637"),
-                saleInnerCard(context, "Weekly Commission", "33948")
+                saleInnerCard(context, "Weekly Sale",
+                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.sales == null || agentDashboardModel.data.weeklyData.sales == "" ? "N/A" : agentDashboardModel.data.weeklyData.sales}"),
+                saleInnerCard(context, "Weekly Commission",
+                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.comission == null || agentDashboardModel.data.weeklyData.comission == "" ? "N/A" : agentDashboardModel.data.weeklyData.comission}"),
               ]),
 
               // Row(children:[]),
@@ -236,7 +361,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
     );
   }
 
-  Widget totalSaleAndCommissionWidget(BuildContext context) {
+  Widget totalSaleAndCommissionWidget(
+      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.15,
       decoration: BoxDecoration(
@@ -247,8 +373,10 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          totalSaleInnerCard(context, "Total Sale", "1650"),
-          totalSaleInnerCard(context, "Total Commission", "135")
+          totalSaleInnerCard(context, "Total Sale",
+              "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.sales == null || agentDashboardModel.data.monthlyData.sales == "" ? "N/A" : agentDashboardModel.data.monthlyData.sales}"),
+          totalSaleInnerCard(context, "Total Commission",
+              "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.comission == null || agentDashboardModel.data.monthlyData.comission == "" ? "N/A" : agentDashboardModel.data.monthlyData.comission}"),
         ]),
       ),
     );

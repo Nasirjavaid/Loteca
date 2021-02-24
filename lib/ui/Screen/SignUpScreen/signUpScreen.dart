@@ -55,10 +55,12 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   Widget build(BuildContext context) {
     return Container(
         child: Scaffold(
+          
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black45),
         //title: Text("Register", style: Theme.of(context).textTheme.button),
       ),
       body: buidBody(context),
@@ -104,48 +106,48 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: dynamicText(context, "Sign Up"),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: firstNameInputField(context),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: emailInputField(context),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: phoneInputField(context),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: whatsAppPhoneInputField(context),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: passwordInputField(context),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  userTypeRadioButtons(context),
+                 // userTypeRadioButtons(context),
                   // passwordRepeatInputField(context),
                   // SizedBox(
                   //   height: 35,

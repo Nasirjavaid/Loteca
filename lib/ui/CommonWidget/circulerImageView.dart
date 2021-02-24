@@ -25,7 +25,9 @@ class CirculerImageView extends StatelessWidget {
               //  borderRadius: BorderRadius.circular(500),
               image: DecorationImage(
                 image: imageProvider,
-                fit: BoxFit.cover,
+             fit: BoxFit.contain,
+                //fit: BoxFit.cover,
+                
                 // colorFilter: ColorFilter.mode(
                 //     Colors.black12, BlendMode.colorBurn)
               ),

@@ -130,7 +130,7 @@ class _AppState extends State<App> {
                   return MainHomeContainer();
                 }
                 if (state is AuthSuccessAsAgent) {
-                  return AgentDetailScreen();
+                  return AgentDetailScreenMain();
                 }
 
                 if (state is AuthFailure) {

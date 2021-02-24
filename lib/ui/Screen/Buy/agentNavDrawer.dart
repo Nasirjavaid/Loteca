@@ -6,12 +6,19 @@ import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
+import 'package:locteca/config/appConstants.dart';
+import 'package:locteca/config/methods.dart';
+import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
+import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
+import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
 
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
+import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart' as Userprofile;
 
 class AgentNavDrawerMain extends StatelessWidget {
   @override
@@ -102,107 +109,115 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
             //  height: MediaQuery.of(context).size.height,
             // color: Colors.transparent,
             child: Column(children: [
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.user,
-              //     text: 'Profile',
-              //     onTap: () => {
-              //           //clossing the nav drawer after click
-              //           Navigator.pop(context),
+                 SizedBox(
+                height: 0,
+              ),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.user,
+                  colorData: Colors.blue,
+                  text: 'My Profile',
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
 
-              //           //   Navigator.push(
-              //           //     context,
-              //           //     MaterialPageRoute(
-              //           //       builder: (context) => UserProfileScreen(),
-              //           //     ),
-              //           //   ),
-              //         }),
-              // Divider(),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.list,
-              //     text: 'Feedback',
-              //     onTap: () => {
-              //           //clossing the nav drawer after click
-              //           Navigator.pop(context),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Userprofile.UserProfileScreen(),
+                            ),
+                          ),
+                      }),
+              Divider(),
+              SizedBox(
+                height: 0,
+              ),
 
-              //           // Navigator.push(
-              //           //   context,
-              //           //   MaterialPageRoute(
-              //           //     builder: (context) => MyOrdersScreen(),
-              //           //   ),
-              //           // ),
-              //         }),
-              // Divider(),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.addressBook,
-              //     text: 'About us',
-              //     onTap: () => {
-              //           // Navigator.pop(context),
-              //           // BlocProvider.of<CartBloc>(context)
-              //           //     .add(SaveDataToSharedPrefrencesCartEvent()),
-              //           // NetworkConnectivity.check().then((internet) {
-              //           //   if (internet) {
-              //           //     Navigator.push(
-              //           //       context,
-              //           //       MaterialPageRoute(
-              //           //         builder: (context) => WebViewContainer(
-              //           //             "https://unique-itsolutions.co.uk/restaurant-demo/new/about",
-              //           //             "About us"),
-              //           //       ),
-              //           //     );
-              //           //   } else {
-              //           //     //show network erro
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.list,
+                  colorData: Colors.green,
+                  text: 'Feedback',
+                  onTap: () => {
+                               Navigator.pop(context),
+                       
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>FeedBackScreen()
+                              ),
+                            );
+                          } else {
+                            //show network erro
 
-              //           //     Methods.showToast(context, "Check your network");
-              //           //   }
-              //           // }),
-              //           //clossing the nav drawer after click
-              //         }),
-              // Divider(),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.mailBulk,
-              //     text: 'Contact us',
-              //     onTap: () => {
-              //           //clossing the nav drawer after click
-              //           Navigator.pop(context),
-              //           // BlocProvider.of<CartBloc>(context)
-              //           //     .add(SaveDataToSharedPrefrencesCartEvent()),
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
+                      }),
+              Divider(),
+              SizedBox(
+                height: 0,
+              ),
+              SizedBox(
+                height: 0,
+              ),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.addressBook,
+                  colorData: Colors.indigo,
+                  text: 'About us',
+                  onTap: () => {
+                        Navigator.pop(context),
+                       
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AboutScreen()
+                              ),
+                            );
+                          } else {
+                            //show network erro
 
-              //           // NetworkConnectivity.check().then((internet) {
-              //           //   if (internet) {
-              //           //     Navigator.push(
-              //           //       context,
-              //           //       MaterialPageRoute(
-              //           //         builder: (context) => WebViewContainer(
-              //           //             "https://unique-itsolutions.co.uk/restaurant-demo/new/contact",
-              //           //             "Contact us"),
-              //           //       ),
-              //           //     );
-              //           //   } else {
-              //           //     //show network erro
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
+                     
+                      }),
+              Divider(),
+              SizedBox(
+                height: 0,
+              ),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.mailBulk,
+                  colorData: Colors.cyan,
+                  text: 'Contact us',
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
+                        // BlocProvider.of<CartBloc>(context)
+                        //     .add(SaveDataToSharedPrefrencesCartEvent()),
 
-              //           //     Methods.showToast(context, "Check your network");
-              //           //   }
-              //           // }),
-              //         }),
-              // Divider(),
-              // SizedBox(
-              //   height: 0,
-              // ),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContactUsScreen(
+                                    ),
+                              ),
+                            );
+                          } else {
+                            //show network erro
+
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
+                      }),
+              Divider(),
+              SizedBox(
+                height: 0,
+              ),
               Builder(
                 builder: (
                   BuildContext context,
@@ -268,8 +283,8 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                     circleWidth: 22,
                     height: 75,
                     width: 75,
-                    imageUrl:
-                        "https://fastly.syfy.com/sites/syfy/files/styles/1170xauto/public/dummy-murdock1.jpg",
+                    imageUrl: userLogin.data.user.images[0].url == null ||  userLogin.data.user.images[0].url=="" ?
+                       APIConstants.userImagePlaceHolder:  userLogin.data.user.images[0].url,
                     radius: 40,
                     backgroundColor: Colors.white,
                     borderColor: Colors.grey.shade300,
@@ -286,7 +301,15 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                       : userLogin.data.user.name,
                     
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.black45, fontWeight: FontWeight.w900,fontSize:18,inherit: true),
+                      color: Colors.black87, fontWeight: FontWeight.w900,fontSize:18,inherit: true),
+                ),
+                SizedBox(height: 4,),
+                Text(
+                  userLogin.data.user.email == null ||
+                          userLogin.data.user.email == ""
+                      ? "N/A"
+                      : userLogin.data.user.email,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
             ),

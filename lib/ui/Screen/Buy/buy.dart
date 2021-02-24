@@ -31,6 +31,18 @@ class Buy extends StatefulWidget {
 }
 
 class _BuyState extends State<Buy> {
+
+
+    Widget actionWidget(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<AgentsBloc>(context)
+                  .add(GetAgentsListEvent());
+            }));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +52,7 @@ class _BuyState extends State<Buy> {
 
         elevation: 0.0,
         actions: [
-          IconButton(
-              icon: Icon(
-                FontAwesomeIcons.questionCircle,
-                color: Colors.white38,
-                size: 18,
-              ),
-              onPressed: null),
+         actionWidget(context)
         ],
         title: Text(
           "Buy",

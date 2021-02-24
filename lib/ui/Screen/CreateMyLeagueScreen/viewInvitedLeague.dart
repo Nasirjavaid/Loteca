@@ -6,6 +6,7 @@ import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
@@ -13,12 +14,14 @@ import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 
 class ViewInvitedLeagueMain extends StatelessWidget {
+final int roundId;
+  ViewInvitedLeagueMain({this.roundId});
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
         create: (context) {
-          return MainRoundBloc()..add(GetMainRoundEvent());
+          return MainRoundBloc()..add(GetActiveOrInvitedLeagueDetailEvent(roundId: roundId));
         },
         child: ViewInvitedLeague(),
       ),
@@ -116,8 +119,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
       }
     }
   }
-
-  @override
+@override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.appDefaultColor,
@@ -151,7 +153,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
           ),
           backgroundColor: AppTheme.appDefaultColor,
           body: _buildBody(context),
-          drawer: MyNaveDrawerMain(),
+         // drawer: MyNaveDrawerMain(),
         ),
       ),
     );
@@ -191,7 +193,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.014,
               ),
-              liveTeamTagWidget(context),
+              liveTeamTagWidget(context,state.mainRound),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.024,
               ),
@@ -222,7 +224,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.014,
               ),
-              liveTeamTagWidget(context),
+              liveTeamTagWidget(context,mainRoundGlobal),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.024,
               ),
@@ -274,7 +276,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
     );
   }
 
-  Widget liveTeamTagWidget(BuildContext context) {
+  Widget liveTeamTagWidget(BuildContext context,MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.background1,
@@ -290,17 +292,16 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               width: 30.0,
               child: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration: const Duration(milliseconds: 1000),
+                duration:const Duration(milliseconds: 1000 ),
                 onTap: () {
                   print("Tap Event");
                 },
-                text: ["LIVE", "LIVE", "LIVE"],
+                text: mainRound.bid == null || mainRound.bid == true ? ["DONE"] :["LIVE"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: AppTheme.appDefaultColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                    ),
-                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                    color: AppTheme.appDefaultColor,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,),
+               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -361,7 +362,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
   Widget listWiewItemCard(
       BuildContext context, MainRound mainRound, int index) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3),
         child: Container(
             decoration: BoxDecoration(
                 color: AppTheme.appDefaultColor2,
@@ -369,8 +370,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                   Radius.circular(25),
                 )),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 10.0, top: 10, bottom: 10, right: 10),
+              padding: const EdgeInsets.all(
+                  5),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -461,7 +462,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                 children: [
                   Icon(
                     Icons.flag,
-                    size: 18,
+                    size: 16,
                     color: Colors.white,
                   ),
                   SizedBox(
@@ -469,7 +470,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                   ),
                   Text(
                     teamName != null ? "$teamName" : "---",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.white60, fontWeight: FontWeight.w800),
                   ),
                 ],
@@ -500,7 +501,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                 children: [
                   Icon(
                     Icons.flag,
-                    size: 18,
+                    size: 16,
                     color: AppTheme.appDefaultColor,
                   ),
                   SizedBox(
@@ -508,7 +509,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                   ),
                   Text(
                     teamName != null ? "$teamName" : "---",
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: AppTheme.appDefaultColor,
                         fontWeight: FontWeight.w800),
                   ),
@@ -523,17 +524,17 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
 
   Widget teamMatchDrawContainerNormal() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.15,
+      width: MediaQuery.of(context).size.width * 0.10,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Text(
                 "Draw",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white60, fontWeight: FontWeight.w800),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.white60, fontWeight: FontWeight.w800,fontSize:10),
               ),
             ),
           ),
@@ -544,9 +545,9 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
 
   Widget selectedTeamMatchDrawContainer() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.15,
+      width: MediaQuery.of(context).size.width * 0.10,
       decoration: BoxDecoration(
-          color: AppTheme.background1,
+          color: Colors.white70,
           borderRadius: BorderRadius.all(
             Radius.circular(25),
           )),
@@ -554,24 +555,24 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.close_rounded,
-                    size: 16,
+                    FontAwesomeIcons.minusCircle,
+                    size: 10,
                     color: AppTheme.lightRed,
                   ),
                   SizedBox(
-                    width: 5,
+                    width: 4,
                   ),
                   Text(
                     "Draw",
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appDefaultColor,
-                        fontWeight: FontWeight.w800),
+                        fontWeight: FontWeight.w800,fontSize:10),
                   ),
                 ],
               ),
@@ -752,7 +753,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
             Radius.circular(15),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -773,8 +774,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     ? "Accumulate Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.black26,
-                    fontSize: 10,
+                    color: Colors.black45,
+                    fontSize: 9,
                     fontWeight: FontWeight.w500)),
           ],
         ),
@@ -790,7 +791,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
             Radius.circular(15),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -811,8 +812,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     ? "Accumulate Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white60,
-                    fontSize: 10,
+                    color: Colors.white70,
+                    fontSize: 9,
                     fontWeight: FontWeight.w500)),
           ],
         ),
@@ -920,16 +921,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     onPressed: () async {
                       print("submit button pressed");
 
-                      // NetworkConnectivity.check().then((internet) {
-                      //   if (internet) {
-                      //     submitBetRequest(mainRound);
-                      //   } else {
-                      //     //show network erro
-
-                      //     // Methods.showToast(context, "Check your network");
-                      //     print("No internet ..............");
-                      //   }
-                      // });
+                       Methods.showToast(context, "You are already submitted the bet.");
+                      
                     }),
               ),
             ),

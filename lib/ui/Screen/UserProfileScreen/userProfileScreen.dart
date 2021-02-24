@@ -9,11 +9,14 @@ import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/methods.dart';
+import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/main.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
+import 'package:locteca/ui/Screen/UserProfileScreen/userProfileUpdateScreen.dart';
 import 'package:meta/meta.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -262,7 +265,7 @@ class UserInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 5.0),
+                          padding: const EdgeInsets.only(left: 5.0,top: 15),
                           child: Text(
                             "User Information",
                             style: Theme.of(context)
@@ -273,23 +276,42 @@ class UserInfo extends StatelessWidget {
                           ),
                         ),
 
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: new BoxDecoration(
-                            color: AppTheme.appBackgroundColorforCard2,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(0.0),
-                              topRight: Radius.circular(4.0),
-                              bottomLeft: Radius.circular(35.0),
-                              bottomRight: Radius.circular(0.0),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        )
+                        // GestureDetector(
+                        //   onTap: (){
+
+                        //      NetworkConnectivity.check().then((internet) {
+                        //   if (internet) {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) =>UserProfileUpdateScreenMain()
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     //show network erro
+
+                        //     Methods.showToast(context, "Check your network");
+                        //   }
+                        // });
+                        //   },
+                        //                           child: Container(
+                        //     height: 50,
+                        //     width: 50,
+                        //     decoration: new BoxDecoration(
+                        //       color: AppTheme.appBackgroundColorforCard2,
+                        //       borderRadius: BorderRadius.only(
+                        //         topLeft: Radius.circular(0.0),
+                        //         topRight: Radius.circular(4.0),
+                        //         bottomLeft: Radius.circular(35.0),
+                        //         bottomRight: Radius.circular(0.0),
+                        //       ),
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.edit,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // )
                         // IconButton(
                         //     icon: Padding(
                         //       padding: const EdgeInsets.only(right: 15.0),

@@ -41,6 +41,10 @@ class MainRoundService {
       mainRound = MainRound.fromJson(json);
 
       print("response body  in Main round service : ${mainRound.message}");
+    } else if (response.statusCode == 404) {
+      var json = jsonDecode(response.body);
+
+      mainRound = MainRound.fromJson(json);
     } else {
       throw Exception("Main Round Service: Failed to get Main Round");
     }
@@ -48,27 +52,24 @@ class MainRoundService {
     return mainRound;
   }
 
-  Future<MainRound> subMitBetOfMainRound(int roundId,String slectedAnswers,String slectedGamesId,int selectedPackageId) async {
-
-
+  Future<MainRound> subMitBetOfMainRound(int roundId, String slectedAnswers,
+      String slectedGamesId, int selectedPackageId) async {
     MainRound mainRound;
 
     UserAuthRepository userAuthRepository = UserAuthRepository();
 
     userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
 
-   
-
-   Map<String, dynamic> requestBody = <String, dynamic>{
+    Map<String, dynamic> requestBody = <String, dynamic>{
       'selected_answers': slectedAnswers,
       'round_id': roundId,
       'package_id': selectedPackageId,
       'game_ids': slectedGamesId,
-      
-      
     };
     final http.Response response = await httpService.postRequestWithToken(
-        endPoint: APIConstants.submitMainRoundEndPoint, header: _getRequestHeaders(),data: requestBody);
+        endPoint: APIConstants.submitMainRoundEndPoint,
+        header: _getRequestHeaders(),
+        data: requestBody);
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 201) {
@@ -78,13 +79,13 @@ class MainRoundService {
 
       mainRound = MainRound.fromJson(json);
 
-      print("response body  in Submit Main round service : ${mainRound.message}");
-    } else if(response.statusCode > 400){
-
-       var json = jsonDecode(response.body);
+      print(
+          "response body  in Submit Main round service : ${mainRound.message}");
+    } else if (response.statusCode > 400) {
+      var json = jsonDecode(response.body);
 
       mainRound = MainRound.fromJson(json);
-    }else {
+    } else {
       throw Exception("Submit Main Round Service: Failed to get Main Round");
     }
 

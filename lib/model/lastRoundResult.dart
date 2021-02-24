@@ -68,6 +68,10 @@ class Round {
   String endingDate;
   String createdAt;
   String updatedAt;
+  String status;
+  String tag;
+  Null creatorId;
+  Null joiningId;
   List<Games> games;
 
   Round(
@@ -77,6 +81,10 @@ class Round {
       this.endingDate,
       this.createdAt,
       this.updatedAt,
+      this.status,
+      this.tag,
+      this.creatorId,
+      this.joiningId,
       this.games});
 
   Round.fromJson(Map<String, dynamic> json) {
@@ -86,6 +94,10 @@ class Round {
     endingDate = json['ending_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    status = json['status'];
+    tag = json['tag'];
+    creatorId = json['creator_id'];
+    joiningId = json['joining_id'];
     if (json['games'] != null) {
       games = new List<Games>();
       json['games'].forEach((v) {
@@ -102,6 +114,10 @@ class Round {
     data['ending_date'] = this.endingDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['status'] = this.status;
+    data['tag'] = this.tag;
+    data['creator_id'] = this.creatorId;
+    data['joining_id'] = this.joiningId;
     if (this.games != null) {
       data['games'] = this.games.map((v) => v.toJson()).toList();
     }
@@ -118,7 +134,7 @@ class Games {
   String createdAt;
   String updatedAt;
   Pivot pivot;
-  List<Results> results;
+  Results results;
 
   Games(
       {this.id,
@@ -140,12 +156,8 @@ class Games {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
-    if (json['results'] != null) {
-      results = new List<Results>();
-      json['results'].forEach((v) {
-        results.add(new Results.fromJson(v));
-      });
-    }
+    results =
+        json['results'] != null ? new Results.fromJson(json['results']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -161,7 +173,7 @@ class Games {
       data['pivot'] = this.pivot.toJson();
     }
     if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
+      data['results'] = this.results.toJson();
     }
     return data;
   }

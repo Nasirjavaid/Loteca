@@ -9,7 +9,7 @@
          <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="locteca"
+        android:label="Loteca 2.O"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

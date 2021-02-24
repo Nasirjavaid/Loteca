@@ -58,6 +58,8 @@ dependencies:
   grouped_list: ^3.7.1
   flutter_open_whatsapp: ^0.1.2
   animated_text_kit: ^3.1.0
+  contactus: ^1.1.7
+  anitex: ^1.0.1
 
 
 
@@ -101,6 +103,7 @@ flutter:
     - assets/images/labhub.png
     - assets/images/otp.png
     - assets/images/actor.jpg
+    - assets/images/feedback.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

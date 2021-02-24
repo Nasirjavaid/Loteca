@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
 import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/repository/leaguesRepository.dart';
 import 'package:locteca/repository/mainRoundRepository.dart';
 import 'mainRoundEvent.dart';
 
 class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
   MainRoundRepository mainRoundRepository = MainRoundRepository();
+    LeaguesRepository leaguesRepository = LeaguesRepository();
 
   MainRoundBloc();
 
@@ -25,7 +27,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
         if (mainRound.response == "true") {
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
-          yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+          yield MainRoundFailureState(errorMessage: mainRound.message);
         }
       } catch (_) {
         yield MainRoundFailureState(errorMessage: "Something Went Wrong");
@@ -35,7 +37,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
     if (event is SubmitBetButtonClickedEvent) {
       try {
         yield MainRoundBetSubmitingInProgressState();
-        await Future.delayed(Duration(milliseconds: 4500));
+        // await Future.delayed(Duration(milliseconds: 500));
         MainRound mainRound = MainRound();
         mainRound =
             await mainRoundRepository.submitBetOfMainRound(event.mainRound);
@@ -46,7 +48,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
 //          }
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
-          yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+          yield MainRoundFailureState(errorMessage: mainRound.message);
         }
       } catch (ex) {
         yield MainRoundFailureState(errorMessage: "Something Went Wrong");
@@ -55,5 +57,25 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
 
     // bool _hasReachedMax(SalarySlipState state) =>
     //     state is SalarySlipSuccessState && state.hasReachedMax;
+
+    // For active leagues and invited Leagues portion
+
+
+       if (event is GetActiveOrInvitedLeagueDetailEvent) {
+      try {
+        yield MainRoundInProgressState();
+      
+
+        final mainRound = await leaguesRepository.getActiveLeagueDetail(event.roundId);
+
+        if (mainRound.response == "true") {
+          yield MainRoundSuccessState(mainRound: mainRound);
+        } else {
+          yield MainRoundFailureState(errorMessage: mainRound.message);
+        }
+      } catch (_) {
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+      }
+    }
   }
 }

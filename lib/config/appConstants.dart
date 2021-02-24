@@ -11,6 +11,11 @@ class APIConstants {
   static final String leaguesEndPoint = baseUrl + "/leagues";
   static final String agentsEndPoint = baseUrl + "/agents";
   static final String createMyLeagueEndPoint = baseUrl + "/myleague";
+  static final String userProfileUpdateEndPoint = baseUrl + "/updateProfile";
+  static final String agentDashboardEndPoint = baseUrl + "/agentDashBoard";
+  static final String validateUserToSendCoinEndPoint = baseUrl + "/userRecord";
+  static final String sendCoinToUserEndPoint = baseUrl + "/sendCoins";
+  static final String getSingleActiverLeagueEndPoint = baseUrl + "/activeLeague";
 
 
 

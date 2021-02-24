@@ -44,6 +44,9 @@ class _GeneralRankingState extends State<GeneralRanking> {
       }
     }
 
+
+      
+
     return CustomScrollView(
       slivers: [
 
@@ -159,7 +162,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 10,
             ),
             creditWidget(
-                context, Colors.amberAccent, leaderBoardMonthly[1].coins),
+                context, Colors.amberAccent, leaderBoardMonthly[1].winningCoins),
           ],
         ),
         Column(
@@ -213,7 +216,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 8,
             ),
             creditWidget(
-                context, Colors.blueGrey[100], leaderBoardMonthly[0].coins),
+                context, Colors.blueGrey[100], leaderBoardMonthly[0].winningCoins),
             SizedBox(
               height: 0,
             )
@@ -267,7 +270,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 8,
             ),
             creditWidget(
-                context, AppTheme.background3, leaderBoardMonthly[2].coins),
+                context, AppTheme.background3, leaderBoardMonthly[2].winningCoins),
           ],
         ),
       ],
@@ -450,6 +453,16 @@ class _GeneralRankingState extends State<GeneralRanking> {
     );
   }
 
+Widget actionWidget(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<LeaderBoardBloc>(context)
+                  .add(GetLeaderBoardListEvent());
+            }));
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -462,14 +475,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
 
           elevation: 0.0,
           actions: [
-            IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.questionCircle,
-                  color: Colors.white38,
-                  size: 18,
-                ),
-                onPressed: null),
-          ],
+                actionWidget(context),
+              ],
           // toolbarHeight: 50,
           centerTitle: true,
           // backgroundColor: AppTheme.appDefaultColor,

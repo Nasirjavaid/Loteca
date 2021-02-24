@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  anitex:
+    dependency: "direct main"
+    description:
+      name: anitex
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   archive:
     dependency: transitive
     description:
@@ -106,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
+  contactus:
+    dependency: "direct main"
+    description:
+      name: contactus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.7"
   convert:
     dependency: transitive
     description:
@@ -569,6 +583,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0-nullsafety.3"
+  typicons_flutter:
+    dependency: transitive
+    description:
+      name: typicons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2"
   url_launcher:
     dependency: "direct main"
     description:

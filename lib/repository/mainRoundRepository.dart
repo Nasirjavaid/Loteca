@@ -11,10 +11,10 @@ class MainRoundRepository {
 
     mainRound = await mainRoundService.getMainRound();
 
-    if (mainRound != null) {
-      return mainRound;
-    }
-    return null;
+    // if (mainRound != null) {
+    //   return mainRound;
+    // }
+     return mainRound;
   }
 
   Future<MainRound> submitBetOfMainRound(MainRound mainRound) async {
@@ -38,10 +38,18 @@ class MainRoundRepository {
 
     int selectedPackageId = mainRound.round.selectedPackageId;
 
-    // var dataString = mainRound.toJson().toString();
-    // print("$dataString");
+   
+ final input = slectedGamesId.toString();
+  final removedBracketsFromGameIds = input.substring(1, input.length - 1);
+  // final parts = removedBrackets.split(', ');
+  
+  // var joined = parts.map((part) => "'$part'").join(', ');
+  
+  // print(joined);
+
+
     mainRoundInner = await mainRoundService.subMitBetOfMainRound(
-        mainRound.round.id, slectedAnswers.toString(),slectedGamesId.toString(),selectedPackageId);
+        mainRound.round.id, slectedAnswers.toString(),removedBracketsFromGameIds,selectedPackageId);
 
     if (mainRoundInner != null) {
       return mainRoundInner;

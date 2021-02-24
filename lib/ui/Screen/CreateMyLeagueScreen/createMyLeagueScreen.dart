@@ -73,15 +73,15 @@ class _CreateMyLeagueScreenState extends State<CreateMyLeagueScreen> {
 
             centerTitle: true,
             elevation: 0.0,
-            actions: [
-              IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.questionCircle,
-                    color: Colors.white38,
-                    size: 18,
-                  ),
-                  onPressed: null),
-            ],
+            // actions: [
+            //   IconButton(
+            //       icon: Icon(
+            //         FontAwesomeIcons.questionCircle,
+            //         color: Colors.white38,
+            //         size: 18,
+            //       ),
+            //       onPressed: null),
+            // ],
             // toolbarHeight: 50,
 
             backgroundColor: AppTheme.appDefaultColor,

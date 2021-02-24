@@ -5,6 +5,7 @@ import 'package:locteca/bloc/leaguesBloc/leaguesEvent.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
+import 'package:locteca/ui/Screen/CreateMyLeagueScreen/viewInvitedLeague.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -50,6 +51,19 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
   //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
   //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
   // ];
+
+
+
+    Widget actionWidget(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<LeaguesBloc>(context)
+                  .add(GetLeaguesListEvent());
+            }));
+  }
    @override
   void initState() {
     super.initState();
@@ -91,13 +105,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
 
             elevation: 0.0,
             actions: [
-              IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.questionCircle,
-                    color: Colors.white38,
-                    size: 18,
-                  ),
-                  onPressed: null),
+              actionWidget(context),
             ],
             title: Text(
               "My Leagues",
@@ -286,119 +294,129 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
   }
 
   Widget listWiewItemCard(BuildContext context, dynamic leaguesItem) {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppTheme.background,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          )),
-      margin: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Icon(
-                Icons.gamepad,
-                size: 50,
-                color: Colors.blue,
+    return GestureDetector(
+      onTap: (){
+
+
+         Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => ViewInvitedLeagueMain(roundId: leaguesItem.id,)),
+  );
+      },
+          child: Container(
+        decoration: BoxDecoration(
+            color: AppTheme.background,
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            )),
+        margin: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          child: Row(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Icon(
+                  Icons.gamepad,
+                  size: 50,
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 7,
-            ),
-            Expanded(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    leaguesItem.name == null || leaguesItem.name == ""
-                        ? "N/A"
-                        : leaguesItem.name,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 12.5),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        "Startting Date",
-                        textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black38,fontSize: 10
+              SizedBox(
+                width: 7,
+              ),
+              Expanded(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      leaguesItem.name == null || leaguesItem.name == ""
+                          ? "N/A"
+                          : leaguesItem.name,
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12.5),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          "Startting Date",
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Colors.black38,fontSize: 10
+                              ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue[100],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(2),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 8),
+                            child: Text(
+                              "${leaguesItem.startingDate == null || leaguesItem.startingDate == "" ? "N/A" : leaguesItem.startingDate}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Colors.blue[900],
+                                      fontWeight: FontWeight.w600,fontSize: 10),
                             ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(2),
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1.0, horizontal: 8),
-                          child: Text(
-                            "${leaguesItem.startingDate == null || leaguesItem.startingDate == "" ? "N/A" : leaguesItem.startingDate}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                                    color: Colors.blue[900],
-                                    fontWeight: FontWeight.w600,fontSize: 10),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Ending Date ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: Colors.black38,fontSize: 10),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.red[100],
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(2),
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1.0, horizontal: 8),
-                          child: Text(
-                            "${leaguesItem.endingDate == null || leaguesItem.endingDate == "" ? "N/A" : leaguesItem.endingDate} ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                                    color: Colors.red[900],
-                                    fontWeight: FontWeight.w600,fontSize: 10),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Ending Date ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black38,fontSize: 10),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.red[100],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(2),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 8),
+                            child: Text(
+                              "${leaguesItem.endingDate == null || leaguesItem.endingDate == "" ? "N/A" : leaguesItem.endingDate} ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Colors.red[900],
+                                      fontWeight: FontWeight.w600,fontSize: 10),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
@@ -50,6 +51,16 @@ class _MakeBetState extends State<MakeBet> {
       ),
       duration: const Duration(seconds: 5),
     ));
+  }
+    Widget actionWidget(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<MainRoundBloc>(context)
+                  .add(GetMainRoundEvent());
+            }));
   }
 
   void submitBetRequest(MainRound mainRound) {
@@ -131,13 +142,7 @@ class _MakeBetState extends State<MakeBet> {
 
             elevation: 0.0,
             actions: [
-              IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.questionCircle,
-                    color: Colors.white38,
-                    size: 18,
-                  ),
-                  onPressed: null),
+              actionWidget(context),
             ],
             // toolbarHeight: 50,
             centerTitle: true,
@@ -911,7 +916,7 @@ class _MakeBetState extends State<MakeBet> {
                       //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                       //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                      child: Text("You are already submitted the bet.",
+                      child: Text("Bet Submitted",
                           style: Theme.of(context).textTheme.bodyText2.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
@@ -919,16 +924,8 @@ class _MakeBetState extends State<MakeBet> {
                     onPressed: () async {
                       print("submit button pressed");
 
-                      // NetworkConnectivity.check().then((internet) {
-                      //   if (internet) {
-                      //     submitBetRequest(mainRound);
-                      //   } else {
-                      //     //show network erro
-
-                      //     // Methods.showToast(context, "Check your network");
-                      //     print("No internet ..............");
-                      //   }
-                      // });
+                       Methods.showToast(context, "You are already submitted the bet.");
+                      
                     }),
               ),
             ),

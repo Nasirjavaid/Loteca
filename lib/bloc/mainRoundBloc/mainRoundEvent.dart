@@ -14,3 +14,10 @@ class SubmitBetButtonClickedEvent extends MainRoundEvent {
 
   SubmitBetButtonClickedEvent({this.mainRound});
 }
+
+
+class GetActiveOrInvitedLeagueDetailEvent extends MainRoundEvent {
+
+final int roundId;
+  GetActiveOrInvitedLeagueDetailEvent({this.roundId});
+}

@@ -7,9 +7,15 @@ import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
+import 'package:locteca/config/methods.dart';
+import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
+import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 
 import 'package:locteca/ui/Screen/CreateMyLeagueScreen/createMyLeagueScreen.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart' as newAvater;
+import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
+import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart'
+    as newAvater;
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
@@ -114,12 +120,12 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserProfileScreen(),
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserProfileScreen(),
                           ),
+                        ),
                       }),
               Divider(),
               new MyDrawerItems(context).drawerItem(
@@ -147,15 +153,20 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                   colorData: Colors.green,
                   text: 'Feedback',
                   onTap: () => {
-                        //clossing the nav drawer after click
                         Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FeedBackScreen()),
+                            );
+                          } else {
+                            //show network erro
 
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => MyOrdersScreen(),
-                        //   ),
-                        // ),
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
                       }),
               Divider(),
               SizedBox(
@@ -169,26 +180,20 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                   colorData: Colors.indigo,
                   text: 'About us',
                   onTap: () => {
-                        // Navigator.pop(context),
-                        // BlocProvider.of<CartBloc>(context)
-                        //     .add(SaveDataToSharedPrefrencesCartEvent()),
-                        // NetworkConnectivity.check().then((internet) {
-                        //   if (internet) {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => WebViewContainer(
-                        //             "https://unique-itsolutions.co.uk/restaurant-demo/new/about",
-                        //             "About us"),
-                        //       ),
-                        //     );
-                        //   } else {
-                        //     //show network erro
+                        Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutScreen()),
+                            );
+                          } else {
+                            //show network erro
 
-                        //     Methods.showToast(context, "Check your network");
-                        //   }
-                        // }),
-                        //clossing the nav drawer after click
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
                       }),
               Divider(),
               SizedBox(
@@ -204,22 +209,20 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                         // BlocProvider.of<CartBloc>(context)
                         //     .add(SaveDataToSharedPrefrencesCartEvent()),
 
-                        // NetworkConnectivity.check().then((internet) {
-                        //   if (internet) {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => WebViewContainer(
-                        //             "https://unique-itsolutions.co.uk/restaurant-demo/new/contact",
-                        //             "Contact us"),
-                        //       ),
-                        //     );
-                        //   } else {
-                        //     //show network erro
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContactUsScreen(),
+                              ),
+                            );
+                          } else {
+                            //show network erro
 
-                        //     Methods.showToast(context, "Check your network");
-                        //   }
-                        // }),
+                            Methods.showToast(context, "Check your network");
+                          }
+                        }),
                       }),
               Divider(),
               SizedBox(
@@ -284,7 +287,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                     shape: BoxShape.circle,
                   ),
                   child: newAvater.Avatar(
-                     circleTextWidget: Container(),
+                    circleTextWidget: Container(),
                     circleShow: false,
                     circleColor: Colors.green,
                     circleHeight: 22,
@@ -310,10 +313,20 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                       ? "N/A"
                       : userLogin.data.user.name,
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.black45,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w900,
                       fontSize: 18,
                       inherit: true),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  userLogin.data.user.email == null ||
+                          userLogin.data.user.email == ""
+                      ? "N/A"
+                      : userLogin.data.user.email,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
             ),

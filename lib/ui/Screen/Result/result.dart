@@ -31,6 +31,19 @@ class Result extends StatefulWidget {
 }
 
 class _ResultState extends State<Result> {
+
+
+
+    Widget actionWidget(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(right: 15.0),
+        child: IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              BlocProvider.of<LastRoundResulBloc>(context)
+                  .add(GetLastRoundResultEvent());
+            }));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +53,7 @@ class _ResultState extends State<Result> {
 
         elevation: 0.0,
         actions: [
-          IconButton(
-              icon: Icon(
-                FontAwesomeIcons.search,
-                color: Colors.white38,
-                size: 18,
-              ),
-              onPressed: null),
+        actionWidget(context)
         ],
         // toolbarHeight: 50,
         centerTitle: true,
