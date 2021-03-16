@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget{
           children: [
             Container(
                 height: 200,
-                width: 250,
+                width: 200,
                 child: Image.asset('assets/images/splash.png')),
                 SizedBox(height: 15,),
                 Text("Loteca 2.0",style:Theme.of(context).textTheme.headline4.copyWith(fontWeight:FontWeight.w900,color:Colors.black87))

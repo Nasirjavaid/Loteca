@@ -88,6 +88,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
       height: MediaQuery.of(context).size.height * 0.06,
       child: new TextField(
           controller: etEmail,
+          cursorColor: AppTheme.appDefaultColor,
           expands: false,
           maxLines: 1,
           minLines: 1,
@@ -158,7 +159,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Verfy To send Coin",
+                child: Text("Verify to send coin",
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),

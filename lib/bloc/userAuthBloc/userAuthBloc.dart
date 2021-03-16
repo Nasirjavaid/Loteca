@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/userAuthBloc/userAuthEvent.dart';
@@ -19,13 +20,25 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   // Mapping Events with state
   @override
   Stream<UserAuthState> mapEventToState(UserAuthEvent event) async* {
+
+    if(state is AuthInitial){
+
+       await Future.delayed(Duration(seconds: 3));
+    }
+    
     //check if Authentication is confirmed from repostory
     if (event is AuthStarted) {
+
+
+
       bool hassToken = await userAuthRepository.hasToken();
 
       // if token exists then return Login in success
       if (hassToken) {
-        await Future.delayed(Duration(milliseconds: 500));
+
+        //get FCM Token
+      // String deviceFCMtoken = await   fcmToken();
+      // print("FCM token in Auth Bloc $deviceFCMtoken");
 
         UserLogin userLoginWithRole = UserLogin();
         userLoginWithRole =
@@ -43,7 +56,7 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         }
       } else {
         // if token doens not exist then return Login in  failure
-        await Future.delayed(Duration(milliseconds: 500));
+
         yield AuthFailure();
       }
     }
@@ -54,6 +67,10 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       // await Future.delayed(Duration(milliseconds: 500));
 
       await userAuthRepository.persistToken(event.userLogin);
+      
+        //get FCM Token
+       String deviceFCMtoken = await   fcmToken();
+       print("FCM token in Auth Bloc $deviceFCMtoken");
 
       if (event.userLogin.data.user.roles == "1") {
         yield AuthSuccess();
@@ -74,5 +91,19 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
 
       yield AuthFailure();
     }
+  }
+
+  Future<String> fcmToken() async {
+    String deviceFcmToken;
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      deviceFcmToken = token;
+      print("Push Messaging token: $token");
+
+      return deviceFcmToken;
+    });
+    // _firebaseMessaging.subscribeToTopic("matchscore");
+    return deviceFcmToken;
   }
 }

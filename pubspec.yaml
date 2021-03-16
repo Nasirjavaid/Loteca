@@ -24,9 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^2.0.0
-  carousel_slider: ^1.3.0
+ 
   flutter_custom_clippers: ^1.1.1
-  badges: ^1.1.1
+  
   font_awesome_flutter: ^8.8.1
  
   google_fonts: ^1.1.0
@@ -38,28 +38,39 @@ dependencies:
   equatable: ^1.0.0
   http: ^0.12.0+4
   flutter_spinkit: "^4.1.2"
- 
+  screenshot: ^0.2.0
   tuple: ^1.0.3
   permission_handler: ^5.0.1
-  screenshot: ^0.2.0
+ 
   esys_flutter_share: ^1.0.2
-  #image_gallery_saver: '^1.5.0'
+  image_gallery_saver: '^1.5.0'
 
   #fshare_extend: ^1.1.9
   path_provider: ^1.6.18
-  intl: ^0.16.1
-  webview_flutter: ^0.3.20
+  #intl: ^0.16.1
+
   image_picker: ^0.6.6+5
   file_picker: ^1.9.0+1
   dio: ^3.0.9
   path: ^1.6.4
   connectivity: ^0.4.9+3
-  flutter_datetime_picker: ^1.4.0
+
   grouped_list: ^3.7.1
   flutter_open_whatsapp: ^0.1.2
   animated_text_kit: ^3.1.0
   contactus: ^1.1.7
   anitex: ^1.0.1
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^3.0.2
+  easy_localization: ^2.3.3
+  countup: ^0.1.3
+  custom_dialog: ^0.0.2
+  giffy_dialog: ^1.8.0
+  
+  flushbar: ^1.5.0
+  share_files_and_screenshot_widgets: ^1.0.3
+
+ 
 
 
 
@@ -104,6 +115,8 @@ flutter:
     - assets/images/otp.png
     - assets/images/actor.jpg
     - assets/images/feedback.png
+    - assets/lang/en-US.json
+    - assets/lang/pt-BR.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

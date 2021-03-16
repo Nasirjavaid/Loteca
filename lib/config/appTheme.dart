@@ -16,7 +16,7 @@ class AppTheme {
   static const Color nearlyGold = Color(0xFFE9AD03);
 
   static const Color appDefaultColor = Color(0xFF3654DC);
-   static const Color appDefaultColor2 = Color(0xFF4563E7);
+  static const Color appDefaultColor2 = Color(0xFF4563E7);
   static const Color appDefaultColorForGradient = Color(0xFF2B49CF);
   static const Color appCardColor = Color(0xFF405CDD);
   static const Color appDefaultButtonSplashColor = Colors.white12;
@@ -115,7 +115,8 @@ class AppTheme {
   // static const Color _darkOnPrimaryColor = Colors.white;
 
   static final ThemeData lightTheme = ThemeData(
-      cursorColor: Colors.blue[500],
+      //cursorColor: Colors.blue[500],
+     
       accentColor: Colors.blue[100],
       hintColor: Colors.blueAccent,
       focusColor: Colors.blueAccent,

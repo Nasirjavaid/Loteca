@@ -10,6 +10,7 @@ import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
+import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/betOnBehalfOfUserScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
 
@@ -18,7 +19,8 @@ import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
-import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart' as Userprofile;
+import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart'
+    as Userprofile;
 
 class AgentNavDrawerMain extends StatelessWidget {
   @override
@@ -109,7 +111,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
             //  height: MediaQuery.of(context).size.height,
             // color: Colors.transparent,
             child: Column(children: [
-                 SizedBox(
+              SizedBox(
                 height: 0,
               ),
               new MyDrawerItems(context).drawerItem(
@@ -120,32 +122,44 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Userprofile.UserProfileScreen(),
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Userprofile.UserProfileScreen(),
                           ),
+                        ),
                       }),
               Divider(),
-              SizedBox(
-                height: 0,
-              ),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.battleNet,
+                  colorData: Colors.blue[900],
+                  text: 'Bet For Special User',
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BetOnBehalfOfUserScreenMain(),
+                          ),
+                        ),
+                      }),
+              Divider(),
 
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
                   colorData: Colors.green,
                   text: 'Feedback',
                   onTap: () => {
-                               Navigator.pop(context),
-                       
+                        Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
                           if (internet) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>FeedBackScreen()
-                              ),
+                                  builder: (context) => FeedBackScreen()),
                             );
                           } else {
                             //show network erro
@@ -155,9 +169,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                         }),
                       }),
               Divider(),
-              SizedBox(
-                height: 0,
-              ),
+
               SizedBox(
                 height: 0,
               ),
@@ -167,14 +179,12 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                   text: 'About us',
                   onTap: () => {
                         Navigator.pop(context),
-                       
                         NetworkConnectivity.check().then((internet) {
                           if (internet) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AboutScreen()
-                              ),
+                                  builder: (context) => AboutScreen()),
                             );
                           } else {
                             //show network erro
@@ -182,7 +192,6 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                             Methods.showToast(context, "Check your network");
                           }
                         }),
-                     
                       }),
               Divider(),
               SizedBox(
@@ -203,8 +212,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ContactUsScreen(
-                                    ),
+                                builder: (context) => ContactUsScreen(),
                               ),
                             );
                           } else {
@@ -283,8 +291,10 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                     circleWidth: 22,
                     height: 75,
                     width: 75,
-                    imageUrl: userLogin.data.user.images[0].url == null ||  userLogin.data.user.images[0].url=="" ?
-                       APIConstants.userImagePlaceHolder:  userLogin.data.user.images[0].url,
+                    imageUrl: userLogin.data.user.images[0].url == null ||
+                            userLogin.data.user.images[0].url == ""
+                        ? APIConstants.userImagePlaceHolder
+                        : userLogin.data.user.images[0].url,
                     radius: 40,
                     backgroundColor: Colors.white,
                     borderColor: Colors.grey.shade300,
@@ -299,17 +309,24 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           userLogin.data.user.name == ""
                       ? "N/A"
                       : userLogin.data.user.name,
-                    
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.black87, fontWeight: FontWeight.w900,fontSize:18,inherit: true),
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14,
+                      inherit: true),
                 ),
-                SizedBox(height: 4,),
+                SizedBox(
+                  height: 4,
+                ),
                 Text(
                   userLogin.data.user.email == null ||
                           userLogin.data.user.email == ""
                       ? "N/A"
                       : userLogin.data.user.email,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: 11),
                 ),
               ],
             ),

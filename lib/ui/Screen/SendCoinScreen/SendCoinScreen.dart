@@ -7,13 +7,12 @@ import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 
 import 'package:locteca/bloc/sendCoinBloc/sendCoinState.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/methods.dart';
 import 'package:locteca/main.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/sendCoinFormWidget.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/userValidationWidget.dart';
-
-
 
 class SendCoinScreenMain extends StatelessWidget {
   @override
@@ -28,15 +27,15 @@ class SendCoinScreenMain extends StatelessWidget {
     );
   }
 }
+
 class SendCoinScreen extends StatefulWidget {
   @override
   _SendCoinScreenState createState() => _SendCoinScreenState();
 }
 
 class _SendCoinScreenState extends State<SendCoinScreen> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-    final userRepository = UserAuthRepository();
+  final userRepository = UserAuthRepository();
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -48,52 +47,45 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
       duration: const Duration(seconds: 5),
     ));
   }
+
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-          key: _scaffoldKey,
-          // extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white38),
-            title: Text(
-              "Send Coins",
-              style: Theme.of(context).textTheme.button.copyWith(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
-            ),
+    return Scaffold(
+      key: _scaffoldKey,
+      // extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white38),
+        title: Text(
+          "Send Coins",
+          style: Theme.of(context).textTheme.button.copyWith(
+              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
+        ),
 
-            centerTitle: true,
-            elevation: 0.0,
-            actions: [
-              IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.questionCircle,
-                    color: Colors.white38,
-                    size: 18,
-                  ),
-                  onPressed: null),
-            ],
-            // toolbarHeight: 50,
+        centerTitle: true,
+        elevation: 0.0,
+        actions: [
+          IconButton(
+              icon: Icon(
+                FontAwesomeIcons.questionCircle,
+                color: Colors.white38,
+                size: 18,
+              ),
+              onPressed: null),
+        ],
+        // toolbarHeight: 50,
 
-            backgroundColor: AppTheme.appDefaultColor,
-            //backgroundColor: Colors.transparent,
-            // title: Text(
-            //   "Loteca",
-            //   style:
-            //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
-            // ),
-          ),
-          backgroundColor: AppTheme.background,
-          body: _buildBody(context),
-        
-      
+        backgroundColor: AppTheme.appDefaultColor,
+        //backgroundColor: Colors.transparent,
+        // title: Text(
+        //   "Loteca",
+        //   style:
+        //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+        // ),
+      ),
+      backgroundColor: AppTheme.background,
+      body: _buildBody(context),
     );
   }
-
-
-  
-  
 
   Widget _buildBody(BuildContext context) {
 // return BlocConsumer<MainRoundBloc, MainRoundState>(
@@ -117,16 +109,25 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
 
         print("Error : ${state.errorMessage}");
       }
-    }, child: BlocBuilder<SendCoinBloc, SendCoinState>(
-            builder: (context, state) {
+
+      if (state is CoinSentSuccessfullyState) {
+        Methods.showDialogueForCoinSentDetail(
+          context,
+          state.sendCoin,
+        );
+      }
+    }, child:
+            BlocBuilder<SendCoinBloc, SendCoinState>(builder: (context, state) {
       if (state is UserValidatedSuccessfullyState) {
         // mainRoundGlobal = MainRound();
         // mainRoundGlobal = state.mainRound;
-        return UserValidationWidget(validateUser: state.validateUser,);
+        return UserValidationWidget(
+          validateUser: state.validateUser,
+        );
       }
 
-      if(state is SendCoinStateFailureState){
-           return SendCoinFormWidgetMain();
+      if (state is SendCoinStateFailureState) {
+        return SendCoinFormWidgetMain();
       }
 
       if (state is SendCoinStateInProgressState) {
@@ -149,9 +150,7 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
         return SendCoinFormWidgetMain();
       }
 
-      if(state is SendCoinCloseAndRefreshMainAdminDashboard)
-      {
-
+      if (state is SendCoinCloseAndRefreshMainAdminDashboard) {
         SchedulerBinding.instance.addPostFrameCallback((_) {
           // add your code here.
 
@@ -164,7 +163,6 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
           );
         });
       }
-    
 
       return Container(color: Colors.white);
     }));

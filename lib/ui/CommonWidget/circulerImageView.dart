@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:locteca/config/appTheme.dart';
+
 
 
 class CirculerImageView extends StatelessWidget {
@@ -16,10 +16,10 @@ class CirculerImageView extends StatelessWidget {
           imageUrl: imageUrl,
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
-                        border: Border.all(
-                color: AppTheme.appDefaultColor,
-                width: 2,
-              ),
+              //           border: Border.all(
+              //   //color: AppTheme.appDefaultColor,
+              //   width: 0,
+              // ),
               shape: BoxShape.circle,
 
               //  borderRadius: BorderRadius.circular(500),
@@ -46,7 +46,7 @@ class CirculerImageView extends StatelessWidget {
                   )),
             ],
           ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          errorWidget: (context, url, error) => Icon(Icons.error,size:20),
         ));
   }
 }

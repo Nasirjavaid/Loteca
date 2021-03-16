@@ -12,7 +12,7 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends StatelessWidget {
   final UserAuthRepository userAuthRepository;
@@ -147,9 +147,9 @@ class _LoginScreenState extends State<LoginScreen>
                         //Image logo
                         Center(
                           child: Container(
-                height: 150,
-                width: 250,
-                child: Image.asset('assets/images/splash.png')),
+                              height: 150,
+                              width: 250,
+                              child: Image.asset('assets/images/splash.png')),
                         ),
                         SizedBox(height: 30),
                         // loginText(context),
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget loginText(BuildContext context) {
-    return Text("Login",
+    return Text("Login".tr().toString(),
         style: Theme.of(context)
             .textTheme
             .headline6
@@ -245,6 +245,7 @@ class _LoginScreenState extends State<LoginScreen>
     return TextFormField(
       controller: _usernameController,
       keyboardType: TextInputType.text,
+      cursorColor: AppTheme.appCardColor,
 
       autocorrect: false,
 
@@ -286,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen>
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "EMAIL",
+          labelText: "Email".tr().toString(),
           labelStyle: Theme.of(context)
               .textTheme
               .bodyText1
@@ -310,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen>
       controller: _passwordController,
       keyboardType: TextInputType.text,
       obscureText: true,
-
+cursorColor: AppTheme.appCardColor,
       autocorrect: false,
 
       //validator: _validateFirstName,
@@ -351,7 +352,7 @@ class _LoginScreenState extends State<LoginScreen>
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "PASSWORD",
+          labelText: "Password".tr().toString(),
           labelStyle: Theme.of(context)
               .textTheme
               .bodyText1
@@ -397,24 +398,21 @@ class _LoginScreenState extends State<LoginScreen>
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 82.0),
-                child: Text("Sign In",
+                child: Text("Sign In".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
               onPressed: () async {
                 print("Login Button clicked");
 
-                    NetworkConnectivity.check().then((internet) {
-      if (internet) {
-       _onLoginButtonPressed();
-      } else {
-        //show network erro
-showMessageError("Check Network Conection");
-       
-      }
-    });
-
-                
+                NetworkConnectivity.check().then((internet) {
+                  if (internet) {
+                    _onLoginButtonPressed();
+                  } else {
+                    //show network erro
+                    showMessageError("Check Network Conection");
+                  }
+                });
 
                 // Navigator.push(context,
                 //     MaterialPageRoute(builder: (context) => DashboardScreen()));
@@ -431,7 +429,7 @@ showMessageError("Check Network Conection");
   Widget forgotPasswordText(BuildContext context) {
 //return Text("FORGOT PASSWORD?", style:  GoogleFonts.lato());
     return InkWell(
-      child: Text("Forget your password?",
+      child: Text("Forget Your Password ?".tr().toString(),
           style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: AppTheme.appDefaultColor,
                 decoration: TextDecoration.underline,
@@ -451,7 +449,7 @@ showMessageError("Check Network Conection");
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't Have an Account ?",
+        Text("Dont Have Anaccount ?".tr().toString(),
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
@@ -461,7 +459,7 @@ showMessageError("Check Network Conection");
         ),
         InkWell(
           highlightColor: Colors.blue[100],
-          child: Text("Register Now",
+          child: Text("Register Now".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
                     fontSize: 12,

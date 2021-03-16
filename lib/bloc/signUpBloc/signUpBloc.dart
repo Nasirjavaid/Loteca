@@ -29,7 +29,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> with ValidationMixin {
       } else if (this.isFieldEmpty(event.mobileNumber)) {
         yield SignUpFailure(error: "Please enter mobile number.");
         return;
-      } else if (this.isFieldEmpty(event. whatsAppNumber)) {
+      } else if (this.isFieldEmpty(event.whatsAppNumber)) {
         yield SignUpFailure(error: "Please enter WhatsApp number");
         return;
       } else if (this.isFieldEmpty(event.password)) {
@@ -46,8 +46,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> with ValidationMixin {
         userLogin = await userSignUpRepository.registerNewUser(
           event.name,
           event.email,
-          event.mobileNumber,
-          event.whatsAppNumber,
+          "+55" + event.mobileNumber,
+          "+55" + event.whatsAppNumber,
           event.password,
           event.role,
         );

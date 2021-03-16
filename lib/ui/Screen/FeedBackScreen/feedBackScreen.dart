@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locteca/bloc/feedbackBloc/feedbackBloc.dart';
+import 'package:locteca/bloc/feedbackBloc/feedbackEvent.dart';
+import 'package:locteca/bloc/feedbackBloc/feedbackState.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 
 class FeedBackScreen extends StatefulWidget {
   @override
@@ -14,8 +20,9 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
 
   final double minValue = 8.0;
   final _feedbackTypeList = <String>["Comments", "Bugs", "Questions"];
- final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _feedbackType = "";
+  int _feedbackTypeIndex;
 
   final TextStyle _errorStyle = TextStyle(
     color: Colors.red,
@@ -25,9 +32,11 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
   @override
   initState() {
     _feedbackType = _feedbackTypeList[0];
+    _feedbackTypeIndex = _feedbackTypeList.indexOf(_feedbackType);
     super.initState();
   }
-   void showMessageError(String message, [MaterialColor color = Colors.red]) {
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: color,
       content: new Text(
@@ -70,6 +79,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               onChanged: (String type) {
                 setState(() {
                   _feedbackType = type;
+                  _feedbackTypeIndex = _feedbackTypeList.indexOf(type);
                 });
               },
               hint: Text(
@@ -100,7 +110,6 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
             errorStyle: _errorStyle,
             contentPadding:
                 EdgeInsets.symmetric(vertical: minValue, horizontal: minValue),
-            hintText: 'Full Name',
             labelText: 'Full  Name',
             labelStyle: TextStyle(fontSize: 16.0, color: Colors.black87)),
       ),
@@ -161,21 +170,18 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               onPressed: () async {
                 NetworkConnectivity.check().then((internet) {
                   if (internet) {
-
-                    if(_nameController.text==""){
+                    if (_nameController.text == "") {
                       showMessageError("Please Enter Name");
-                    }else if(_emailController.text==""){
-
-                             showMessageError("Please Enter Email");
-                    }else if(_messageController.text==""){
-                       showMessageError("Please Enter Message");
-                    }else{
- showMessageError("FeedBack Posted");
+                    } else if (_emailController.text == "") {
+                      showMessageError("Please Enter Email");
+                    } else if (_messageController.text == "") {
+                      showMessageError("Please Enter Message");
+                    } else {
+                      _onLoginButtonPressed();
                     }
-                   
                   } else {
                     //show network erro
-                   showMessageError( "Check network connection");
+                    showMessageError("Check network connection");
                   }
                 });
 
@@ -230,31 +236,78 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
         //   FlatButton(onPressed: () => null, child: Text("POST"))
         // ],
       ),
-      body: ListView(
-        children: <Widget>[
-          _buildAssetHeader(),
-          _buildCategory(),
-          SizedBox(
-            height: minValue,
-          ),
-          _buildName(),
-          SizedBox(
-            height: minValue * 3,
-          ),
-          _buildEmail(),
-          SizedBox(
-            height: minValue * 3,
-          ),
-          _buildDescription(),
-          SizedBox(
-            height: minValue * 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: submitButton(context),
-          ),
-        ],
-      ),
+      body: BlocListener<FeedbackBloc, FeedbackState>(
+          listener: (BuildContext context, state) {
+        if (state is FeedbackFailureState) {
+          showMessageError(state.errorMessage);
+        }
+        if (state is FeedbackSuccessState) {
+          Methods.showInfoFlushbarHelper(
+              context, "Feedback", state.feedback.message);
+        }
+
+        if (state is CloseScreenState) {
+          setState(() {
+            _messageController.text = "";
+            _emailController.text = "";
+            _nameController.text = "";
+          });
+
+          Navigator.pop(context);
+        }
+
+        print("Printing state from bloc lstener, and state is :  $state");
+      }, child: BlocBuilder<FeedbackBloc, FeedbackState>(
+        builder: (BuildContext context, state) {
+          // if (state is LeaguesFailureState) {
+          //   return failedWidget(context);
+          // }
+          // if (state is ClosedLeaguesSuccessState) {
+          //   return _buildBody(context, state.closedLeague);
+          // }
+          // if (state is LeaguesInProgressState) {
+          //   return LoadingIndicator(Colors.indigo);
+          // }
+          return _buidBody(context, state);
+        },
+      )),
+    );
+  }
+
+  _onLoginButtonPressed() {
+    BlocProvider.of<FeedbackBloc>(context).add(
+      PostFeedbackEvent(
+          body: _messageController.text, type: _feedbackTypeIndex.toString()),
+    );
+  }
+
+  Widget _buidBody(BuildContext context, state) {
+    return ListView(
+      children: <Widget>[
+        _buildAssetHeader(),
+        _buildCategory(),
+        SizedBox(
+          height: minValue,
+        ),
+        _buildName(),
+        SizedBox(
+          height: minValue * 3,
+        ),
+        _buildEmail(),
+        SizedBox(
+          height: minValue * 3,
+        ),
+        _buildDescription(),
+        SizedBox(
+          height: minValue * 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: state is FeedbackInProgressState
+              ? CommonWidgets.progressIndicator
+              : submitButton(context),
+        ),
+      ],
     );
   }
 }

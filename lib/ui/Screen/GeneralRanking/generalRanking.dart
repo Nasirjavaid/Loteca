@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,19 +39,15 @@ class _GeneralRankingState extends State<GeneralRanking> {
     List<LeaderBoardMonthly> leaderBoardMonthlyTopThree =
         List<LeaderBoardMonthly>();
     if (leaderBoardMonthly.length > 3) {
-      for (int i = 0; i<3; i++) {
+      for (int i = 0; i < 3; i++) {
         leaderBoardMonthlyTopThree.add(leaderBoardMonthly[i]);
         //leaderBoardMonthly.remove(leaderBoardMonthly[i]);
       }
     }
 
-
-      
-
     return CustomScrollView(
       slivers: [
-
-          // SliverAppBar(
+        // SliverAppBar(
         //  // pinned: true,
         //   leading: Container(),
         //   toolbarHeight: MediaQuery.of(context).size.height * 0.135,
@@ -58,18 +55,17 @@ class _GeneralRankingState extends State<GeneralRanking> {
         // ),
 
         SliverToBoxAdapter(
-            child: 
-          leaderBoardMonthly.length > 3
+          child: leaderBoardMonthly.length > 3
               ? postionedBaseUserCards(leaderBoardMonthlyTopThree)
               : listofTeams(context, leaderBoardMonthly),
         ),
 
         SliverToBoxAdapter(
             child:
-            //CommonWidgets.mycustomDivider(context),
-           leaderBoardMonthly.length > 3 ? listofTeams(context, leaderBoardMonthly) :Container()
-          
-        ),
+                //CommonWidgets.mycustomDivider(context),
+                leaderBoardMonthly.length > 3
+                    ? listofTeams(context, leaderBoardMonthly)
+                    : Container()),
         // listofTeams(context, leaderBoardMonthly)
       ],
     );
@@ -117,18 +113,19 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
-            circleTextWidget:  ScaleAnimatedTextKit(
+              circleTextWidget: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration:const Duration(milliseconds: 1000 ),
+                duration: const Duration(milliseconds: 1000),
                 onTap: () {
                   print("Tap Event");
                 },
                 text: ["2"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,),
-               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                    ),
+                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
               ),
               circleShow: true,
@@ -161,8 +158,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
             SizedBox(
               height: 10,
             ),
-            creditWidget(
-                context, Colors.amberAccent, leaderBoardMonthly[1].winningCoins),
+            creditWidget(context, Colors.amberAccent,
+                leaderBoardMonthly[1].winningCoins),
           ],
         ),
         Column(
@@ -171,18 +168,19 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 30,
             ),
             Avatar(
-              circleTextWidget:  ScaleAnimatedTextKit(
+              circleTextWidget: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration:const Duration(milliseconds: 1000 ),
+                duration: const Duration(milliseconds: 1000),
                 onTap: () {
                   print("Tap Event");
                 },
                 text: ["1"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,),
-               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    ),
+                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
               ),
               circleShow: true,
@@ -215,8 +213,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
             SizedBox(
               height: 8,
             ),
-            creditWidget(
-                context, Colors.blueGrey[100], leaderBoardMonthly[0].winningCoins),
+            creditWidget(context, Colors.blueGrey[100],
+                leaderBoardMonthly[0].winningCoins),
             SizedBox(
               height: 0,
             )
@@ -225,18 +223,19 @@ class _GeneralRankingState extends State<GeneralRanking> {
         Column(
           children: [
             Avatar(
-               circleTextWidget:  ScaleAnimatedTextKit(
+              circleTextWidget: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration:const Duration(milliseconds: 1000 ),
+                duration: const Duration(milliseconds: 1000),
                 onTap: () {
                   print("Tap Event");
                 },
                 text: ["3"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color:Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,),
-               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                    ),
+                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
               ),
               circleShow: true,
@@ -269,8 +268,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
             SizedBox(
               height: 8,
             ),
-            creditWidget(
-                context, AppTheme.background3, leaderBoardMonthly[2].winningCoins),
+            creditWidget(context, AppTheme.background3,
+                leaderBoardMonthly[2].winningCoins),
           ],
         ),
       ],
@@ -293,11 +292,22 @@ class _GeneralRankingState extends State<GeneralRanking> {
             SizedBox(
               width: 12,
             ),
-            Text(coins == null ? "0" : "$coins",
+            Countup(
+                begin: 0,
+                end: coins.toDouble() == null ? 0.0 : coins.toDouble(),
+               
+                duration: Duration(seconds: 3),
+                separator: ',',
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
                     fontSize: 12,
                     fontWeight: FontWeight.w900)),
+
+            // Text(coins == null ? "0" : "$coins",
+            //     style: Theme.of(context).textTheme.bodyText2.copyWith(
+            //         color: AppTheme.appDefaultColor,
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.w900)),
           ],
         ),
       ),
@@ -346,7 +356,6 @@ class _GeneralRankingState extends State<GeneralRanking> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0),
           child: ListView.builder(
-               
               padding: EdgeInsets.symmetric(vertical: 10),
               itemCount: leaderBoardGenericList.length == 0
                   ? 1
@@ -426,7 +435,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
-                          .copyWith(color: Colors.black87,fontSize: 12.5),
+                          .copyWith(color: Colors.black87, fontSize: 12.5),
                     ),
                     SizedBox(
                       height: 4,
@@ -439,21 +448,21 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Colors.black38,fontSize: 10),
+                          .copyWith(color: Colors.black38, fontSize: 10),
                     ),
                   ],
                 ),
               ],
             ),
-            creditWidgetForListItemCard(
-                context, AppTheme.background3, leaderBordGenericItem.winningCoins),
+            creditWidgetForListItemCard(context, AppTheme.background3,
+                leaderBordGenericItem.winningCoins),
           ],
         ),
       ),
     );
   }
 
-Widget actionWidget(BuildContext context) {
+  Widget actionWidget(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: IconButton(
@@ -463,6 +472,7 @@ Widget actionWidget(BuildContext context) {
                   .add(GetLeaderBoardListEvent());
             }));
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -475,8 +485,8 @@ Widget actionWidget(BuildContext context) {
 
           elevation: 0.0,
           actions: [
-                actionWidget(context),
-              ],
+            actionWidget(context),
+          ],
           // toolbarHeight: 50,
           centerTitle: true,
           // backgroundColor: AppTheme.appDefaultColor,
@@ -493,7 +503,7 @@ Widget actionWidget(BuildContext context) {
             tabs: [
               Tab(
                   icon: Text(
-                "This Month",
+                "Per Points",
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
                     fontSize: 12,
@@ -592,9 +602,7 @@ class Avatar extends StatelessWidget {
                       //borderRadius: BorderRadius.all(Radius.circular(25)),
                       shape: BoxShape.circle,
                     ),
-                    child: Center(
-                      child: circleTextWidget
-                    ),
+                    child: Center(child: circleTextWidget),
                   ),
                 ),
               )

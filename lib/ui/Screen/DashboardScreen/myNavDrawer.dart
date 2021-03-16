@@ -127,22 +127,22 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           ),
                         ),
                       }),
-              Divider(),
-              new MyDrawerItems(context).drawerItem(
-                  icon: FontAwesomeIcons.gamepad,
-                  colorData: Colors.amber,
-                  text: 'Create My League',
-                  onTap: () => {
-                        //clossing the nav drawer after click
-                        Navigator.pop(context),
+              // Divider(),
+              // new MyDrawerItems(context).drawerItem(
+              //     icon: FontAwesomeIcons.gamepad,
+              //     colorData: Colors.amber,
+              //     text: 'Create My League',
+              //     onTap: () => {
+              //           //clossing the nav drawer after click
+              //           Navigator.pop(context),
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CreateMyLeagueScreenMain(),
-                          ),
-                        ),
-                      }),
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => CreateMyLeagueScreenMain(),
+              //             ),
+              //           ),
+              //         }),
               Divider(),
               SizedBox(
                 height: 0,

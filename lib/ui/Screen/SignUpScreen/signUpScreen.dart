@@ -7,6 +7,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -31,7 +32,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   TextEditingController etWhatsAppNumber = TextEditingController();
   TextEditingController etAddres = TextEditingController();
   TextEditingController etPassword = TextEditingController();
- 
+
   int roleType = 1;
 
   void _showToast(BuildContext context, String message) {
@@ -48,19 +49,23 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
 
   onRegisterButtonPressed() {
     BlocProvider.of<SignUpBloc>(context).add(SignUpButtonPressed(
-        etUserName.text, etEmail.text, etMobile.text,etWhatsAppNumber.text, etPassword.text, roleType.toString()));
+        etUserName.text,
+        etEmail.text,
+        etMobile.text,
+        etWhatsAppNumber.text,
+        etPassword.text,
+        roleType.toString()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Scaffold(
-          
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black45),
+        iconTheme: IconThemeData(color: Colors.black45),
         //title: Text("Register", style: Theme.of(context).textTheme.button),
       ),
       body: buidBody(context),
@@ -107,47 +112,119 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: dynamicText(context, "Sign Up"),
+                    child: dynamicText(context, "Sign Up".tr().toString()),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: firstNameInputField(context),
-                  ),
+                      padding: const EdgeInsets.only(left: 25.0,right:35),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Icon(Icons.person, size: 22, color: Colors.black38),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: firstNameInputField(context),
+                          ),
+                        ],
+                      )),
+
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: emailInputField(context),
-                  ),
+                       padding: const EdgeInsets.only(left: 25.0,right:35),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Icon(Icons.email, size: 22, color: Colors.black38),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: emailInputField(context),
+                          ),
+                        ],
+                      )),
+
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: phoneInputField(context),
-                  ),
+                     padding: const EdgeInsets.only(left: 25.0,right:35),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            "+55",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black38,
+                                    fontSize: 14),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: phoneInputField(context),
+                          ),
+                        ],
+                      )),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: whatsAppPhoneInputField(context),
-                  ),
+                   padding: const EdgeInsets.only(left: 25.0,right:35),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            "+55",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black38,
+                                    fontSize: 14),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: whatsAppPhoneInputField(context),
+                          ),
+                        ],
+                      )),
+
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: passwordInputField(context),
-                  ),
+               padding: const EdgeInsets.only(left: 25.0,right:35),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Icon(Icons.lock, size: 22, color: Colors.black38),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: passwordInputField(context),
+                          ),
+                        ],
+                      )),
+
                   SizedBox(
                     height: 10,
                   ),
-                 // userTypeRadioButtons(context),
+                  // userTypeRadioButtons(context),
                   // passwordRepeatInputField(context),
                   // SizedBox(
                   //   height: 35,
@@ -233,6 +310,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
   Widget emailInputField(BuildContext context) {
     return TextFormField(
       controller: etEmail,
+      cursorColor: AppTheme.appCardColor,
       keyboardType: TextInputType.emailAddress,
       //textCapitalization: TextCapitalization.words,
       autocorrect: false,
@@ -276,7 +354,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "Email",
+          labelText: "Email".tr().toString(),
           labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
               fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
 
@@ -292,13 +370,14 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       },
     );
   }
+
   Widget phoneInputField(BuildContext context) {
-    return TextFormField(
+    return TextField(
       controller: etMobile,
       keyboardType: TextInputType.phone,
       //textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -307,60 +386,53 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
         //fontFamily: ScreensFontFamlty.FONT_FAMILTY
       ),
       decoration: InputDecoration(
-          counterText: "",
-          // prefixIcon: Icon(
-          //   Icons.person,
-          //   size: 22,
-          //   color: Color(0xFF72868a),
-          // ),
-          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-          // border: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // enabledBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // focusedBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // errorBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "Phone Number",
-          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
-              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+        counterText: "",
+        // prefixIcon: Icon(
+        //   Icons.person,
+        //   size: 22,
+        //   color: Color(0xFF72868a),
+        // ),
+        // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        // border: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // enabledBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // focusedBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // errorBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        labelText: "Phone Number".tr().toString(),
+        labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+            fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14),
 
-          // errorStyle: AppTypoGraphy.errorHintStyle
-          ),
-
-      validator: (String userName) {
-        if (userName.isEmpty) {
-          return "Phone Number";
-        } else {
-          return null;
-        }
-      },
+        // errorStyle: AppTypoGraphy.errorHintStyle
+      ),
     );
   }
+
   Widget whatsAppPhoneInputField(BuildContext context) {
     return TextFormField(
       controller: etWhatsAppNumber,
       keyboardType: TextInputType.phone,
       //textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -369,43 +441,43 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
         //fontFamily: ScreensFontFamlty.FONT_FAMILTY
       ),
       decoration: InputDecoration(
-          counterText: "",
-          // prefixIcon: Icon(
-          //   Icons.person,
-          //   size: 22,
-          //   color: Color(0xFF72868a),
-          // ),
-          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-          // border: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // enabledBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // focusedBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          // errorBorder: const OutlineInputBorder(
-          //     borderSide: const BorderSide(
-          //         // color: Color.fromARGB(255, 232, 232, 232),
-          //         color: Colors.white,
-          //         width: 1.0),
-          //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "WhatsApp Number",
-          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
-              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+        counterText: "",
+        // prefixIcon: Icon(
+        //   Icons.person,
+        //   size: 22,
+        //   color: Color(0xFF72868a),
+        // ),
+        // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        // border: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // enabledBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // focusedBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // errorBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        labelText: "WhatsApp Number".tr().toString(),
+        labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+            fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14),
 
-          // errorStyle: AppTypoGraphy.errorHintStyle
-          ),
+        // errorStyle: AppTypoGraphy.errorHintStyle
+      ),
 
       validator: (String userName) {
         if (userName.isEmpty) {
@@ -422,7 +494,8 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       controller: etPassword,
       keyboardType: TextInputType.text,
       obscureText: true,
-     // textCapitalization: TextCapitalization.words,
+      cursorColor: AppTheme.appCardColor,
+      // textCapitalization: TextCapitalization.words,
       autocorrect: false,
 
       //controller: firstNameTextController,
@@ -464,7 +537,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "Password",
+          labelText: "Password".tr().toString(),
           labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
               fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
 
@@ -588,9 +661,9 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     return TextFormField(
       controller: etUserName,
       keyboardType: TextInputType.text,
-     // textCapitalization: TextCapitalization.words,
+      // textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -630,7 +703,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "Name",
+          labelText: "Name".tr().toString(),
           labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
               fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
 
@@ -653,7 +726,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -716,7 +789,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -842,7 +915,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -882,7 +955,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
           //         color: Colors.white,
           //         width: 1.0),
           //     borderRadius: BorderRadius.all(Radius.circular(25))),
-          labelText: "Phone number",
+          labelText: "Phone number".tr().toString(),
           labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
               fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
 
@@ -905,7 +978,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+      cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -989,7 +1062,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 82.0),
-                child: Text("Register",
+                child: Text("Register".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
@@ -1019,7 +1092,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Already Have an Account ?",
+        Text("Already Have an Account ?".tr().toString(),
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
@@ -1029,7 +1102,7 @@ class _SignUpScreenMainState extends State<SignUpScreenMain> {
         ),
         InkWell(
           highlightColor: Colors.red[100],
-          child: Text("Login here",
+          child: Text("Login here".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appCardColor,
                     fontSize: 12,

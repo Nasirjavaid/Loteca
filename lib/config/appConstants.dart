@@ -1,11 +1,13 @@
 class APIConstants {
   static final String baseUrl =
-      "http://phpstack-526382-1675862.cloudwaysapps.com/api";
+      "https://phpstack-526382-1675862.cloudwaysapps.com/api";
 
   static final String userLoginEndPoint = baseUrl + "/login?";
   static final String userSignUpEndPoint = baseUrl + "/register";
   static final String mainRoundEndPoint = baseUrl + "/mainRound";
+  static final String mainRoundForAgentEndPoint = baseUrl + "/mainRoundForAgent";
   static final String submitMainRoundEndPoint = baseUrl + "/submitResult";
+  static final String submitMainRoundByAgentEndPoint = baseUrl + "/submitResultByAgent";
   static final String lastRoundResultEndPoint = baseUrl + "/lastRoundResult";
   static final String leaderBoardEndPoint = baseUrl + "/leaderBoard";
   static final String leaguesEndPoint = baseUrl + "/leagues";
@@ -16,8 +18,14 @@ class APIConstants {
   static final String validateUserToSendCoinEndPoint = baseUrl + "/userRecord";
   static final String sendCoinToUserEndPoint = baseUrl + "/sendCoins";
   static final String getSingleActiverLeagueEndPoint = baseUrl + "/activeLeague";
+  static final String getClosedLeagueEndPoint = baseUrl + "/closedLeague";
+  static final String getParticipatedLeaguesEndPoint = baseUrl + "/participatedleagues";
+  static final String getParticipatedleagueDetailsEndPoint = baseUrl + "/leagueDetails";
+  static final String feedBackEndPoint = baseUrl + "/feedback";
 
-
+// base url to load Game flags
+  static final String baseUrlToloadGameFlags=
+      "https://phpstack-526382-1675862.cloudwaysapps.com/";
 
 
   static final String userImagePlaceHolder =

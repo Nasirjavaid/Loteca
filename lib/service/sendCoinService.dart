@@ -49,6 +49,10 @@ class SendCoinService {
       var json = jsonDecode(response.body);
 
       validateUser = ValidateUser.fromJson(json);
+    } else if (response.statusCode == 209) {
+      var json = jsonDecode(response.body);
+
+      validateUser = ValidateUser.fromJson(json);
     } else {
       throw Exception("ValidateUser Service: Failed to ValidateUser");
     }
@@ -85,14 +89,11 @@ class SendCoinService {
       var json = jsonDecode(response.body);
 
       sendCoin = SendCoin.fromJson(json);
-    }  else if (response.statusCode == 209) {
+    } else if (response.statusCode == 209) {
       var json = jsonDecode(response.body);
 
       sendCoin = SendCoin.fromJson(json);
-    }
-    
-    
-     else {
+    } else {
       throw Exception("SendCoin Service: Failed to SendCoin");
     }
 

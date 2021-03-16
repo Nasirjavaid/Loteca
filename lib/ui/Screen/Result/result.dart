@@ -6,7 +6,7 @@ import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
 
 import 'package:locteca/config/appTheme.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:locteca/model/lastRoundResult.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
@@ -210,14 +210,14 @@ class _ResultState extends State<Result> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidget(context, 10, AppTheme.background, "${answers.teamA != null || answers.teamA !="" ?  answers.teamA :"--"}", 12.5,
-                  FontWeight.w900, Colors.black54),
+              creditWidget(context, 10, AppTheme.background, "${answers.teamA != null || answers.teamA !="" ?  answers.teamA :"--"}", 10,
+                  FontWeight.w500, Colors.black54),
                   SizedBox(width: 5,),
-              creditWidget(context, 10, AppTheme.background,  "${answers.teamB != null || answers.teamB !="" ?  answers.teamB :"--"}", 12.5,
-                  FontWeight.w900, Colors.black54),
+              creditWidget(context, 10, AppTheme.background,  "${answers.teamB != null || answers.teamB !="" ?  answers.teamB :"--"}", 10,
+                  FontWeight.w500, Colors.black54),
                    SizedBox(width: 5,),
-              creditWidget(context, 10, AppTheme.background, "${answers.winner != null || answers.winner !="" ?  answers.winner :"--"}", 12.5,
-                  FontWeight.w900, Colors.cyan),
+              creditWidget(context, 10, AppTheme.background, "${answers.winner != null || answers.winner !="" ?  answers.winner :"--"}", 10,
+                  FontWeight.w700, Colors.cyan),
               // Row(
               //   children: [
               //     Text(
@@ -250,7 +250,7 @@ class _ResultState extends State<Result> {
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.080,
         decoration: BoxDecoration(
-            color: Colors.blue[100],
+           // color: Colors.blue[100],
             borderRadius: BorderRadius.all(
               Radius.circular(3),
             )),
@@ -259,13 +259,13 @@ class _ResultState extends State<Result> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team A", 15, FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
+                  "Team A", 11, FontWeight.w900, Colors.white),
                   
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team B", 15, FontWeight.w900, AppTheme.appDefaultColor),
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Winner", 15, FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
+                  "Team B", 11, FontWeight.w900, Colors.white),
+              creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
+                  "Winner", 11, FontWeight.w900, Colors.white),
               // Row(
               //   children: [
               //     Text(
@@ -296,6 +296,7 @@ class _ResultState extends State<Result> {
       String text, double fontSize, FontWeight fontWeight, Color textColor) {
     return Expanded(
           child: Container(
+            height: 40,
         decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.all(
@@ -306,6 +307,8 @@ class _ResultState extends State<Result> {
           
              child: Center(
                child: Text(text,
+               textAlign: TextAlign.center,
+               maxLines: 2,overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: textColor,
                         fontSize: fontSize,

@@ -1,4 +1,4 @@
-import 'package:locteca/model/leaguesModel.dart';
+
 import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/validateUser.dart';
 
@@ -33,5 +33,16 @@ class CoinSentSuccessfullyState extends SendCoinState {
   final SendCoin sendCoin;
 
   const CoinSentSuccessfullyState({this.sendCoin});
+}
+
+
+
+
+class GotToMainRoundScreenState extends SendCoinState {}
+class ShowUserValidationWithEmailFormWidgetState extends SendCoinState {}
+class ShowBoxWhenUserCannotBeVerifiedOrOtherIssueState extends SendCoinState {
+final String errorMessage;
+
+  ShowBoxWhenUserCannotBeVerifiedOrOtherIssueState({this.errorMessage});
 }
 

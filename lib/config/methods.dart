@@ -1,12 +1,27 @@
 import 'dart:convert';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/userLogin.dart';
+import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
+import 'package:locteca/ui/Screen/MakeBet/userBetRecipt.dart';
+import 'package:locteca/ui/Screen/SendCoinScreen/coinsRecipt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class Methods {
+
+
+   static void showInfoFlushbarHelper(BuildContext context,String title ,String message) {
+    FlushbarHelper.createSuccess(
+      title: title,
+      message: message,
+    ).show(context);
+  }
   //Url Launcher
   // static launchURL() async {
   //   const url = 'https://www.visionplus.com.pk/';
@@ -185,38 +200,67 @@ class Methods {
     );
   }
 
-  // static void showDialogueForMyOrderDetail(
-  //     BuildContext context, Orderinfo orderInfo, data) {
-  //   showGeneralDialog(
-  //     barrierColor: Colors.black.withOpacity(0.25),
-  //     transitionDuration: Duration(milliseconds: 400),
-  //     barrierDismissible: true,
-  //     barrierLabel: '',
-  //     context: context,
-  //     pageBuilder: (_, __, ___) {
-  //       return MyOrdersDialogueBox(
-  //         orderinfo: orderInfo,
-  //         data: data,
-  //         conteextA: context,
-  //       );
-  //     },
+  static void showDialogueForUserBetDetail(
+      BuildContext context, MainRound mainRound,ValidateUser validateUser) {
+    showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.25),
+      transitionDuration: Duration(milliseconds: 400),
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return UserBetRecipt(mainRound: mainRound,validateUser:validateUser);
+      },
 
-  //     // transitionBuilder: (context, animation, anotherAnimation, child) {
-  //     //   return FadeTransition(
-  //     //     opacity: animation,
-  //     //     child: child,
-  //     //   );
-  //     // },
+      // transitionBuilder: (context, animation, anotherAnimation, child) {
+      //   return FadeTransition(
+      //     opacity: animation,
+      //     child: child,
+      //   );
+      // },
 
-  //     transitionBuilder: (context, anim, __, child) {
-  //       return SlideTransition(
-  //         position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
-  //         child: child,
-  //       );
-  //     },
-  //   );
+      transitionBuilder: (context, anim, __, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+          child: child,
+        );
+      },
+    );
   // }
 }
+
+  static void showDialogueForCoinSentDetail(
+      BuildContext context, SendCoin sendCoin) {
+    showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.25),
+      transitionDuration: Duration(milliseconds: 400),
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return CoinRecipt(sendCoin:sendCoin);
+      },
+
+      // transitionBuilder: (context, animation, anotherAnimation, child) {
+      //   return FadeTransition(
+      //     opacity: animation,
+      //     child: child,
+      //   );
+      // },
+
+      transitionBuilder: (context, anim, __, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+          child: child,
+        );
+      },
+    );
+  // }
+}
+
+}
+
+
 
 mixin ValidationMixin {
   bool isFieldEmpty(String fieldValue) => fieldValue?.isEmpty ?? true;

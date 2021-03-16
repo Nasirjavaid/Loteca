@@ -4,10 +4,12 @@ import 'package:locteca/bloc/leaguesBloc/leaguesBloc.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesEvent.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/model/participatedLeagues.dart';
+
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
-import 'package:locteca/ui/Screen/CreateMyLeagueScreen/viewInvitedLeague.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locteca/ui/Screen/MyLeague/closedLeagueScreen.dart';
 
 
 class MyLeagueMain extends StatelessWidget {
@@ -52,24 +54,23 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
   //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
   // ];
 
-
-
-    Widget actionWidget(BuildContext context) {
+  Widget actionWidget(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              BlocProvider.of<LeaguesBloc>(context)
-                  .add(GetLeaguesListEvent());
+              BlocProvider.of<LeaguesBloc>(context).add(GetLeaguesListEvent());
             }));
   }
-   @override
+
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
-   @override
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -85,99 +86,60 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
         //onPaused();
         break;
       case AppLifecycleState.paused:
-       // onInactive();
+        // onInactive();
         break;
       case AppLifecycleState.detached:
         //onDetached();
         break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          //  extendBodyBehindAppBar: true,
-          //backgroundColor: AppTheme.background,
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white38),
+    return Scaffold(
+      //  extendBodyBehindAppBar: true,
+      //backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white38),
 
-            elevation: 0.0,
-            actions: [
-              actionWidget(context),
-            ],
-            title: Text(
-              "My Leagues",
-              style: Theme.of(context).textTheme.button.copyWith(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
-            ),
-
-            centerTitle: true,
-            // backgroundColor: AppTheme.appDefaultColor,
-
-            backgroundColor: AppTheme.appDefaultColor,
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                    icon: Text(
-                  "Active",
-                  style: Theme.of(context).textTheme.button.copyWith(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700),
-                )),
-                Tab(
-                    icon: Text(
-                  "Closed",
-                  style: Theme.of(context).textTheme.button.copyWith(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700),
-                )),
-                Tab(
-                    icon: Text(
-                  "Invited",
-                  style: Theme.of(context).textTheme.button.copyWith(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700),
-                )),
-              ],
-            ),
-          ),
-
-          body: BlocListener<LeaguesBloc, LeaguesState>(
-              listener: (BuildContext context, state) {
-            print("Printing state from bloc lstener, and state is :  $state");
-          }, child: BlocBuilder<LeaguesBloc, LeaguesState>(
-            builder: (BuildContext context, state) {
-              if (state is LeaguesFailureState) {
-                return Center(child: failedWidget(context));
-              }
-              if (state is LeaguesSuccessState) {
-                return TabBarView(
-                  children: [
-                    // groupedList(context),
-                    listofTeams(context, state.leaguesModel.activeLeagues),
-                    listofTeams(context, state.leaguesModel.closedLeagues),
-                    listofTeams(
-                        context, state.leaguesModel.participatedLeagues),
-                  ],
-                );
-              }
-              if (state is LeaguesInProgressState) {
-                return LoadingIndicator(Colors.indigo);
-              }
-              return Container();
-            },
-          )),
-
-          drawer: MyNaveDrawerMain(),
+        elevation: 0.0,
+        actions: [
+          actionWidget(context),
+        ],
+        title: Text(
+          "My Leagues",
+          style: Theme.of(context).textTheme.button.copyWith(
+              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
+
+        centerTitle: true,
+        // backgroundColor: AppTheme.appDefaultColor,
+
+        backgroundColor: AppTheme.appDefaultColor,
       ),
+
+      body: BlocListener<LeaguesBloc, LeaguesState>(
+          listener: (BuildContext context, state) {
+        print("Printing state from bloc lstener, and state is :  $state");
+      }, child: BlocBuilder<LeaguesBloc, LeaguesState>(
+        builder: (BuildContext context, state) {
+          if (state is LeaguesFailureState) {
+            return Center(child: failedWidget(context));
+          }
+          if (state is LeaguesSuccessState) {
+            return listofTeams(
+              context,
+              state.participatedLeague.participatedLeagues,
+            );
+          }
+          if (state is LeaguesInProgressState) {
+            return LoadingIndicator(Colors.indigo);
+          }
+          return Container();
+        },
+      )),
+
+      drawer: MyNaveDrawerMain(),
     );
   }
 
@@ -263,10 +225,12 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
     );
   }
 
-  Widget listofTeams(BuildContext context, List<dynamic> genericListOfLeagues) {
+  Widget listofTeams(
+    BuildContext context,
+    List<ParticipatedLeagues> participatedLeague,) {
     return Container(
       //  height: MediaQuery.of(context).size.height * 0.35,
-      width: MediaQuery.of(context).size.width * 0.90,
+      width: MediaQuery.of(context).size.width ,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
@@ -276,34 +240,41 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
         padding: const EdgeInsets.symmetric(vertical: 0.0),
         child: ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 5),
-            itemCount: genericListOfLeagues.length == 0
+            itemCount: participatedLeague.length == 0
                 ? 1
-                : genericListOfLeagues.length,
+                : participatedLeague.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return genericListOfLeagues.length != 0
-                  ? listWiewItemCard(context, genericListOfLeagues[index])
+              return participatedLeague.length != 0
+                  ? listWiewItemCard(
+                      context,
+                      participatedLeague[index],
+                    )
                   : Center(
                       child: Padding(
                       padding: const EdgeInsets.only(top: 25.0),
-                      child: Text("No Items"),
+                      child: Text("You've no record yet"),
                     ));
             }),
       ),
     );
   }
 
-  Widget listWiewItemCard(BuildContext context, dynamic leaguesItem) {
+  Widget listWiewItemCard(
+    BuildContext context,
+    ParticipatedLeagues leaguesItem,) {
     return GestureDetector(
-      onTap: (){
-
-
-         Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => ViewInvitedLeagueMain(roundId: leaguesItem.id,)),
-  );
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ClosedLeagueScreenMain(
+                    roundId: leaguesItem.id,
+                  )),
+        );
       },
-          child: Container(
+      child: Container(
+        width: MediaQuery.of(context).size.width*10,
         decoration: BoxDecoration(
             color: AppTheme.background,
             borderRadius: BorderRadius.all(
@@ -351,9 +322,10 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         Text(
                           "Startting Date",
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Colors.black38,fontSize: 10
-                              ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black38, fontSize: 10),
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -371,7 +343,8 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                   .bodyText1
                                   .copyWith(
                                       color: Colors.blue[900],
-                                      fontWeight: FontWeight.w600,fontSize: 10),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10),
                             ),
                           ),
                         ),
@@ -382,13 +355,14 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
                           "Ending Date ",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              .copyWith(color: Colors.black38,fontSize: 10),
+                              .copyWith(color: Colors.black38, fontSize: 10),
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -406,7 +380,8 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                   .bodyText1
                                   .copyWith(
                                       color: Colors.red[900],
-                                      fontWeight: FontWeight.w600,fontSize: 10),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10),
                             ),
                           ),
                         ),

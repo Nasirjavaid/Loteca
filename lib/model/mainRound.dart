@@ -4,26 +4,39 @@ class MainRound {
   String message;
   User user;
   bool bid;
+  String betDate;
   String userAns;
   Round round;
+  Agent agent;
+  List<UserAnswers> userAnswers;
 
- MainRound(
+  MainRound(
       {this.status,
       this.response,
       this.message,
       this.bid,
       this.user,
       this.round,
-      this.userAns});
+      this.userAns,
+      this.betDate,this.agent});
 
-   MainRound.fromJson(Map<String, dynamic> json) {
+  MainRound.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     response = json['response'];
     message = json['message'];
     bid = json['bid'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     round = json['round'] != null ? new Round.fromJson(json['round']) : null;
+    agent = json['agent'] != null ? new Agent.fromJson(json['agent']) : null;
     userAns = json['userAns'];
+    betDate = json['bet_date'];
+//Issue caused by chita's painYakii and then i setup this check with string 'No Bet Yet'
+    if (json['userAnswers'] != null && json['userAnswers'] != "No Bet Yet") {
+      userAnswers = new List<UserAnswers>();
+      json['userAnswers'].forEach((v) {
+        userAnswers.add(new UserAnswers.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -32,16 +45,70 @@ class MainRound {
     data['response'] = this.response;
     data['message'] = this.message;
     data['bid'] = this.bid;
+    data['bet_date'] = this.betDate;
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }
     if (this.round != null) {
       data['round'] = this.round.toJson();
     }
+     if (this.agent != null) {
+      data['agent'] = this.agent.toJson();
+    }
     data['userAns'] = this.userAns;
+
+    if (this.userAnswers != null) {
+      data['userAnswers'] = this.userAnswers.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
+
+class Agent {
+  int id;
+  String name;
+  String email;
+  String emailVerifiedAt;
+  String createdAt;
+  String updatedAt;
+  String roles;
+  int coins;
+
+  Agent(
+      {this.id,
+      this.name,
+      this.email,
+      this.emailVerifiedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.roles,
+      this.coins});
+
+  Agent.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    emailVerifiedAt = json['email_verified_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    roles = json['roles'];
+    coins = json['coins'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['email_verified_at'] = this.emailVerifiedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['roles'] = this.roles;
+    data['coins'] = this.coins;
+    return data;
+  }
+}
+
 
 class User {
   int id;
@@ -62,7 +129,8 @@ class User {
       this.createdAt,
       this.updatedAt,
       this.roles,
-      this.coins,this.selectedPackageId});
+      this.coins,
+      this.selectedPackageId});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -101,21 +169,24 @@ class Round {
   List<Packages> packages;
   int selectedPackageId;
   String selectedPackageAccumulativePrice;
+  Packages selectedPackage;
   List<Games> games;
 
   Round(
-      {
-        this.id,
-        this.name,
+      {this.id,
+      this.name,
       this.startingDate,
       this.endingDate,
       this.createdAt,
       this.updatedAt,
       this.packages,
-      this.games,this.selectedPackageId,this.selectedPackageAccumulativePrice});
+      this.games,
+      this.selectedPackageId,
+      this.selectedPackageAccumulativePrice,
+      this.selectedPackage});
 
   Round.fromJson(Map<String, dynamic> json) {
-     id = json['id'];
+    id = json['id'];
     name = json['name'];
     startingDate = json['starting_date'];
     endingDate = json['ending_date'];
@@ -123,13 +194,18 @@ class Round {
     updatedAt = json['updated_at'];
     selectedPackageId = json['selectedPackageId'];
     selectedPackageAccumulativePrice = json['selectedPackageAccumulativePrice'];
-    
+
     if (json['packages'] != null) {
-      packages = new List<Packages>();
+      packages = [];
       json['packages'].forEach((v) {
         packages.add(new Packages.fromJson(v));
       });
     }
+
+    selectedPackage = json['selected_package'] != null
+        ? new Packages.fromJson(json['selected_package'])
+        : null;
+
     if (json['games'] != null) {
       games = new List<Games>();
       json['games'].forEach((v) {
@@ -147,13 +223,63 @@ class Round {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['selectedPackageId'] = this.selectedPackageId;
-    data['selectedPackageAccumulativePrice'] = this.selectedPackageAccumulativePrice;
+    data['selectedPackageAccumulativePrice'] =
+        this.selectedPackageAccumulativePrice;
     if (this.packages != null) {
       data['packages'] = this.packages.map((v) => v.toJson()).toList();
+    }
+
+    if (this.selectedPackage != null) {
+      data['selected_package'] = this.selectedPackage.toJson();
     }
     if (this.games != null) {
       data['games'] = this.games.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class UserAnswers {
+  int id;
+  int roundId;
+  int userId;
+  int gameId;
+  String answer;
+  String createdAt;
+  String updatedAt;
+  int packageId;
+
+  UserAnswers(
+      {this.id,
+      this.roundId,
+      this.userId,
+      this.gameId,
+      this.answer,
+      this.createdAt,
+      this.updatedAt,
+      this.packageId});
+
+  UserAnswers.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    roundId = json['round_id'];
+    userId = json['user_id'];
+    gameId = json['game_id'];
+    answer = json['answer'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    packageId = json['package_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['round_id'] = this.roundId;
+    data['user_id'] = this.userId;
+    data['game_id'] = this.gameId;
+    data['answer'] = this.answer;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['package_id'] = this.packageId;
     return data;
   }
 }
@@ -203,7 +329,8 @@ class Games {
   String happeningDate;
   String createdAt;
   String updatedAt;
-
+  String flagA;
+  String flagB;
   bool widegtSwitch0;
   bool widegtSwitch1;
   bool widegtSwitch2;
@@ -218,8 +345,13 @@ class Games {
       this.happeningDate,
       this.createdAt,
       this.updatedAt,
-      this.widegtSwitch0=false,this.widegtSwitch1=false,this.widegtSwitch2=false,
-      this.pivot,this.userSelctedTeamOrAnswer});
+      this.widegtSwitch0 = false,
+      this.widegtSwitch1 = false,
+      this.widegtSwitch2 = false,
+      this.pivot,
+      this.userSelctedTeamOrAnswer,
+      this.flagA,
+      this.flagB});
 
   Games.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -229,11 +361,13 @@ class Games {
     happeningDate = json['happening_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    widegtSwitch0=json['widegtSwitch0'];
-    widegtSwitch1=json['widegtSwitch1'];
-    widegtSwitch2=json['widegtSwitch2'];
-    userSelctedTeamOrAnswer=json['userSelctedTeamOrAnswer'];
-    
+    widegtSwitch0 = json['widegtSwitch0'];
+    widegtSwitch1 = json['widegtSwitch1'];
+    widegtSwitch2 = json['widegtSwitch2'];
+    userSelctedTeamOrAnswer = json['userSelctedTeamOrAnswer'];
+    flagA = json['flag_a'];
+    flagB = json['flag_b'];
+
     pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
   }
 
@@ -250,6 +384,8 @@ class Games {
     data['widegtSwitch1'] = this.widegtSwitch1;
     data['widegtSwitch2'] = this.widegtSwitch2;
     data['userSelctedTeamOrAnswer'] = this.userSelctedTeamOrAnswer;
+    data['flag_a'] = this.flagA;
+    data['flag_b'] = this.flagB;
     if (this.pivot != null) {
       data['pivot'] = this.pivot.toJson();
     }

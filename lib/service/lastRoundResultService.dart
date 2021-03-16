@@ -32,7 +32,7 @@ UserLogin userLogin;
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      print("response body  in main round service : : ${response.body}");
+      print("response body  in LastRoundResultService : : ${response.body}");
 
       var json = jsonDecode(response.body);
 
@@ -40,7 +40,7 @@ UserLogin userLogin;
 
    //   print("response body  in Main round service : ${mainRound.message}");
     } else {
-      throw Exception("Main Round Service: Failed to get Main Round");
+      throw Exception("LastRoundResultService: Failed to LastRoundResultService");
     }
 
     return lastRoundResult;

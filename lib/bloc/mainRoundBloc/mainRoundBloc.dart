@@ -7,7 +7,9 @@ import 'mainRoundEvent.dart';
 
 class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
   MainRoundRepository mainRoundRepository = MainRoundRepository();
-    LeaguesRepository leaguesRepository = LeaguesRepository();
+  LeaguesRepository leaguesRepository = LeaguesRepository();
+
+  MainRound mainRoundGlobal = MainRound();
 
   MainRoundBloc();
 
@@ -19,15 +21,26 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
     //final currentState = state;
 
     if (event is GetMainRoundEvent) {
+      MainRound mainRound = MainRound();
       try {
         yield MainRoundInProgressState();
 
-        final mainRound = await mainRoundRepository.getMainRound();
+        if (event.mainRoundCallDirection == 1) {
+          mainRound = await mainRoundRepository.getMainRound();
+        } else {
+          mainRound =
+              await mainRoundRepository.getMainRoundForAgent(event.userId);
+        }
 
-        if (mainRound.response == "true") {
+        if (mainRound.response == "true" && mainRound.status == 200) {
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
-          yield MainRoundFailureState(errorMessage: mainRound.message);
+          if (mainRound.status == 404) {
+            yield NoLiveRoundAvailableMainRoundState(
+                errorMessage: mainRound.message);
+          } else {
+            yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+          }
         }
       } catch (_) {
         yield MainRoundFailureState(errorMessage: "Something Went Wrong");
@@ -36,16 +49,13 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
 
     if (event is SubmitBetButtonClickedEvent) {
       try {
-        yield MainRoundBetSubmitingInProgressState();
-        // await Future.delayed(Duration(milliseconds: 500));
         MainRound mainRound = MainRound();
+        yield MainRoundBetSubmitingInProgressState(mainRound: mainRound);
+        // await Future.delayed(Duration(milliseconds: 500));
+
         mainRound =
             await mainRoundRepository.submitBetOfMainRound(event.mainRound);
         if (mainRound.response == "true") {
-//          if(mainRound.bid){
-
-//  yield MainRoundSuccessState(mainRound: mainRound);
-//          }
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
           yield MainRoundFailureState(errorMessage: mainRound.message);
@@ -55,18 +65,33 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
       }
     }
 
-    // bool _hasReachedMax(SalarySlipState state) =>
-    //     state is SalarySlipSuccessState && state.hasReachedMax;
+    if (event is SubmitBetButtonClickedFromAgentSideEvent) {
+      try {
+        MainRound mainRound = MainRound();
+        yield MainRoundBetSubmitingInProgressState(mainRound: mainRound);
+        // await Future.delayed(Duration(milliseconds: 500));
+
+        mainRound = await mainRoundRepository.submitBetOfMainRoundByAgent(
+            event.mainRound, event.validateUser.user.id);
+        if (mainRound.response == "true") {
+          yield MainRoundSuccessState(mainRound: mainRound);
+        } else {
+          yield MainRoundFailureState(errorMessage: mainRound.message);
+        }
+      } catch (ex) {
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+      }
+    }
 
     // For active leagues and invited Leagues portion
 
-
-       if (event is GetActiveOrInvitedLeagueDetailEvent) {
+    if (event is GetActiveOrInvitedLeagueDetailEvent) {
       try {
         yield MainRoundInProgressState();
-      
 
-        final mainRound = await leaguesRepository.getActiveLeagueDetail(event.roundId);
+        final mainRound =
+            await leaguesRepository.getActiveLeagueDetail(event.roundId);
+        mainRoundGlobal = mainRound;
 
         if (mainRound.response == "true") {
           yield MainRoundSuccessState(mainRound: mainRound);
@@ -76,6 +101,17 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
       } catch (_) {
         yield MainRoundFailureState(errorMessage: "Something Went Wrong");
       }
+    }
+
+    if (event is OnBetPriceChangeMainRoundEvent) {
+      MainRound mainRoundOnBetPriceChange = MainRound();
+      mainRoundOnBetPriceChange = mainRoundGlobal;
+
+      int userCoinsUpdatedValue =
+          mainRoundOnBetPriceChange.user.coins - event.coins;
+      mainRoundOnBetPriceChange.user.coins = userCoinsUpdatedValue;
+
+      yield OnBetPriceChangeState(mainRound: mainRoundOnBetPriceChange);
     }
   }
 }

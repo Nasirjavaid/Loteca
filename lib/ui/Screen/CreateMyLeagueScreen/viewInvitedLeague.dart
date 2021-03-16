@@ -6,22 +6,22 @@ import 'package:locteca/bloc/mainRoundBloc/mainRoundEvent.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
-import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+import 'package:anitex/anitex.dart' as anitext;
 
 class ViewInvitedLeagueMain extends StatelessWidget {
-final int roundId;
+  final int roundId;
   ViewInvitedLeagueMain({this.roundId});
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
         create: (context) {
-          return MainRoundBloc()..add(GetActiveOrInvitedLeagueDetailEvent(roundId: roundId));
+          return MainRoundBloc()
+            ..add(GetActiveOrInvitedLeagueDetailEvent(roundId: roundId));
         },
         child: ViewInvitedLeague(),
       ),
@@ -43,6 +43,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
   int selectedPackageId = 0;
   String selectedPackageAccumulativePrice;
   MainRound mainRoundGlobal;
+  int globalUserCoinsValue = 0;
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -119,7 +120,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
       }
     }
   }
-@override
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.appDefaultColor,
@@ -153,7 +155,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
           ),
           backgroundColor: AppTheme.appDefaultColor,
           body: _buildBody(context),
-         // drawer: MyNaveDrawerMain(),
+          // drawer: MyNaveDrawerMain(),
         ),
       ),
     );
@@ -184,6 +186,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
       if (state is MainRoundSuccessState) {
+
         mainRoundGlobal = MainRound();
         mainRoundGlobal = state.mainRound;
         return Container(
@@ -193,7 +196,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.014,
               ),
-              liveTeamTagWidget(context,state.mainRound),
+              liveTeamTagWidget(context, state.mainRound),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.024,
               ),
@@ -217,6 +220,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
       }
 
       if (state is MainRoundBetSubmitingInProgressState) {
+
+           
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -224,7 +229,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.014,
               ),
-              liveTeamTagWidget(context,mainRoundGlobal),
+              liveTeamTagWidget(context, mainRoundGlobal),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.024,
               ),
@@ -276,7 +281,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
     );
   }
 
-  Widget liveTeamTagWidget(BuildContext context,MainRound mainRound) {
+  Widget liveTeamTagWidget(BuildContext context, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.background1,
@@ -292,16 +297,19 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               width: 30.0,
               child: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration:const Duration(milliseconds: 1000 ),
+                duration: const Duration(milliseconds: 1000),
                 onTap: () {
                   print("Tap Event");
                 },
-                text: mainRound.bid == null || mainRound.bid == true ? ["DONE"] :["LIVE"],
+                text: mainRound.bid == null || mainRound.bid == true
+                    ? ["DONE"]
+                    : ["LIVE"],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appDefaultColor,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,),
-               // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                      color: AppTheme.appDefaultColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                    ),
+                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -370,8 +378,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                   Radius.circular(25),
                 )),
             child: Padding(
-              padding: const EdgeInsets.all(
-                  5),
+              padding: const EdgeInsets.all(5),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -471,7 +478,9 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                   Text(
                     teamName != null ? "$teamName" : "---",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white60, fontWeight: FontWeight.w800),
+                        color: Colors.white60,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 9),
                   ),
                 ],
               ),
@@ -511,7 +520,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     teamName != null ? "$teamName" : "---",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: AppTheme.appDefaultColor,
-                        fontWeight: FontWeight.w800),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 9),
                   ),
                 ],
               ),
@@ -534,7 +544,9 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
               child: Text(
                 "Draw",
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: Colors.white60, fontWeight: FontWeight.w800,fontSize:10),
+                    color: Colors.white60,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 8.5),
               ),
             ),
           ),
@@ -572,7 +584,8 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     "Draw",
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appDefaultColor,
-                        fontWeight: FontWeight.w800,fontSize:10),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 8.5),
                   ),
                 ],
               ),
@@ -640,12 +653,19 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
             SizedBox(
               width: 14,
             ),
-            Text(
-                mainRound.user.coins != null ? "${mainRound.user.coins}" : "00",
+            anitext.AnimatedText(
+              
+                globalUserCoinsValue == 0
+                    ? "${mainRound.user.coins}"
+                    : globalUserCoinsValue.toString(),
+                duration: const Duration(milliseconds: 500),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
                     fontSize: 17,
-                    fontWeight: FontWeight.w900)),
+                    fontWeight: FontWeight.w900),
+                    
+                    
+                    ),
           ],
         ),
       ),
@@ -694,6 +714,15 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                         mainRound.round.packages[0].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[0].accumulativePrice;
+                    if (mainRound.user.coins == 0) {
+                      //TODO : show box to buy coins
+                    } else {
+// updating User coins value live
+                      globalUserCoinsValue = 0;
+                      globalUserCoinsValue = mainRound.user.coins -
+                          int.parse(
+                              mainRound.round.packages[0].participationFee);
+                    }
                   });
                 },
                 child: widegtSwitch0 == false
@@ -711,6 +740,16 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                         mainRound.round.packages[1].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[1].accumulativePrice;
+
+                    if (mainRound.user.coins == 0) {
+                      //TODO : show box to buy coins
+                    } else {
+// updating User coins value live
+                      globalUserCoinsValue = 0;
+                      globalUserCoinsValue = mainRound.user.coins -
+                          int.parse(
+                              mainRound.round.packages[1].participationFee);
+                    }
                   });
                 },
                 child: widegtSwitch1 == false
@@ -728,6 +767,16 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                         mainRound.round.packages[2].id;
                     selectedPackageAccumulativePrice =
                         mainRound.round.packages[2].accumulativePrice;
+
+                    if (mainRound.user.coins == 0) {
+                      //TODO : show box to buy coins
+                    } else {
+// updating User coins value live
+                      globalUserCoinsValue = 0;
+                      globalUserCoinsValue = mainRound.user.coins -
+                          int.parse(
+                              mainRound.round.packages[2].participationFee);
+                    }
                   });
                 },
                 child: widegtSwitch2 == false
@@ -913,7 +962,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                       //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                       //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                      child: Text("You are already submitted the bet.",
+                      child: Text("Bet Submitted",
                           style: Theme.of(context).textTheme.bodyText2.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
@@ -921,8 +970,7 @@ class _ViewInvitedLeagueState extends State<ViewInvitedLeague> {
                     onPressed: () async {
                       print("submit button pressed");
 
-                       Methods.showToast(context, "You are already submitted the bet.");
-                      
+                      showMessageError("You are already submitted the bet.");
                     }),
               ),
             ),

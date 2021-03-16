@@ -15,3 +15,17 @@ class SendCoinsToUserEvent extends SendCoinEvent {
   final String coins;
   SendCoinsToUserEvent({this.email, this.coins});
 }
+
+class ShowUserValidationFormForBetEvent extends SendCoinEvent {}
+class ValidateUserForBetEvent extends SendCoinEvent {
+  final String email;
+  ValidateUserForBetEvent({this.email});
+}
+
+class UserVerifiedForBetEvent extends SendCoinEvent {
+  final int userId;
+  
+  UserVerifiedForBetEvent({this.userId,});
+}
+
+

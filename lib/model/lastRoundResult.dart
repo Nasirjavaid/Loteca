@@ -70,8 +70,8 @@ class Round {
   String updatedAt;
   String status;
   String tag;
-  Null creatorId;
-  Null joiningId;
+  int creatorId;
+  int joiningId;
   List<Games> games;
 
   Round(
@@ -133,6 +133,8 @@ class Games {
   String happeningDate;
   String createdAt;
   String updatedAt;
+  String flagA;
+  String flagB;
   Pivot pivot;
   Results results;
 
@@ -144,6 +146,8 @@ class Games {
       this.happeningDate,
       this.createdAt,
       this.updatedAt,
+      this.flagA,
+      this.flagB,
       this.pivot,
       this.results});
 
@@ -155,6 +159,8 @@ class Games {
     happeningDate = json['happening_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    flagA = json['flag_a'];
+    flagB = json['flag_b'];
     pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
     results =
         json['results'] != null ? new Results.fromJson(json['results']) : null;
@@ -169,6 +175,8 @@ class Games {
     data['happening_date'] = this.happeningDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['flag_a'] = this.flagA;
+    data['flag_b'] = this.flagB;
     if (this.pivot != null) {
       data['pivot'] = this.pivot.toJson();
     }

@@ -1,4 +1,6 @@
-import 'package:locteca/model/leaguesModel.dart';
+import 'package:locteca/model/closedLeague.dart';
+
+import 'package:locteca/model/participatedLeagues.dart';
 
 abstract class LeaguesState {
   const LeaguesState();
@@ -17,7 +19,13 @@ class LeaguesFailureState extends LeaguesState {
 }
 
 class LeaguesSuccessState extends LeaguesState {
-  final LeaguesModel leaguesModel;
+  final ParticipatedLeague participatedLeague;
 
-  const LeaguesSuccessState({this.leaguesModel});
+  const LeaguesSuccessState({this.participatedLeague});
+}
+
+class ClosedLeaguesSuccessState extends LeaguesState {
+  final ClosedLeague closedLeague;
+
+  const ClosedLeaguesSuccessState({this.closedLeague});
 }

@@ -50,8 +50,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
           }
 
           yield LoginInitial();
+
+       
         } catch (error) {
-          yield LoginFailure(error: "Wrong email or password. $error");
+          yield LoginFailure(error: "Wrong email or password.");
         }
       }
     }

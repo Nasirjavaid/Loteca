@@ -19,17 +19,34 @@ class LeaguesBloc extends Bloc<LeaguesEvent, LeaguesState> {
       try {
         yield LeaguesInProgressState();
 
-        final leagues = await leaguesRepository.getLeagues();
+        final participatedLeague = await leaguesRepository.getParticipatedLeagues();
 
-        if (leagues.response == "true") {
-          yield LeaguesSuccessState(leaguesModel: leagues);
+        if (participatedLeague.response == "true") {
+          yield LeaguesSuccessState(participatedLeague: participatedLeague);
         } else {
-          yield LeaguesFailureState(errorMessage: "Something Went Wrong");
+          yield LeaguesFailureState(errorMessage: participatedLeague.message);
         }
       } catch (_) {
         yield LeaguesFailureState(errorMessage: "Something Went Wrong");
       }
     }
+
+     if (event is GetClosedLeagueEvent) {
+      try {
+        yield LeaguesInProgressState();
+
+        final closedLeague = await leaguesRepository.getClosedLeagueDetail(event.roundId);
+
+        if (closedLeague.response == "true") {
+          yield ClosedLeaguesSuccessState(closedLeague: closedLeague);
+        } else {
+          yield LeaguesFailureState(errorMessage: closedLeague.message);
+        }
+      } catch (_) {
+        yield LeaguesFailureState(errorMessage: "Something Went Wrong closedLeague");
+      }
+    }
+
 
     // bool _hasReachedMax(SalarySlipState state) =>
     //     state is SalarySlipSuccessState && state.hasReachedMax;
