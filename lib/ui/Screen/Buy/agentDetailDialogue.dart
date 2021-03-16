@@ -202,7 +202,7 @@ final Agents agents;
           color: iconColor,
         ),
         onPressed: () {
-               FlutterOpenWhatsapp.sendSingleMessage("55"+phoneNumber, "Hi, I want To Buy Coins !");
+               FlutterOpenWhatsapp.sendSingleMessage(phoneNumber, "Hi, I want To Buy Coins !");
         },
       ),
     );

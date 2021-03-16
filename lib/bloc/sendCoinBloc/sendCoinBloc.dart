@@ -47,8 +47,8 @@ class SendCoinBloc extends Bloc<SendCoinEvent, SendCoinState> {
 
       if (sendCoinValidateUser.response == "true") {
         yield CoinSentSuccessfullyState(sendCoin: sendCoinValidateUser);
-        await Future.delayed(Duration(seconds: 1));
-        yield SendCoinCloseAndRefreshMainAdminDashboard();
+
+        //yield SendCoinCloseAndRefreshMainAdminDashboard();
       } else if (sendCoinValidateUser.response == "false") {
         yield SendCoinStateFailureState(
             errorMessage: sendCoinValidateUser.message);
@@ -60,7 +60,7 @@ class SendCoinBloc extends Bloc<SendCoinEvent, SendCoinState> {
     if (event is ShowUserValidationFormForBetEvent) {
       yield ShowUserValidationWithEmailFormWidgetState();
     }
-    
+
     if (event is ValidateUserForBetEvent) {
       yield SendCoinStateInProgressState();
       final validateUser = await sendCoinRepository.valiodateUser(event.email);
