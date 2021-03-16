@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "178421700155",
+    "project_id": "loteca2-0",
+    "storage_bucket": "loteca2-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178421700155:android:37fc53177dc5d5e66b2e1e",
+        "android_client_info": {
+          "package_name": "com.brixton.loteca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178421700155-u0flemh95js60e79kmfrdkaeg7t1bnq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brixton.loteca",
+            "certificate_hash": "1cea355ddc173fe7c092117ad30f7f1b478a054e"
+          }
+        },
+        {
+          "client_id": "178421700155-o2krg1t4q9bn8orimfksd2q22ddadt4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy6V0k4onyVEhSCuBCc77zxtD0TKG7uTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178421700155-o2krg1t4q9bn8orimfksd2q22ddadt4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
