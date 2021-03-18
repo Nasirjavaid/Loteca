@@ -232,6 +232,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                 ) {
                   return MyDrawerItems(context).drawerItem(
                       icon: FontAwesomeIcons.powerOff,
+                      colorData: Colors.red,
                       text: 'Logout'.tr().toString(),
                       onTap: () {
                         BlocProvider.of<UserAuthBloc>(context)
