@@ -9,6 +9,7 @@ import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/MyLeague/myLeague.dart';
 import 'package:locteca/ui/Screen/Result/result.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // class HomeCintainer extends StatelessWidget {
 //   @override
@@ -133,7 +134,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'Make Bet',
+                'Make Bet'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
@@ -151,7 +152,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'My Leagues',
+                'My Leagues'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
@@ -166,7 +167,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'Result',
+                'Result'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
@@ -184,7 +185,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'Ranking',
+                'Ranking'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
@@ -202,7 +203,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'Buy',
+                'Buy'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 import 'package:locteca/bloc/sendCoinBloc/sendCoinState.dart';
 import 'package:locteca/repository/sendCoinRepository.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class SendCoinBloc extends Bloc<SendCoinEvent, SendCoinState> {
   SendCoinRepository sendCoinRepository = SendCoinRepository();
 
@@ -33,10 +33,10 @@ class SendCoinBloc extends Bloc<SendCoinEvent, SendCoinState> {
           yield SendCoinStateFailureState(
               errorMessage: sendCoinValidateUser.message);
         } else {
-          yield SendCoinStateFailureState(errorMessage: "Something Went Wrong");
+          yield SendCoinStateFailureState(errorMessage: "Something Went Wrong".tr().toString());
         }
       } catch (_) {
-        yield SendCoinStateFailureState(errorMessage: "Something Went Wrong");
+        yield SendCoinStateFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
@@ -53,7 +53,7 @@ class SendCoinBloc extends Bloc<SendCoinEvent, SendCoinState> {
         yield SendCoinStateFailureState(
             errorMessage: sendCoinValidateUser.message);
       } else {
-        yield SendCoinStateFailureState(errorMessage: "Something went wrong");
+        yield SendCoinStateFailureState(errorMessage: "Something went wrong".tr().toString());
       }
     }
 

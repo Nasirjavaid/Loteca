@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AboutScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _AboutScreenState extends State<AboutScreen> {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white38),
         title: Text(
-          "About Us",
+          "About Us".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -38,7 +39,7 @@ class _AboutScreenState extends State<AboutScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "About Us",
+                "About Us".tr().toString(),
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.black54,
                     fontSize: 22,

@@ -12,7 +12,7 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 
-import 'package:locteca/ui/Screen/CreateMyLeagueScreen/createMyLeagueScreen.dart';
+
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart'
     as newAvater;
@@ -21,6 +21,7 @@ import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
 import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MyNaveDrawerMain extends StatelessWidget {
   @override
@@ -115,7 +116,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.user,
                   colorData: Colors.blue,
-                  text: 'My Profile',
+                  text: 'My Profile'.tr().toString(),
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
@@ -151,7 +152,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
                   colorData: Colors.green,
-                  text: 'Feedback',
+                  text: 'Feedback'.tr().toString(),
                   onTap: () => {
                         Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
@@ -164,7 +165,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -178,7 +179,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.addressBook,
                   colorData: Colors.indigo,
-                  text: 'About us',
+                  text: 'About Us'.tr().toString(),
                   onTap: () => {
                         Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
@@ -191,7 +192,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -202,7 +203,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.mailBulk,
                   colorData: Colors.cyan,
-                  text: 'Contact us',
+                  text: 'Contact Us'.tr().toString(),
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
@@ -220,7 +221,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -235,7 +236,7 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                   return MyDrawerItems(context).drawerItem(
                       icon: FontAwesomeIcons.powerOff,
                       colorData: Colors.red,
-                      text: 'Logout',
+                      text: 'Logout'.tr().toString(),
                       onTap: () {
                         BlocProvider.of<UserAuthBloc>(context)
                             .add(AuthLoggedOut());

@@ -13,7 +13,7 @@ import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/betOnBehalfOfUserScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
@@ -117,7 +117,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.user,
                   colorData: Colors.blue,
-                  text: 'My Profile',
+                  text: 'My Profile'.tr().toString(),
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
@@ -134,7 +134,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.battleNet,
                   colorData: Colors.blue[900],
-                  text: 'Bet For Special User',
+                  text: 'Bet For Special User'.tr().toString(),
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
@@ -151,7 +151,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
                   colorData: Colors.green,
-                  text: 'Feedback',
+                  text: 'Feedback'.tr().toString(),
                   onTap: () => {
                         Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
@@ -164,7 +164,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -176,7 +176,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.addressBook,
                   colorData: Colors.indigo,
-                  text: 'About us',
+                  text: 'About Us'.tr().toString(),
                   onTap: () => {
                         Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
@@ -189,7 +189,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -200,7 +200,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.mailBulk,
                   colorData: Colors.cyan,
-                  text: 'Contact us',
+                  text: 'Contact Us'.tr().toString(),
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
@@ -218,7 +218,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString(),);
                           }
                         }),
                       }),
@@ -232,7 +232,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                 ) {
                   return MyDrawerItems(context).drawerItem(
                       icon: FontAwesomeIcons.powerOff,
-                      text: 'Logout',
+                      text: 'Logout'.tr().toString(),
                       onTap: () {
                         BlocProvider.of<UserAuthBloc>(context)
                             .add(AuthLoggedOut());

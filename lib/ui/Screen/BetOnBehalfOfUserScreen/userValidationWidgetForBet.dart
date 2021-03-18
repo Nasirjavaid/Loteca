@@ -11,6 +11,7 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/agentBetScreen.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserValidationWidgetForBet extends StatefulWidget {
   final ValidateUser validateUser;
@@ -183,7 +184,7 @@ class UserInfo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Text(
-                              "User Information",
+                              "User Information".tr().toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .button
@@ -213,14 +214,14 @@ class UserInfo extends StatelessWidget {
                                           AppTheme.appBackgroundColorforCard2,
                                     ),
                                     title: Text(
-                                      "Role",
+                                      "Role".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle: userLogin.user.roles == null ||
                                             userLogin.user.roles == ""
                                         ? Text("N/A")
                                         : Text(
-                                            "Available as ${userLogin.user.roles == "1" ? "'Player'" : "'Agent'"}",
+                                            "Available as".tr().toString()+" ${userLogin.user.roles == "1" ? "'Player'" : "'Agent'"}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1
@@ -255,7 +256,7 @@ class UserInfo extends StatelessWidget {
                                       color: Colors.redAccent,
                                     ),
                                     title: Text(
-                                      "Email",
+                                      "Email".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle: userLogin.user.email == null ||
@@ -276,7 +277,7 @@ class UserInfo extends StatelessWidget {
                                         color: Colors.blue,
                                       ),
                                       title: Text(
-                                        "Phone",
+                                        "Phone".tr().toString(),
                                         style:
                                             Theme.of(context).textTheme.button,
                                       ),
@@ -299,7 +300,7 @@ class UserInfo extends StatelessWidget {
                                       leading: Icon(FontAwesomeIcons.whatsapp,
                                           color: Colors.cyan),
                                       title: Text(
-                                        "WhatsApp",
+                                        "WhatsApp".tr().toString(),
                                         style:
                                             Theme.of(context).textTheme.button,
                                       ),
@@ -427,7 +428,7 @@ class UserInfo extends StatelessWidget {
                     //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                     //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                    child: Text("Back",
+                    child: Text("Back".tr().toString(),
                         style: Theme.of(context).textTheme.bodyText2.copyWith(
                             fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
@@ -474,7 +475,7 @@ class UserInfo extends StatelessWidget {
                     //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                     //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                    child: Text("Go ahead",
+                    child: Text("Go ahead".tr().toString(),
                         style: Theme.of(context).textTheme.bodyText2.copyWith(
                             fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
@@ -492,7 +493,7 @@ class UserInfo extends StatelessWidget {
                       } else {
                         //show network erro
 
-                        Methods.showToast(context, "Check your network");
+                        Methods.showToast(context, "Check your network".tr().toString());
                       }
                     });
                   }),

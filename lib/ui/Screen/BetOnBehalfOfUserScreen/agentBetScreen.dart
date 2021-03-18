@@ -16,7 +16,7 @@ import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
-import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
 
@@ -426,7 +426,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                 onTap: () {
                   print("Tap Event");
                 },
-                text: ["LIVE", "LIVE", "LIVE"],
+                text: ["LIVE".tr().toString()],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                       color: AppTheme.appDefaultColor,
                       fontSize: 10,
@@ -468,7 +468,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             ),
             Column(children: [
               Text(
-                "Start Date",
+                "Start Date".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white60,
                     fontSize: 9,
@@ -504,7 +504,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             ),
             Column(children: [
               Text(
-                "End Date",
+                "End Date".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white60,
                     fontSize: 9,
@@ -864,7 +864,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Text(
-                "Draw",
+                "Draw".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: Colors.white60,
                     fontWeight: FontWeight.w800,
@@ -903,7 +903,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                     width: 4,
                   ),
                   Text(
-                    "Draw",
+                    "Draw".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appDefaultColor,
                         fontWeight: FontWeight.w800,
@@ -926,7 +926,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         Row(
           children: [
             Text(
-              "Championship :",
+              "Championship".tr().toString()+" : ",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: Colors.white54,
                   fontSize: 9,
@@ -946,7 +946,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         ),
         Row(children: [
           Text(
-            "Happening Date :",
+            "Happening Date".tr().toString()+" : ",
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: Colors.white54,
                 fontSize: 9,
@@ -1051,7 +1051,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Choose Amount ",
+                Text("Choose Amount".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appBackgroundColorforCard1,
                         fontSize: 14,
@@ -1312,7 +1312,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                       //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                       //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                      child: Text("Submit",
+                      child: Text("Submit".tr().toString(),
                           style: Theme.of(context).textTheme.bodyText2.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
@@ -1326,7 +1326,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                         } else {
                           //show network erro
 
-                          // Methods.showToast(context, "Check your network");
+                           Methods.showToast(context, "Check your network".tr().toString(),);
                           print("No internet ..............");
                         }
                       });
@@ -1374,14 +1374,14 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                   //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                   //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Bet Submitted",
+                  child: Text("Bet Submitted".tr().toString(),
                       style: Theme.of(context).textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.white)),
                 ),
                 onPressed: () async {
                   print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted",
-                      "You are already submitted the bet");
+                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted".tr().toString(),
+                      "You are already submitted the bet".tr().toString(),);
 
                   // Methods.showToast(
                   //     context, "You are already submitted the bet.");
@@ -1423,7 +1423,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                   //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                   //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Show Recipt",
+                  child: Text("Show Recipt".tr().toString(),
                       style: Theme.of(context).textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.white)),
                 ),
@@ -1468,12 +1468,12 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
               ),
               entryAnimation: EntryAnimation.TOP,
               title: Text(
-                "You don't Have enough coins to join this Round !!!",
+                "You don't Have enough coins to join this Round !!!".tr().toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                "To buy coins please go to '\$Buy' section from bottom bar",
+                "To buy coins please go to 'Buy' section from bottom bar".tr().toString(),
                 textAlign: TextAlign.center,
               ),
               onlyOkButton: true,

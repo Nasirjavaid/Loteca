@@ -410,7 +410,7 @@ cursorColor: AppTheme.appCardColor,
                     _onLoginButtonPressed();
                   } else {
                     //show network erro
-                    showMessageError("Check Network Conection");
+                    showMessageError("Check Network Conection".tr().toString(),);
                   }
                 });
 

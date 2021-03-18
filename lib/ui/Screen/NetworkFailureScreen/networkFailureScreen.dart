@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../../main.dart';
 
 class NetworkFauilureScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class NetworkFauilureScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  "Tap to reload",
+                  "Tap to reload".tr().toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
@@ -56,7 +56,7 @@ class NetworkFauilureScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  "Network NOT available",
+                  "Network NOT available".tr().toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),

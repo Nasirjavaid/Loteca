@@ -1,18 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/scheduler.dart';
+
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
+import 'package:locteca/main.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/validateUser.dart';
+import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
 import 'package:share_files_and_screenshot_widgets/share_files_and_screenshot_widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CoinRecipt extends StatefulWidget {
   final SendCoin sendCoin;
@@ -27,6 +31,7 @@ class _CoinReciptState extends State<CoinRecipt> {
   ScreenshotController screenshotController = ScreenshotController();
   //define
   GlobalKey previewContainer = new GlobalKey();
+  final userRepository = UserAuthRepository();
 
   File _imageFile;
   int originalSize = 800;
@@ -82,7 +87,7 @@ class _CoinReciptState extends State<CoinRecipt> {
                             Column(
                               children: [
                                 Text(
-                                  "Recipt",
+                                  "Recipt".tr().toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -90,7 +95,7 @@ class _CoinReciptState extends State<CoinRecipt> {
                                           color: Colors.white, fontSize: 9),
                                 ),
                                 Text(
-                                  "Date & time",
+                                  "Date & time".tr().toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -156,12 +161,12 @@ class _CoinReciptState extends State<CoinRecipt> {
                             height: 5,
                           ),
                           userInformationWidget(
-                              widget.sendCoin.user, "Coins sent to"),
+                              widget.sendCoin.user, "Coins sent to".tr().toString(),),
                           SizedBox(
                             height: 5,
                           ),
                           userInformationWidget(
-                              widget.sendCoin.agent, "Coins sent by"),
+                              widget.sendCoin.agent, "Coins sent by".tr().toString(),),
                         ],
                       ),
                     ),
@@ -204,7 +209,7 @@ class _CoinReciptState extends State<CoinRecipt> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Successfully Transfered",
+              "Successfully Transfered".tr().toString(),
               style:
                   Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 10),
             ),
@@ -225,7 +230,7 @@ class _CoinReciptState extends State<CoinRecipt> {
                   width: 4,
                 ),
                 Text(
-                  "Coin(s)",
+                  "Coin(s)".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -266,7 +271,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name",
+                  "User Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -288,7 +293,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Email",
+                  "Email".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -310,7 +315,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Available Coins",
+                  "Total available coins".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -348,7 +353,7 @@ class _CoinReciptState extends State<CoinRecipt> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Bet Submitted for",
+              "Bet Submitted for".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
             SizedBox(
@@ -358,7 +363,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name",
+                  "User Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -380,7 +385,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Email",
+                  "Email".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -422,7 +427,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Available Coins",
+                  "Total Available Coins".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -461,7 +466,7 @@ class _CoinReciptState extends State<CoinRecipt> {
             height: 12,
           ),
           Text(
-            "Selected Answers",
+            "Selected Answers".tr().toString(),
             style: Theme.of(context).textTheme.bodyText2,
           ),
           SizedBox(
@@ -591,11 +596,21 @@ class _CoinReciptState extends State<CoinRecipt> {
                 color: AppTheme.nearlyGold,
               )),
           onPressed: () {
-            Navigator.pop(context);
+           SchedulerBinding.instance.addPostFrameCallback((_) {
+          // add your code here.
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
+          );
+        });
           },
           color: AppTheme.nearlyGold,
           textColor: Colors.white,
-          child: Text("Cancel".toUpperCase(), style: TextStyle(fontSize: 14)),
+          child: Text("Cancel".tr().toString(), style: TextStyle(fontSize: 14)),
         ),
       ],
     );
@@ -646,7 +661,7 @@ class _CoinReciptState extends State<CoinRecipt> {
             quality: 100);
         print("File Saved to Gallery $result");
         Methods.showInfoFlushbarHelper(
-            context, "Recipt", "Recipt successfully saved");
+            context, "Recipt".tr().toString(), "Recipt successfully saved".tr().toString(),);
       }).catchError((onError) {
         print(onError);
       });
@@ -656,12 +671,12 @@ class _CoinReciptState extends State<CoinRecipt> {
       // share(result);
       ShareFilesAndScreenshotWidgets().shareScreenshot(previewContainer,
           originalSize, "Loteca 2.0 Bet Recipt", "MyRecipt.png", "image/png",
-          text: "My Recipt");
+          text: "My Recipt".tr().toString(),);
     }
   }
 }
 
-class DialogHelper {
-  static exit(context) =>
-      showDialog(context: context, builder: (context) => CoinRecipt());
-}
+// class DialogHelper {
+//   static exit(context) =>
+//       showDialog(context: context, builder: (context) => CoinRecipt());
+// }

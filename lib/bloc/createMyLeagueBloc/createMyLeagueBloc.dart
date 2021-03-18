@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueEvent.dart';
 import 'package:locteca/bloc/createMyLeagueBloc/createMyLeagueState.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/repository/createMyLeagueRepository.dart';
 
 class CreateMyLeagueBloc
@@ -39,10 +39,10 @@ class CreateMyLeagueBloc
                 
         } else {
           yield CreateMyLeagueFailureState(
-              errorMessage: "Something Went Wrong");
+              errorMessage: "Something Went Wrong".tr().toString());
         }
       } catch (_) {
-        yield CreateMyLeagueFailureState(errorMessage: "Something Went Wrong");
+        yield CreateMyLeagueFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/agentsBloc/agentsEvent.dart';
 import 'package:locteca/bloc/agentsBloc/agentsState.dart';
 import 'package:locteca/repository/agentsRepository.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class AgentsBloc extends Bloc<AgentsEvent, AgentsState> {
@@ -25,10 +26,10 @@ class AgentsBloc extends Bloc<AgentsEvent, AgentsState> {
         if (agents.response == "true") {
           yield AgentsSuccessState(agentsToBuyCoins: agents);
         } else {
-          yield AgentsFailureState(errorMessage: "Something Went Wrong");
+          yield AgentsFailureState(errorMessage: "Something Went Wrong".tr().toString());
         }
       } catch (_) {
-        yield AgentsFailureState(errorMessage: "Something Went Wrong");
+        yield AgentsFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 

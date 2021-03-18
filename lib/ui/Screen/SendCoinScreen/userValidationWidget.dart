@@ -10,6 +10,7 @@ import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserValidationWidget extends StatefulWidget {
   final ValidateUser validateUser;
@@ -24,7 +25,7 @@ final ValidateUser validateUser;
   UserValidationWidgetState({this.validateUser});
   submitButtonPressed(String coins,BuildContext context,String email) {
     if (coins == null || coins.isEmpty) {
-      Methods.showToast(context, "Please Enter Coins");
+      Methods.showToast(context, "Please Enter Coins".tr().toString(),);
     } else {
       BlocProvider.of<SendCoinBloc>(context).add(
         SendCoinsToUserEvent(
@@ -181,7 +182,7 @@ class UserInfo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Text(
-                              "User Information",
+                              "User Information".tr().toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .button
@@ -209,14 +210,14 @@ class UserInfo extends StatelessWidget {
                                       color: AppTheme.appBackgroundColorforCard2,
                                     ),
                                     title: Text(
-                                      "Role",
+                                      "Role".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle: userLogin.user.roles == null ||
                                             userLogin.user.roles == ""
                                         ? Text("N/A")
                                         : Text(
-                                            "Available as ${userLogin.user.roles == "1" ? "'Player'" : "'Agent'"}",
+                                            "Available as".tr().toString()+" ${userLogin.user.roles == "1" ? "'Player'" : "'Agent'"}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1
@@ -251,7 +252,7 @@ class UserInfo extends StatelessWidget {
                                       color: Colors.redAccent,
                                     ),
                                     title: Text(
-                                      "Email",
+                                      "Email".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle: userLogin.user.email == null ||
@@ -272,7 +273,7 @@ class UserInfo extends StatelessWidget {
                                         color: Colors.blue,
                                       ),
                                       title: Text(
-                                        "Phone",
+                                        "Phone".tr().toString(),
                                         style: Theme.of(context).textTheme.button,
                                       ),
                                       subtitle: userLogin
@@ -293,7 +294,7 @@ class UserInfo extends StatelessWidget {
                                       leading: Icon(FontAwesomeIcons.whatsapp,
                                           color: Colors.cyan),
                                       title: Text(
-                                        "WhatsApp",
+                                        "WhatsApp".tr().toString(),
                                         style: Theme.of(context).textTheme.button,
                                       ),
                                       subtitle:
@@ -354,7 +355,7 @@ class UserInfo extends StatelessWidget {
             counterText: "",
             // filled: true,
             // fillColor: AppTheme.appDefaultColor,
-            labelText: "Enter Coins",
+            labelText: "Enter Coins".tr().toString(),
             labelStyle:
                 TextStyle(color: AppTheme.appDefaultColor, fontSize: 12),
             focusedBorder: OutlineInputBorder(
@@ -409,7 +410,7 @@ class UserInfo extends StatelessWidget {
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("send Coins",
+                child: Text("Send Coins".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
@@ -424,7 +425,7 @@ class UserInfo extends StatelessWidget {
                   } else {
                     //show network erro
 
-                    Methods.showToast(context, "Check your network");
+                    Methods.showToast(context, "Check your network".tr().toString());
                   }
                 });
               }),

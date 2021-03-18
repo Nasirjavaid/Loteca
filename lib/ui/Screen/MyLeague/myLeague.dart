@@ -5,7 +5,7 @@ import 'package:locteca/bloc/leaguesBloc/leaguesEvent.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/participatedLeagues.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -107,7 +107,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
           actionWidget(context),
         ],
         title: Text(
-          "My Leagues",
+          "My Leagues".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -160,7 +160,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -253,7 +253,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                   : Center(
                       child: Padding(
                       padding: const EdgeInsets.only(top: 25.0),
-                      child: Text("You've no record yet"),
+                      child: Text("You've no record yet".tr().toString(),),
                     ));
             }),
       ),
@@ -320,7 +320,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          "Startting Date",
+                          "Starting Date".tr().toString(),
                           textAlign: TextAlign.end,
                           style: Theme.of(context)
                               .textTheme
@@ -358,7 +358,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          "Ending Date ",
+                          "Ending Date ".tr().toString(),
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1

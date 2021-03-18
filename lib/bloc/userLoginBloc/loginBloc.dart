@@ -7,7 +7,7 @@ import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/service/userLoginService.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'loginEvent.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
@@ -29,13 +29,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
       yield LoginInProgress();
 
       if (this.isFieldEmpty(event.userName)) {
-        yield LoginFailure(error: "Please enter email address");
+        yield LoginFailure(error: "Please Enter Email".tr().toString());
         return;
       } else if (!this.validateEmailAddress(event.userName)) {
-        yield LoginFailure(error: "Please enter valid email address");
+        yield LoginFailure(error: "Please Enter Valid Email".tr().toString());
         return;
       } else if (this.isFieldEmpty(event.password)) {
-        yield LoginFailure(error: "Please enter password");
+        yield LoginFailure(error: "Please Enter Password".tr().toString());
         return;
       } else {
         try {
@@ -44,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
               username: event.userName, password: event.password);
 
           if (userLogin == null) {
-            yield LoginFailure(error: "Wrong email or password.");
+            yield LoginFailure(error: "Wrong Email or Password".tr().toString());
           } else if (userLogin != null) {
             userAuthBloc.add(AuthLoggedIn(userLogin: userLogin));
           }
@@ -53,7 +53,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
 
        
         } catch (error) {
-          yield LoginFailure(error: "Wrong email or password.");
+          yield LoginFailure(error: "Wrong Email or Password".tr().toString());
         }
       }
     }

@@ -10,6 +10,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/closedLeague.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ClosedLeagueScreenMain extends StatelessWidget {
   final int roundId;
@@ -72,7 +73,7 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
         backgroundColor: AppTheme.appDefaultColor,
 actions: [actionWidget(context)],
         title: Text(
-          "Recent Closed League",
+          "Recent Closed League".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -130,7 +131,7 @@ actions: [actionWidget(context)],
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -214,7 +215,7 @@ actions: [actionWidget(context)],
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10),
                                   child: Text(
-                                    "Over All Result",
+                                    "Over All Result".tr().toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .button
@@ -283,7 +284,7 @@ actions: [actionWidget(context)],
                       closedLeague.round.startingDate == null ||
                               closedLeague.round.startingDate == ""
                           ? "N/A"
-                          : "Starting Date : " +
+                          : "Starting Date".tr().toString()+" : " +
                               closedLeague.round.startingDate,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black45, fontWeight: FontWeight.w500),
@@ -295,7 +296,7 @@ actions: [actionWidget(context)],
                       closedLeague.round.endingDate == null ||
                               closedLeague.round.endingDate == ""
                           ? "N/A"
-                          : "Ending Date :   " + closedLeague.round.endingDate,
+                          : "Ending Date".tr().toString()+" :   " + closedLeague.round.endingDate,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black45, fontWeight: FontWeight.w500),
                     ),
@@ -329,7 +330,7 @@ actions: [actionWidget(context)],
                 padding:
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
                 child: Text(
-                  "Leader Board",
+                  "Leader Board".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .button
@@ -347,13 +348,13 @@ actions: [actionWidget(context)],
             labelColor: AppTheme.appCardColor,
             tabs: [
               Tab(
-                text: '1st Package Winner',
+                text: '1st Package Winner'.tr().toString(),
               ),
               Tab(
-                text: '2nd Package Winner',
+                text: '2nd Package Winner'.tr().toString(),
               ),
               Tab(
-                text: '3rd Package Winner',
+                text: '3rd Package Winner'.tr().toString(),
               )
             ],
             controller: _tabController,
@@ -364,13 +365,13 @@ actions: [actionWidget(context)],
           child: TabBarView(
             children: [
               closedLeague.firstPackageWinners == null
-                  ? Center(child: Text("No Winners"))
+                  ? Center(child: Text("No Winners".tr().toString(),))
                   : postionedBaseUserCards(closedLeague.firstPackageWinners),
               closedLeague.secondPackageWinners == null
-                  ? Center(child: Text("No Winners"))
+                  ? Center(child: Text("No Winners".tr().toString(),))
                   : postionedBaseUserCards(closedLeague.secondPackageWinners),
               closedLeague.thirdPackageWinners == null
-                  ? Center(child: Text("No Winners"))
+                  ? Center(child: Text("No Winners".tr().toString(),))
                   : postionedBaseUserCards(closedLeague.thirdPackageWinners),
             ],
             controller: _tabController,
@@ -608,7 +609,7 @@ actions: [actionWidget(context)],
         return closedLeague.answers.length != 0
             ? listWiewItemCard(contex, closedLeague.answers[index])
             : Center(
-                child: Text("No itmes"),
+                child: Text("No itmes".tr().toString(),),
               );
       },
       childCount:
@@ -631,12 +632,12 @@ actions: [actionWidget(context)],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team A", 15, FontWeight.w900, Colors.black54),
+                  "Team A".tr().toString(), 15, FontWeight.w900, Colors.black54),
 
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team B", 15, FontWeight.w900, Colors.black54),
+                  "Team B".tr().toString(), 15, FontWeight.w900, Colors.black54),
               creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Winner", 15, FontWeight.w900, AppTheme.appDefaultColor),
+                  "Winner".tr().toString(), 15, FontWeight.w900, AppTheme.appDefaultColor),
               // Row(
               //   children: [
               //     Text(

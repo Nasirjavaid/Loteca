@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultEvent.dart';
 import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
 import 'package:locteca/repository/lastRoundResultRepository.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 
 class LastRoundResulBloc extends Bloc<LastRoundResultEvent, LastRoundResultState> {
@@ -26,10 +26,10 @@ class LastRoundResulBloc extends Bloc<LastRoundResultEvent, LastRoundResultState
         if (lastRoundResult.response == "true") {
           yield LastRoundResultSuccessState(lastRoundResult: lastRoundResult);
         } else {
-          yield LastRoundResultFailureState(errorMessage: "Something Went Wrong");
+          yield LastRoundResultFailureState(errorMessage: "Something Went Wrong".tr().toString());
         }
       } catch (_) {
-        yield LastRoundResultFailureState(errorMessage: "Something Went Wrong");
+        yield LastRoundResultFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 

@@ -4,6 +4,7 @@ import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/repository/leaguesRepository.dart';
 import 'package:locteca/repository/mainRoundRepository.dart';
 import 'mainRoundEvent.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
   MainRoundRepository mainRoundRepository = MainRoundRepository();
@@ -39,11 +40,11 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
             yield NoLiveRoundAvailableMainRoundState(
                 errorMessage: mainRound.message);
           } else {
-            yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+            yield MainRoundFailureState(errorMessage: "Something Went Wrong".tr().toString());
           }
         }
       } catch (_) {
-        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
@@ -61,7 +62,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
           yield MainRoundFailureState(errorMessage: mainRound.message);
         }
       } catch (ex) {
-        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
@@ -79,7 +80,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
           yield MainRoundFailureState(errorMessage: mainRound.message);
         }
       } catch (ex) {
-        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
@@ -99,7 +100,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
           yield MainRoundFailureState(errorMessage: mainRound.message);
         }
       } catch (_) {
-        yield MainRoundFailureState(errorMessage: "Something Went Wrong");
+        yield MainRoundFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 

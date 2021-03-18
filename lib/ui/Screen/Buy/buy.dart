@@ -10,6 +10,7 @@ import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BuyMain extends StatelessWidget {
   @override
@@ -55,7 +56,7 @@ class _BuyState extends State<Buy> {
          actionWidget(context)
         ],
         title: Text(
-          "Buy",
+          "Buy".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -105,7 +106,7 @@ class _BuyState extends State<Buy> {
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -148,7 +149,7 @@ class _BuyState extends State<Buy> {
                   ? Center(
                       child: Padding(
                       padding: const EdgeInsets.only(top: 25.0),
-                      child: Text("No Items"),
+                      child: Text("No Items".tr().toString(),),
                     ))
                   : listWiewItemCard(context, agentsToBuyCoins.agents[index]);
               // return listWiewItemCard(context);
@@ -208,7 +209,7 @@ class _BuyState extends State<Buy> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                           agents.name == null || agents.name ==""? "Agent Name" : agents.name ,
+                           agents.name == null || agents.name ==""? "Agent Name".tr().toString() : agents.name ,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2
@@ -221,21 +222,21 @@ class _BuyState extends State<Buy> {
                             height: 6,
                           ),
                           Text(
-                            "Per coin rate :  N/A",
+                            "Per coin rate".tr().toString()+" :  N/A",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,fontSize: 10
                                     ),
                           ),
                           Text(
-                            "Total avilable Coins: ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
+                            "Total available coins".tr().toString()+":  ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,fontSize: 10
                                     ),
                           ),
                           Text(
-                         agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
+                         agents.contacts.length !=0  ? "Phone".tr().toString()+" : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                             style:
                                 Theme.of(context).textTheme.bodyText1.copyWith(
                                       color: Colors.black45,fontSize: 10

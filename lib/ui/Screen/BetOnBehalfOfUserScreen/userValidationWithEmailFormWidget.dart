@@ -5,6 +5,7 @@ import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserValidationWithEmailFormWidgetMain extends StatelessWidget {
   @override
@@ -104,7 +105,7 @@ class _UserValidationWithEmailFormWidgetState extends State<UserValidationWithEm
             counterText: "",
             // filled: true,
             // fillColor: AppTheme.appDefaultColor,
-            labelText: "Enter email",
+            labelText: "Enter email".tr().toString(),
             labelStyle:
                 TextStyle(color: AppTheme.appDefaultColor, fontSize: 12),
             focusedBorder: OutlineInputBorder(
@@ -159,7 +160,7 @@ class _UserValidationWithEmailFormWidgetState extends State<UserValidationWithEm
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Verfy To Submit Bet",
+                child: Text("Verfy To Submit Bet".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
@@ -172,7 +173,7 @@ class _UserValidationWithEmailFormWidgetState extends State<UserValidationWithEm
                   } else {
                     //show network erro
 
-                    Methods.showToast(context, "Check your network");
+                    Methods.showToast(context, "Check your network".tr().toString(),);
                   }
                 });
               }),

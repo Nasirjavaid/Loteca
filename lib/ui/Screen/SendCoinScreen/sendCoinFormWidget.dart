@@ -5,6 +5,7 @@ import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SendCoinFormWidgetMain extends StatelessWidget {
   @override
@@ -38,7 +39,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
 
   _submitButtonPressed() {
     if (etEmail.text == null || etEmail.text.isEmpty) {
-      _showToast(context, "Please enter email");
+      _showToast(context, "Please enter email".tr().toString(),);
     
     } else {
       BlocProvider.of<SendCoinBloc>(context).add(
@@ -104,7 +105,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
             counterText: "",
             // filled: true,
             // fillColor: AppTheme.appDefaultColor,
-            labelText: "Enter email",
+            labelText: "Enter email".tr().toString(),
             labelStyle:
                 TextStyle(color: AppTheme.appDefaultColor, fontSize: 12),
             focusedBorder: OutlineInputBorder(
@@ -159,7 +160,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Verify to send coin",
+                child: Text("Verify To send Coins".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
@@ -172,7 +173,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
                   } else {
                     //show network erro
 
-                    Methods.showToast(context, "Check your network");
+                    Methods.showToast(context, "Check your network".tr().toString());
                   }
                 });
               }),

@@ -6,7 +6,7 @@ import 'package:locteca/bloc/lastRoundResultBloc/lastRoundResultState.dart';
 
 import 'package:locteca/config/appTheme.dart';
 
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/model/lastRoundResult.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
@@ -60,7 +60,7 @@ class _ResultState extends State<Result> {
         backgroundColor: AppTheme.appDefaultColor,
 
         title: Text(
-          "Recent Closed Round",
+          "Recent Closed Round".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -181,7 +181,7 @@ class _ResultState extends State<Result> {
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -260,12 +260,12 @@ class _ResultState extends State<Result> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
-                  "Team A", 11, FontWeight.w900, Colors.white),
+                  "Team A".tr().toString(), 11, FontWeight.w900, Colors.white),
                   
               creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
-                  "Team B", 11, FontWeight.w900, Colors.white),
+                  "Team B".tr().toString(), 11, FontWeight.w900, Colors.white),
               creditWidgetTwo(context, 10, AppTheme.appDefaultColor,
-                  "Winner", 11, FontWeight.w900, Colors.white),
+                  "Winner".tr().toString(), 11, FontWeight.w900, Colors.white),
               // Row(
               //   children: [
               //     Text(

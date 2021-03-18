@@ -11,8 +11,10 @@ import 'package:locteca/config/methods.dart';
 import 'package:locteca/main.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
+import 'package:locteca/ui/Screen/SendCoinScreen/coinsRecipt.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/sendCoinFormWidget.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/userValidationWidget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SendCoinScreenMain extends StatelessWidget {
   @override
@@ -50,40 +52,57 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white38),
-        title: Text(
-          "Send Coins",
-          style: Theme.of(context).textTheme.button.copyWith(
-              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
+    return WillPopScope(
+      onWillPop: () {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // add your code here.
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
+          );
+        });
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        // extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white38),
+          title: Text(
+            "Send Coins".tr().toString(),
+            style: Theme.of(context).textTheme.button.copyWith(
+                color: Colors.white70,
+                fontSize: 16,
+                fontWeight: FontWeight.w700),
+          ),
+
+          centerTitle: true,
+          elevation: 0.0,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.questionCircle,
+                  color: Colors.white38,
+                  size: 18,
+                ),
+                onPressed: null),
+          ],
+          // toolbarHeight: 50,
+
+          backgroundColor: AppTheme.appDefaultColor,
+          //backgroundColor: Colors.transparent,
+          // title: Text(
+          //   "Loteca",
+          //   style:
+          //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+          // ),
         ),
-
-        centerTitle: true,
-        elevation: 0.0,
-        actions: [
-          IconButton(
-              icon: Icon(
-                FontAwesomeIcons.questionCircle,
-                color: Colors.white38,
-                size: 18,
-              ),
-              onPressed: null),
-        ],
-        // toolbarHeight: 50,
-
-        backgroundColor: AppTheme.appDefaultColor,
-        //backgroundColor: Colors.transparent,
-        // title: Text(
-        //   "Loteca",
-        //   style:
-        //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
-        // ),
+        backgroundColor: AppTheme.background,
+        body: _buildBody(context),
       ),
-      backgroundColor: AppTheme.background,
-      body: _buildBody(context),
     );
   }
 
@@ -110,12 +129,12 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
         print("Error : ${state.errorMessage}");
       }
 
-      if (state is CoinSentSuccessfullyState) {
-        Methods.showDialogueForCoinSentDetail(
-          context,
-          state.sendCoin,
-        );
-      }
+      // if (state is CoinSentSuccessfullyState) {
+      //   Methods.showDialogueForCoinSentDetail(
+      //     context,
+      //     state.sendCoin,
+      //   );
+      // }
     }, child:
             BlocBuilder<SendCoinBloc, SendCoinState>(builder: (context, state) {
       if (state is UserValidatedSuccessfullyState) {
@@ -134,16 +153,7 @@ class _SendCoinScreenState extends State<SendCoinScreen> {
         return LoadingIndicator(Colors.white);
       }
       if (state is CoinSentSuccessfullyState) {
-        return Container(
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-                child: Text(
-              "Coins SuccessFully Sent",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(color: AppTheme.appCardColor),
-            )));
+        return CoinRecipt(sendCoin:state.sendCoin);
       }
 
       if (state is ShowSendCoinFormWidgetState) {

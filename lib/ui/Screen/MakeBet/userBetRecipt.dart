@@ -11,6 +11,7 @@ import 'package:screenshot/screenshot.dart';
 import 'dart:async';
 import 'package:share_files_and_screenshot_widgets/share_files_and_screenshot_widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserBetRecipt extends StatefulWidget {
   final MainRound mainRound;
@@ -83,7 +84,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                             Column(
                               children: [
                                 Text(
-                                  "Recipt",
+                                  "Recipt".tr().toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -91,7 +92,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                                           color: Colors.white, fontSize: 9),
                                 ),
                                 Text(
-                                  "Date & time",
+                                  "Date & time".tr().toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -220,7 +221,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Round Information",
+              "Round Information".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
             SizedBox(
@@ -230,7 +231,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Round ID #",
+                  "Round ID #".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -252,7 +253,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Packages",
+                  "Total Packages".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -276,7 +277,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Games",
+                  "Total Games".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -317,8 +318,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           children: [
             Text(
               widget.validateUser == null
-                  ? "User's Bet Information"
-                  : "Bet Submitted By",
+                  ? "User's Bet Information".tr().toString()
+                  : "Bet Submitted By".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
             SizedBox(
@@ -328,7 +329,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name",
+                  "User Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -350,7 +351,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Email",
+                  "Email".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -372,7 +373,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Selected Package",
+                  "Selected Package".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -396,7 +397,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Available Coins",
+                  "Total available coins".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -434,7 +435,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Bet Submitted for",
+              "Bet Submitted for".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
             SizedBox(
@@ -444,7 +445,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name",
+                  "User Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -466,7 +467,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Email",
+                  "Email".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -508,7 +509,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total Available Coins",
+                  "Total Available Coins".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -547,7 +548,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             height: 12,
           ),
           Text(
-            "Selected Answers",
+            "Selected Answers".tr().toString(),
             style: Theme.of(context).textTheme.bodyText2,
           ),
           SizedBox(
@@ -681,7 +682,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           },
           color: AppTheme.nearlyGold,
           textColor: Colors.white,
-          child: Text("Cancel".toUpperCase(), style: TextStyle(fontSize: 14)),
+          child: Text("Cancel".tr().toString(), style: TextStyle(fontSize: 14)),
         ),
       ],
     );
@@ -732,7 +733,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             quality: 100);
         print("File Saved to Gallery $result");
         Methods.showInfoFlushbarHelper(
-            context, "Recipt", "Recipt successfully saved");
+            context, "Recipt".tr().toString(),"Recipt successfully saved".tr().toString(),);
       }).catchError((onError) {
         print(onError);
       });
@@ -742,7 +743,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
       // share(result);
       ShareFilesAndScreenshotWidgets().shareScreenshot(previewContainer,
           originalSize, "Loteca 2.0 Bet Recipt", "MyRecipt.png", "image/png",
-          text: "My Recipt");
+          text: "My Recipt".tr().toString(),);
     }
   }
 }

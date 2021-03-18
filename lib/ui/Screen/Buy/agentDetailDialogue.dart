@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/model/agentsToBuyCoins.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class AgentDetailDialogue extends StatelessWidget {
@@ -71,7 +72,7 @@ final Agents agents;
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                               agents.name == null || agents.name ==""? "Agent Name" : agents.name ,
+                               agents.name == null || agents.name ==""? "Agent Name".tr().toString() : agents.name ,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -84,7 +85,7 @@ final Agents agents;
                               height: 6,
                             ),
                             Text(
-                              "Per coin rate :  N/A",
+                              "Per coin rate".tr().toString()+"  :  N/A",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -97,7 +98,7 @@ final Agents agents;
                               height: 2,
                             ),
                             Text(
-                               "Total avilable Coins: ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
+                               "Total available coins".tr().toString()+": ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -110,7 +111,7 @@ final Agents agents;
                               height: 2,
                             ),
                             Text(
-                         agents.contacts.length !=0  ? "Phone : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
+                         agents.contacts.length !=0  ? "Phone".tr().toString()+" : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -202,7 +203,7 @@ final Agents agents;
           color: iconColor,
         ),
         onPressed: () {
-               FlutterOpenWhatsapp.sendSingleMessage(phoneNumber, "Hi, I want To Buy Coins !");
+               FlutterOpenWhatsapp.sendSingleMessage(phoneNumber, "Hi, I want To Buy Coins !".tr().toString());
         },
       ),
     );

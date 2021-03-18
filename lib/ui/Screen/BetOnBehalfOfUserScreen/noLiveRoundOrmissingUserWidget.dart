@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/sendCoinBloc/sendCoinBloc.dart';
 import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NoLiveRoundOrmissingUserWidget extends StatelessWidget {
   final Text content;
@@ -121,7 +122,7 @@ class NoLiveRoundOrmissingUserWidget extends StatelessWidget {
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Back",
+                child: Text("Back".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),

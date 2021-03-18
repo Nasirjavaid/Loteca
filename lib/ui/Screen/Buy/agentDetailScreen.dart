@@ -12,6 +12,7 @@ import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class AgentDetailScreenMain extends StatelessWidget {
@@ -119,7 +120,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -214,7 +215,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "Avilable Coins:    ",
+                              "Avilable Coins".tr().toString()+":    ",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -238,7 +239,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "Phone:      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
+                          "Phone".tr().toString()+":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -248,7 +249,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "WhatsApp:      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
+                          "WhatsApp".tr().toString()+":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -304,7 +305,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           } else {
                             //show network erro
 
-                            Methods.showToast(context, "Check your network");
+                            Methods.showToast(context, "Check your network".tr().toString());
                           }
                         });
       },
@@ -318,7 +319,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             )),
         child: Center(
             child: Text(
-          "Send Coins",
+          "Send Coins".tr().toString(),
           style: Theme.of(context).textTheme.bodyText2.copyWith(
               color: AppTheme.appCardColor,
               fontSize: 16,
@@ -343,15 +344,15 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Today Sale",
+                saleInnerCard(context, "Today Sale".tr().toString(),
                     "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.sales == null || agentDashboardModel.data.dailyData.sales == "" ? "N/A" : agentDashboardModel.data.dailyData.sales}"),
-                saleInnerCard(context, "Today Commission",
+                saleInnerCard(context, "Today Commission".tr().toString(),
                     "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.comission == null || agentDashboardModel.data.dailyData.comission == "" ? "N/A" : agentDashboardModel.data.dailyData.comission}"),
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Weekly Sale",
+                saleInnerCard(context, "Weekly Sale".tr().toString(),
                     "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.sales == null || agentDashboardModel.data.weeklyData.sales == "" ? "N/A" : agentDashboardModel.data.weeklyData.sales}"),
-                saleInnerCard(context, "Weekly Commission",
+                saleInnerCard(context, "Weekly Commission".tr().toString(),
                     "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.comission == null || agentDashboardModel.data.weeklyData.comission == "" ? "N/A" : agentDashboardModel.data.weeklyData.comission}"),
               ]),
 
@@ -373,9 +374,9 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          totalSaleInnerCard(context, "Total Sale",
+          totalSaleInnerCard(context, "Total Sale".tr().toString(),
               "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.sales == null || agentDashboardModel.data.monthlyData.sales == "" ? "N/A" : agentDashboardModel.data.monthlyData.sales}"),
-          totalSaleInnerCard(context, "Total Commission",
+          totalSaleInnerCard(context, "Total Commission".tr().toString(),
               "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.comission == null || agentDashboardModel.data.monthlyData.comission == "" ? "N/A" : agentDashboardModel.data.monthlyData.comission}"),
         ]),
       ),

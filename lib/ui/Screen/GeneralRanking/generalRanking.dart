@@ -11,7 +11,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/leaderBoard.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 
 class GeneralRankingMain extends StatelessWidget {
@@ -88,7 +88,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 15,
             ),
             Text(
-              "Tap to reload",
+              "Tap to reload".tr().toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -366,7 +366,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                     ? Center(
                         child: Padding(
                         padding: const EdgeInsets.only(top: 25.0),
-                        child: Text("No Items"),
+                        child: Text("No Items".tr().toString(),)
                       ))
                     : listWiewItemCard(
                         context, index, leaderBoardGenericList[index]);
@@ -444,7 +444,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       leaderBordGenericItem.winningCoins == null ||
                               leaderBordGenericItem.winningCoins == ""
                           ? "N/A"
-                          : "Total Coins : ${leaderBordGenericItem.coins}",
+                          : "Total Coins".tr().toString()+" : ${leaderBordGenericItem.coins}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -492,7 +492,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
           // backgroundColor: AppTheme.appDefaultColor,
 
           title: Text(
-            "Ranking",
+            "Ranking".tr().toString(),
             style: Theme.of(context).textTheme.button.copyWith(
                 color: Colors.white70,
                 fontSize: 16,
@@ -503,7 +503,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
             tabs: [
               Tab(
                   icon: Text(
-                "Per Points",
+                "Per Points".tr().toString(),
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
                     fontSize: 12,
@@ -511,7 +511,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               )),
               Tab(
                   icon: Text(
-                "All Time",
+                "All Time".tr().toString(),
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
                     fontSize: 12,

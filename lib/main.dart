@@ -1,5 +1,3 @@
-
-
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
@@ -34,7 +32,7 @@ import 'ui/CommonWidget/loadingIndicator.dart';
 import 'ui/Containers/MainHomeContainer/mainHomeContainer.dart';
 import 'ui/Screen/LoginScreen/loginScreen.dart';
 import 'ui/Screen/SplashScreen/spalshScreen.dart';
-import 'package:intl/intl.dart';
+
 import 'package:intl/date_symbol_data_local.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -56,7 +54,6 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
 
 void main() async {
   final userRepository = UserAuthRepository();
-  
 
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
@@ -79,7 +76,6 @@ void main() async {
             BlocProvider<AgentsBloc>(
               create: (context) => AgentsBloc(),
             ),
-            
             BlocProvider<UserProfileBloc>(
               create: (context) => UserProfileBloc(),
             ),
@@ -90,25 +86,21 @@ void main() async {
           child: EasyLocalization(
             path: "assets/lang",
             saveLocale: true,
-            
-            
             supportedLocales: [
-              Locale('en', "US"),
+              //Locale('en', "US"),
               Locale('pt', "BR"),
             ],
-            fallbackLocale:   Locale('en', "US"),
-           
+            fallbackLocale: Locale('pt', "BR"),
             child: App(
-        
               userRepository: userRepository,
             ),
           ))));
 }
 
 class App extends StatefulWidget {
-  final UserAuthRepository userRepository ;
+  final UserAuthRepository userRepository;
 
-  App({ Key key, this.userRepository}) : super(key: key);
+  App({Key key, this.userRepository}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
@@ -152,7 +144,6 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-
     initializeDateFormatting();
     NetworkConnectivity.check().then((internet) {
       if (internet) {

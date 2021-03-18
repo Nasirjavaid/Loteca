@@ -7,6 +7,8 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class FeedBackScreen extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
   final TextEditingController _nameController = TextEditingController();
 
   final double minValue = 8.0;
-  final _feedbackTypeList = <String>["Comments", "Bugs", "Questions"];
+  final _feedbackTypeList = <String>["Comments".tr().toString(), "Bug".tr().toString(), "Questions".tr().toString(),];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _feedbackType = "";
   int _feedbackTypeIndex;
@@ -66,7 +68,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
       child: Row(
         children: <Widget>[
           Text(
-            "Select feedback type",
+            "Select feedback type".tr().toString(),
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -103,6 +105,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: minValue * 3),
       child: TextFormField(
+             cursorColor: AppTheme.appDefaultColor,
         controller: _nameController,
         // validator: usernameValidator,
         keyboardType: TextInputType.text,
@@ -110,7 +113,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
             errorStyle: _errorStyle,
             contentPadding:
                 EdgeInsets.symmetric(vertical: minValue, horizontal: minValue),
-            labelText: 'Full  Name',
+            labelText: 'Full Name'.tr().toString(),
             labelStyle: TextStyle(fontSize: 16.0, color: Colors.black87)),
       ),
     );
@@ -120,6 +123,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: minValue * 3),
       child: TextFormField(
+        cursorColor: AppTheme.appDefaultColor,
         controller: _emailController,
         keyboardType: TextInputType.text,
         // validator: validateEmail,
@@ -130,7 +134,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
             border: UnderlineInputBorder(),
             contentPadding:
                 EdgeInsets.symmetric(vertical: minValue, horizontal: minValue),
-            labelText: 'Email',
+            labelText: 'Email'.tr().toString(),
             labelStyle: TextStyle(fontSize: 16.0, color: Colors.black87)),
       ),
     );
@@ -163,7 +167,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 82.0),
-                child: Text("Post",
+                child: Text("Post".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
@@ -171,17 +175,17 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                 NetworkConnectivity.check().then((internet) {
                   if (internet) {
                     if (_nameController.text == "") {
-                      showMessageError("Please Enter Name");
+                      showMessageError("Please Enter Name".tr().toString(),);
                     } else if (_emailController.text == "") {
-                      showMessageError("Please Enter Email");
+                      showMessageError("Please Enter Email".tr().toString(),);
                     } else if (_messageController.text == "") {
-                      showMessageError("Please Enter Message");
+                      showMessageError("Please Enter Message".tr().toString(),);
                     } else {
                       _onLoginButtonPressed();
                     }
                   } else {
                     //show network erro
-                    showMessageError("Check network connection");
+                    showMessageError("Check network connection".tr().toString(),);
                   }
                 });
 
@@ -201,12 +205,13 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: minValue * 3),
       child: TextFormField(
+             cursorColor: AppTheme.appDefaultColor,
         controller: _messageController,
         keyboardType: TextInputType.text,
         maxLines: 2,
         decoration: InputDecoration(
             errorStyle: _errorStyle,
-            labelText: 'Description',
+            labelText: 'Description'.tr().toString(),
             contentPadding:
                 EdgeInsets.symmetric(vertical: minValue, horizontal: minValue),
             labelStyle: TextStyle(fontSize: 16.0, color: Colors.black87)),
@@ -229,7 +234,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
             }),
         elevation: 1,
         title: Text(
-          "Leave feedback",
+          "Leave feedback".tr().toString(),
           style: TextStyle(color: Colors.black87),
         ),
         // actions: <Widget>[
@@ -243,7 +248,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
         }
         if (state is FeedbackSuccessState) {
           Methods.showInfoFlushbarHelper(
-              context, "Feedback", state.feedback.message);
+              context, "Feedback".tr().toString(), state.feedback.message);
         }
 
         if (state is CloseScreenState) {

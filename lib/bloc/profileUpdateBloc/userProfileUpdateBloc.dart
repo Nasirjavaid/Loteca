@@ -3,7 +3,7 @@ import 'package:locteca/bloc/profileUpdateBloc/userProfileUpdateState.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/profileUpdateRepository.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'userProfileUpdateEvent.dart';
 
 
@@ -32,13 +32,13 @@ class UserProfileUpdateBloc
       userLogin = UserLogin();
       yield UserProfileUpdateInProgress();
       if (this.isFieldEmpty(event.name)) {
-        yield UserProfileUpdateFailure(error: "Please enter name.");
+        yield UserProfileUpdateFailure(error: "Please Enter Name".tr().toString());
         return;
       } else if (this.isFieldEmpty(event.email)) {
-        yield UserProfileUpdateFailure(error: "Please enter email.");
+        yield UserProfileUpdateFailure(error: "Please Enter Email".tr().toString());
         return;
       } else if (!event.email.contains("@") || !event.email.contains(".")) {
-        yield UserProfileUpdateFailure(error: "Please enter valid email.");
+        yield UserProfileUpdateFailure(error: "Please Enter Valid Email".tr().toString());
         return;
       }
       //  else if (this.isFieldEmpty(event.password)) {
@@ -52,10 +52,10 @@ class UserProfileUpdateBloc
       // }
 
       else if (this.isFieldEmpty(event.phone)) {
-        yield UserProfileUpdateFailure(error: "Please enter Phone number");
+        yield UserProfileUpdateFailure(error: "Please enter Phone number".tr().toString());
         return;
       } else if (this.isFieldEmpty(event.whatsApp)) {
-        yield UserProfileUpdateFailure(error: "Please enter WhatsApp number");
+        yield UserProfileUpdateFailure(error: "Please enter WhatsApp number".tr().toString());
         return;
       } else {
         userLogin = await userProfileUpdateUpRepository.updateUserProfile(
@@ -82,7 +82,7 @@ class UserProfileUpdateBloc
         } else if (userLogin.status == ("failed")) {
           yield UserProfileUpdateFailure(error: userLogin.message);
         } else {
-          yield UserProfileUpdateFailure(error: "Something went wrong.");
+          yield UserProfileUpdateFailure(error: "Something went wrong".tr().toString());
         }
       }
     }

@@ -3,7 +3,7 @@ import 'package:locteca/bloc/agentDashoardBloc/agentDashboardEvent.dart';
 import 'package:locteca/bloc/agentDashoardBloc/agentDashboardState.dart';
 import 'package:locteca/repository/agentDashboardRepository.dart';
 
-
+import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -29,10 +29,10 @@ class AgentDashboardBloc extends Bloc<AgentDashboardEvent, AgentDashboardState> 
         if (agentDashboardData.response == "true") {
           yield AgentDashboardSuccessState(agentDashboardModel: agentDashboardData);
         } else {
-          yield AgentDashboardFailureState(errorMessage: "Something Went Wrong");
+          yield AgentDashboardFailureState(errorMessage: "Something Went Wrong".tr().toString());
         }
       } catch (_) {
-        yield AgentDashboardFailureState(errorMessage: "Something Went Wrong");
+        yield AgentDashboardFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 

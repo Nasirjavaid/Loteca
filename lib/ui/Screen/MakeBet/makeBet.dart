@@ -17,6 +17,7 @@ import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MakeBetMain extends StatelessWidget {
   @override
@@ -88,7 +89,7 @@ class _MakeBetState extends State<MakeBet> {
     } else if (selectedPackageId == null || selectedPackageId == 0) {
       // show error message to select a participation fee package
       print("Request not Submitted... did not selected the participation fee");
-      showMessageError("Please select your bet fee");
+      showMessageError("Please select your bet fee".tr().toString(),);
     } else {
       bool checkPoint = true;
       for (int i = 0; i < mainRound.round.games.length; i++) {
@@ -97,7 +98,7 @@ class _MakeBetState extends State<MakeBet> {
             mainRound.round.games[i].widegtSwitch2 == false) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from All team listed above");
+              "Must select your choice from All team listed above".tr().toString(),);
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
           checkPoint = false;
@@ -107,7 +108,7 @@ class _MakeBetState extends State<MakeBet> {
             mainRound.round.games[i].widegtSwitch2 == null) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from all the Games listed above");
+              "Must select your choice from all the Games listed above".tr().toString(),);
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
           checkPoint = false;
@@ -351,7 +352,7 @@ class _MakeBetState extends State<MakeBet> {
                 height: 15,
               ),
               Text(
-                "Tap to reload",
+                "Tap to reload".tr().toString(),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
@@ -422,7 +423,7 @@ class _MakeBetState extends State<MakeBet> {
                 onTap: () {
                   print("Tap Event");
                 },
-                text: ["LIVE", "LIVE", "LIVE"],
+                text: ["LIVE".tr().toString(),],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                       color: AppTheme.appDefaultColor,
                       fontSize: 10,
@@ -464,7 +465,7 @@ class _MakeBetState extends State<MakeBet> {
             ),
             Column(children: [
               Text(
-                "Start Date",
+                "Start Date".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white60,
                     fontSize: 9,
@@ -500,7 +501,7 @@ class _MakeBetState extends State<MakeBet> {
             ),
             Column(children: [
               Text(
-                "End Date",
+                "End Date".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white60,
                     fontSize: 9,
@@ -860,7 +861,7 @@ class _MakeBetState extends State<MakeBet> {
             padding: const EdgeInsets.all(5.0),
             child: Center(
               child: Text(
-                "Draw",
+                "Draw".tr().toString(),
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: Colors.white60,
                     fontWeight: FontWeight.w800,
@@ -899,7 +900,7 @@ class _MakeBetState extends State<MakeBet> {
                     width: 4,
                   ),
                   Text(
-                    "Draw",
+                    "Draw".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appDefaultColor,
                         fontWeight: FontWeight.w800,
@@ -922,7 +923,7 @@ class _MakeBetState extends State<MakeBet> {
         Row(
           children: [
             Text(
-              "Championship :",
+              "Championship".tr().toString()+" :",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: Colors.white54,
                   fontSize: 9,
@@ -942,7 +943,7 @@ class _MakeBetState extends State<MakeBet> {
         ),
         Row(children: [
           Text(
-            "Happening Date :",
+            "Happening Date".tr().toString()+" :",
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: Colors.white54,
                 fontSize: 9,
@@ -1047,7 +1048,7 @@ class _MakeBetState extends State<MakeBet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Choose Amount ",
+                Text("Choose Amount".tr().toString(),
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         color: AppTheme.appBackgroundColorforCard1,
                         fontSize: 14,
@@ -1308,7 +1309,7 @@ class _MakeBetState extends State<MakeBet> {
                       //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                       //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                      child: Text("Submit",
+                      child: Text("Submit".tr().toString(),
                           style: Theme.of(context).textTheme.bodyText2.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
@@ -1322,7 +1323,7 @@ class _MakeBetState extends State<MakeBet> {
                         } else {
                           //show network erro
 
-                          // Methods.showToast(context, "Check your network");
+                           Methods.showToast(context, "Check your network".tr().toString(),);
                           print("No internet ..............");
                         }
                       });
@@ -1369,14 +1370,14 @@ class _MakeBetState extends State<MakeBet> {
                   //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                   //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Bet Submitted",
+                  child: Text("Bet Submitted".tr().toString(),
                       style: Theme.of(context).textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.white)),
                 ),
                 onPressed: () async {
                   print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted",
-                      "You are already submitted the bet");
+                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted".tr().toString(),
+                      "You are already submitted the bet".tr().toString());
                   // Methods.showToast(
                   //     context, "You are already submitted the bet.");
                 }),
@@ -1417,7 +1418,7 @@ class _MakeBetState extends State<MakeBet> {
                   //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                   //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Show Recipt",
+                  child: Text("Show Recipt".tr().toString(),
                       style: Theme.of(context).textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.white)),
                 ),
@@ -1462,12 +1463,12 @@ class _MakeBetState extends State<MakeBet> {
               ),
               entryAnimation: EntryAnimation.TOP,
               title: Text(
-                "You don't Have enough coins to join this Round !!!",
+                "You don't Have enough coins to join this Round !!!".tr().toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                "To buy coins please go to '\$Buy' section from bottom bar",
+                "To buy coins please go to 'Buy' section from bottom bar".tr().toString(),
                 textAlign: TextAlign.center,
               ),
               onlyOkButton: true,

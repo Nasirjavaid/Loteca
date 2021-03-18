@@ -21,11 +21,11 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
         yield UserProfiledetailTakenSuccessfully(userLogin: userLogin);
       } else {
         yield FailedTogetUserProfileData(
-            error: "User Profile bloc : unable to get user profile data data");
+            error: "Something Went Wrong");
       }
     } else {
       yield FailedTogetUserProfileData(
-          error: "User Profile bloc : unable to get user profile data data");
+          error: "Something Went Wrong");
     }
   }
 }

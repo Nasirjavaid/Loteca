@@ -9,14 +9,13 @@ import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
-import 'package:locteca/config/methods.dart';
-import 'package:locteca/config/networkConnectivity.dart';
+
 import 'package:locteca/main.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
-import 'package:locteca/ui/Screen/UserProfileScreen/userProfileUpdateScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -55,7 +54,7 @@ class _UserProfiletPageState extends State<UserProfiletPage> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white38),
            title: Text(
-          "My Profile",
+          "My Profile".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),),
@@ -105,7 +104,7 @@ Widget failedWidget(BuildContext context) {
             height: 15,
           ),
           Text(
-            "Tap to Login",
+            "Tap to Login".tr().toString(),
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
@@ -267,7 +266,7 @@ class UserInfo extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 5.0,top: 15),
                           child: Text(
-                            "User Information",
+                            "User Information".tr().toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .button
@@ -349,14 +348,14 @@ class UserInfo extends StatelessWidget {
                                     color: AppTheme.appBackgroundColorforCard2,
                                   ),
                                   title: Text(
-                                    "Role",
+                                    "Role".tr().toString(),
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: userLogin.data.user.roles == null ||
                                           userLogin.data.user.roles == ""
                                       ? Text("N/A")
                                       : Text(
-                                          "Available as ${userLogin.data.user.roles == "1" ? "'Player'" : "'Agent'"}",
+                                          "Available as".tr().toString()+" ${userLogin.data.user.roles == "1" ? "'Player'" : "'Agent'"}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText1
@@ -370,14 +369,14 @@ class UserInfo extends StatelessWidget {
                                     color: AppTheme.nearlyGold,
                                   ),
                                   title: Text(
-                                    "Coins",
+                                    "Coins".tr().toString(),
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: userLogin.data.user.coins == null ||
                                           userLogin.data.user.coins == ""
                                       ? Text("N/A")
                                       : Text(
-                                          "Total Coins : ${userLogin.data.user.coins}",
+                                          "Total Coins".tr().toString()+" : ${userLogin.data.user.coins}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText1
@@ -391,7 +390,7 @@ class UserInfo extends StatelessWidget {
                                     color: Colors.redAccent,
                                   ),
                                   title: Text(
-                                    "Email",
+                                    "Email".tr().toString(),
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: userLogin.data.user.email == null ||
@@ -412,7 +411,7 @@ class UserInfo extends StatelessWidget {
                                       color: Colors.blue,
                                     ),
                                     title: Text(
-                                      "Phone",
+                                      "Phone".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle:
@@ -434,7 +433,7 @@ class UserInfo extends StatelessWidget {
                                     leading: Icon(FontAwesomeIcons.whatsapp,
                                         color: Colors.cyan),
                                     title: Text(
-                                      "WhatsApp",
+                                      "WhatsApp".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                     subtitle: userLogin.data.user.contacts[0]

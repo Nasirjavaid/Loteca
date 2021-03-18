@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesEvent.dart';
 import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/repository/leaguesRepository.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class LeaguesBloc extends Bloc<LeaguesEvent, LeaguesState> {
   LeaguesRepository leaguesRepository = LeaguesRepository();
 
@@ -27,7 +27,7 @@ class LeaguesBloc extends Bloc<LeaguesEvent, LeaguesState> {
           yield LeaguesFailureState(errorMessage: participatedLeague.message);
         }
       } catch (_) {
-        yield LeaguesFailureState(errorMessage: "Something Went Wrong");
+        yield LeaguesFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
@@ -43,7 +43,7 @@ class LeaguesBloc extends Bloc<LeaguesEvent, LeaguesState> {
           yield LeaguesFailureState(errorMessage: closedLeague.message);
         }
       } catch (_) {
-        yield LeaguesFailureState(errorMessage: "Something Went Wrong closedLeague");
+        yield LeaguesFailureState(errorMessage: "Something Went Wrong".tr().toString());
       }
     }
 
