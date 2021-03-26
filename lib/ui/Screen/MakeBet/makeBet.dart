@@ -57,6 +57,9 @@ class _MakeBetState extends State<MakeBet> {
   String selectedPackageAccumulativePrice;
   MainRound mainRoundGlobal;
 
+
+  
+
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: color,
@@ -67,6 +70,8 @@ class _MakeBetState extends State<MakeBet> {
       duration: const Duration(seconds: 3),
     ));
   }
+
+
 
   Widget actionWidget(BuildContext context) {
     return Padding(
@@ -81,50 +86,66 @@ class _MakeBetState extends State<MakeBet> {
   }
 
   void submitBetRequest(MainRound mainRound) {
-    if (mainRound.user.coins == 0 || mainRound.user.coins == null) {
-      //show message with no coins error
-      //  showMessageError("You dont have enough coins.");
-      noEnoughCoinsWidget();
-      print("Request not Submitted... Dont have enough coins");
-    } else if (selectedPackageId == null || selectedPackageId == 0) {
-      // show error message to select a participation fee package
-      print("Request not Submitted... did not selected the participation fee");
-      showMessageError("Please select your bet fee".tr().toString(),);
+    if (mainRound.user.emailVerifiedAt == null) {
+      Methods.showDialogForEmailVerification(
+        context,
+      );
     } else {
-      bool checkPoint = true;
-      for (int i = 0; i < mainRound.round.games.length; i++) {
-        if (mainRound.round.games[i].widegtSwitch0 == false &&
-            mainRound.round.games[i].widegtSwitch1 == false &&
-            mainRound.round.games[i].widegtSwitch2 == false) {
-          //show error to slect all the team winners/losser/or draw
-          showMessageError(
-              "Must select your choice from All team listed above".tr().toString(),);
-          print(
-              "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
-          checkPoint = false;
-          break;
-        } else if (mainRound.round.games[i].widegtSwitch0 == null &&
-            mainRound.round.games[i].widegtSwitch1 == null &&
-            mainRound.round.games[i].widegtSwitch2 == null) {
-          //show error to slect all the team winners/losser/or draw
-          showMessageError(
-              "Must select your choice from all the Games listed above".tr().toString(),);
-          print(
-              "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
-          checkPoint = false;
-          break;
+      if (mainRound.user.coins == 0 || mainRound.user.coins == null) {
+        //show message with no coins error
+        //  showMessageError("You dont have enough coins.");
+        noEnoughCoinsWidget();
+        print("Request not Submitted... Dont have enough coins");
+      } else if (selectedPackageId == null || selectedPackageId == 0) {
+        // show error message to select a participation fee package
+        print(
+            "Request not Submitted... did not selected the participation fee");
+        showMessageError(
+          "Please select your bet fee".tr().toString(),
+        );
+      } else {
+        bool checkPoint = true;
+        for (int i = 0; i < mainRound.round.games.length; i++) {
+          if (mainRound.round.games[i].widegtSwitch0 == false &&
+              mainRound.round.games[i].widegtSwitch1 == false &&
+              mainRound.round.games[i].widegtSwitch2 == false) {
+            //show error to slect all the team winners/losser/or draw
+            showMessageError(
+              "Must select your choice from All team listed above"
+                  .tr()
+                  .toString(),
+            );
+            print(
+                "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
+            checkPoint = false;
+            break;
+          } else if (mainRound.round.games[i].widegtSwitch0 == null &&
+              mainRound.round.games[i].widegtSwitch1 == null &&
+              mainRound.round.games[i].widegtSwitch2 == null) {
+            //show error to slect all the team winners/losser/or draw
+            showMessageError(
+              "Must select your choice from all the Games listed above"
+                  .tr()
+                  .toString(),
+            );
+            print(
+                "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
+            checkPoint = false;
+            break;
+          }
         }
-      }
 
-      if (checkPoint) {
-        //Finally submit the request
-        // showMessageError("Bet Submitted Successfully");
-        mainRound.round.selectedPackageId = 0;
-        mainRound.round.selectedPackageId = selectedPackageId;
-        print("Bet Submitted... Successfully");
-        BlocProvider.of<MainRoundBloc>(context).add(SubmitBetButtonClickedEvent(
-          mainRound: mainRound,
-        ));
+        if (checkPoint) {
+          //Finally submit the request
+          // showMessageError("Bet Submitted Successfully");
+          mainRound.round.selectedPackageId = 0;
+          mainRound.round.selectedPackageId = selectedPackageId;
+          print("Bet Submitted... Successfully");
+          BlocProvider.of<MainRoundBloc>(context)
+              .add(SubmitBetButtonClickedEvent(
+            mainRound: mainRound,
+          ));
+        }
       }
     }
   }
@@ -203,6 +224,12 @@ class _MakeBetState extends State<MakeBet> {
 
         print("Error : ${state.errorMessage}");
       }
+      // if (state is MainRoundSuccessState) {
+      //   if (state.mainRound.user.emailVerifiedAt == null) {
+      //     Methods.showDialogForEmailVerification(context,
+      //        );
+      //   }
+      // }
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
       if (state is MainRoundSuccessState) {
@@ -423,7 +450,9 @@ class _MakeBetState extends State<MakeBet> {
                 onTap: () {
                   print("Tap Event");
                 },
-                text: ["LIVE".tr().toString(),],
+                text: [
+                  "LIVE".tr().toString(),
+                ],
                 textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                       color: AppTheme.appDefaultColor,
                       fontSize: 10,
@@ -573,17 +602,23 @@ class _MakeBetState extends State<MakeBet> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              setState(() {
-                                mainRound.round.games[index].widegtSwitch0 =
-                                    true;
-                                mainRound.round.games[index].widegtSwitch1 =
-                                    false;
-                                mainRound.round.games[index].widegtSwitch2 =
-                                    false;
-                              });
-                              print(
-                                  "(Game id is ${mainRound.round.games[index].id}) and User selected Answer  => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamA}");
-                              print("TeamA clicked");
+                              if (mainRound.user.emailVerifiedAt == null) {
+                                Methods.showDialogForEmailVerification(
+                                  context,
+                                );
+                              } else {
+                                setState(() {
+                                  mainRound.round.games[index].widegtSwitch0 =
+                                      true;
+                                  mainRound.round.games[index].widegtSwitch1 =
+                                      false;
+                                  mainRound.round.games[index].widegtSwitch2 =
+                                      false;
+                                });
+                                print(
+                                    "(Game id is ${mainRound.round.games[index].id}) and User selected Answer  => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamA}");
+                                print("TeamA clicked");
+                              }
                             },
                             child: mainRound.round.games[index].widegtSwitch0 ==
                                         false ||
@@ -601,19 +636,25 @@ class _MakeBetState extends State<MakeBet> {
                         Expanded(
                           child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  mainRound.round.games[index].widegtSwitch0 =
-                                      false;
-                                  mainRound.round.games[index].widegtSwitch1 =
-                                      true;
-                                  mainRound.round.games[index].widegtSwitch2 =
-                                      false;
-                                });
+                                if (mainRound.user.emailVerifiedAt == null) {
+                                  Methods.showDialogForEmailVerification(
+                                    context,
+                                  );
+                                } else {
+                                  setState(() {
+                                    mainRound.round.games[index].widegtSwitch0 =
+                                        false;
+                                    mainRound.round.games[index].widegtSwitch1 =
+                                        true;
+                                    mainRound.round.games[index].widegtSwitch2 =
+                                        false;
+                                  });
 
-                                print("Draw clicked");
+                                  print("Draw clicked");
 
-                                print(
-                                    "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = "Draw"}");
+                                  print(
+                                      "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = "Draw"}");
+                                }
                               },
                               child:
                                   mainRound.round.games[index].widegtSwitch1 ==
@@ -627,18 +668,24 @@ class _MakeBetState extends State<MakeBet> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              setState(() {
-                                mainRound.round.games[index].widegtSwitch0 =
-                                    false;
-                                mainRound.round.games[index].widegtSwitch1 =
-                                    false;
-                                mainRound.round.games[index].widegtSwitch2 =
-                                    true;
-                                print(
-                                    "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamB}");
-                              });
+                              if (mainRound.user.emailVerifiedAt == null) {
+                                Methods.showDialogForEmailVerification(
+                                  context,
+                                );
+                              } else {
+                                setState(() {
+                                  mainRound.round.games[index].widegtSwitch0 =
+                                      false;
+                                  mainRound.round.games[index].widegtSwitch1 =
+                                      false;
+                                  mainRound.round.games[index].widegtSwitch2 =
+                                      true;
+                                  print(
+                                      "(Game id is ${mainRound.round.games[index].id}) and User selected Answer => ${mainRound.round.games[index].userSelctedTeamOrAnswer = mainRound.round.games[index].teamB}");
+                                });
 
-                              print("TeamB clicked");
+                                print("TeamB clicked");
+                              }
                             },
                             child: mainRound.round.games[index].widegtSwitch2 ==
                                         false ||
@@ -923,7 +970,7 @@ class _MakeBetState extends State<MakeBet> {
         Row(
           children: [
             Text(
-              "Championship".tr().toString()+" :",
+              "Championship".tr().toString() + " :",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: Colors.white54,
                   fontSize: 9,
@@ -943,7 +990,7 @@ class _MakeBetState extends State<MakeBet> {
         ),
         Row(children: [
           Text(
-            "Happening Date".tr().toString()+" :",
+            "Happening Date".tr().toString() + " :",
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: Colors.white54,
                 fontSize: 9,
@@ -1323,7 +1370,10 @@ class _MakeBetState extends State<MakeBet> {
                         } else {
                           //show network erro
 
-                           Methods.showToast(context, "Check your network".tr().toString(),);
+                          Methods.showToast(
+                            context,
+                            "Check your network".tr().toString(),
+                          );
                           print("No internet ..............");
                         }
                       });
@@ -1376,7 +1426,9 @@ class _MakeBetState extends State<MakeBet> {
                 ),
                 onPressed: () async {
                   print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted".tr().toString(),
+                  Methods.showInfoFlushbarHelper(
+                      context,
+                      "Bet Submitted".tr().toString(),
                       "You are already submitted the bet".tr().toString());
                   // Methods.showToast(
                   //     context, "You are already submitted the bet.");
@@ -1463,13 +1515,18 @@ class _MakeBetState extends State<MakeBet> {
               ),
               entryAnimation: EntryAnimation.TOP,
               title: Text(
-                "You don't Have enough coins to join this Round !!!".tr().toString(),
+                "You don't Have enough coins to join this Round !!!"
+                    .tr()
+                    .toString(), 
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                "To buy coins please go to 'Buy' section from bottom bar".tr().toString(),
+                "To buy coins please go to 'Buy' section from bottom bar"
+                    .tr()
+                    .toString(),
                 textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.caption,
               ),
               onlyOkButton: true,
               onOkButtonPressed: () {

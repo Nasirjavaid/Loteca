@@ -1,5 +1,7 @@
 import 'package:locteca/config/methods.dart';
+import 'package:locteca/model/feedback.dart';
 import 'package:locteca/model/userLogin.dart';
+import 'package:locteca/service/userAuthService.dart';
 
 import 'package:locteca/service/userLoginService.dart';
 import 'package:meta/meta.dart';
@@ -39,7 +41,7 @@ class UserAuthRepository {
   Future<bool> hasToken() async {
     try {
       // bool tokenAsGuest = await Methods.getGuestFromSharedPref();
-     // UserAuthService userAuthService = UserAuthService();
+      // UserAuthService userAuthService = UserAuthService();
       //UserLogin userLoginAuthToken = UserLogin();
       UserLogin tokenFromSharedPref = UserLogin();
 
@@ -81,5 +83,28 @@ class UserAuthRepository {
     }
 
     return userLogin;
+  }
+
+  Future<Feedback> verifyUserCode(String code) async {
+//custom delay
+    // await Future.delayed(Duration(seconds: 1));
+
+    Feedback feedback = Feedback();
+    UserAuthService userAuthService = UserAuthService();
+
+    feedback = await userAuthService.verifyUserCode(code);
+
+    return feedback;
+  }
+
+  Future<Feedback> resendCode() async {
+//custom delay
+    // await Future.delayed(Duration(seconds: 1));
+
+    Feedback feedback = Feedback();
+    UserAuthService userAuthService = UserAuthService();
+    feedback = await userAuthService.resendCode();
+
+    return feedback;
   }
 }

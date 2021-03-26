@@ -8,15 +8,15 @@ import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
+import 'package:locteca/ui/Screen/MakeBet/emailNotVerifiedDialogue.dart';
 import 'package:locteca/ui/Screen/MakeBet/userBetRecipt.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/coinsRecipt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 class Methods {
-
-
-   static void showInfoFlushbarHelper(BuildContext context,String title ,String message) {
+  static void showInfoFlushbarHelper(
+      BuildContext context, String title, String message) {
     FlushbarHelper.createSuccess(
       title: title,
       message: message,
@@ -43,7 +43,7 @@ class Methods {
         "Current date and time sent to server while placing order::   $date ");
     return date.toString();
   }
-  
+
   static void showToast(BuildContext context, String message) {
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(
@@ -123,7 +123,7 @@ class Methods {
     try {
       //  Map userMap = jsonDecode(sharedUser.getString('user'));
 
-      if (userLogin.data.token !="") {
+      if (userLogin.data.token != "") {
         return userLogin;
       }
     } catch (ex) {
@@ -169,9 +169,7 @@ class Methods {
   //   );
   // }
 
-  static void showDialogWithAgentDetail(
-    BuildContext context,agents
-  ) {
+  static void showDialogWithAgentDetail(BuildContext context, agents) {
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.5),
       transitionDuration: Duration(milliseconds: 400),
@@ -181,7 +179,7 @@ class Methods {
       context: context,
 
       pageBuilder: (_, __, ___) {
-        return AgentDetailDialogue(agents:agents);
+        return AgentDetailDialogue(agents: agents);
       },
 
       // transitionBuilder: (context, animation, anotherAnimation, child) {
@@ -201,7 +199,7 @@ class Methods {
   }
 
   static void showDialogueForUserBetDetail(
-      BuildContext context, MainRound mainRound,ValidateUser validateUser) {
+      BuildContext context, MainRound mainRound, ValidateUser validateUser) {
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.25),
       transitionDuration: Duration(milliseconds: 400),
@@ -209,7 +207,7 @@ class Methods {
       barrierLabel: '',
       context: context,
       pageBuilder: (_, __, ___) {
-        return UserBetRecipt(mainRound: mainRound,validateUser:validateUser);
+        return UserBetRecipt(mainRound: mainRound, validateUser: validateUser);
       },
 
       // transitionBuilder: (context, animation, anotherAnimation, child) {
@@ -226,8 +224,8 @@ class Methods {
         );
       },
     );
-  // }
-}
+    // }
+  }
 
   static void showDialogueForCoinSentDetail(
       BuildContext context, SendCoin sendCoin) {
@@ -238,7 +236,7 @@ class Methods {
       barrierLabel: '',
       context: context,
       pageBuilder: (_, __, ___) {
-        return CoinRecipt(sendCoin:sendCoin);
+        return CoinRecipt(sendCoin: sendCoin);
       },
 
       // transitionBuilder: (context, animation, anotherAnimation, child) {
@@ -255,12 +253,57 @@ class Methods {
         );
       },
     );
-  // }
+    // }
+  }
+
+  static void showDialogForEmailVerification(BuildContext context) {
+    showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 400),
+      barrierDismissible: true,
+      barrierLabel: '',
+
+      context: context,
+
+      pageBuilder: (_, __, ___) {
+        return EmailNotVerifiedDialogue(
+          contextB: context,
+          content: Text(
+            "Your have to verify your email address for joining the round. Email with code is already sent to your email address.".tr().toString(),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.caption.copyWith(color: Colors.black45),
+          ),
+          title: Text(
+            "Email Verification".tr().toString(),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          firstColor: Colors.redAccent,
+          secondColor: Colors.white,
+          headerIcon: Icon(
+            Icons.security_rounded,
+            size: 120,
+            color: Colors.white70
+          ),
+        );
+      },
+
+      // transitionBuilder: (context, animation, anotherAnimation, child) {
+      //   return FadeTransition(
+      //     opacity: animation,
+      //     child: child,
+      //   );
+      // },
+
+      transitionBuilder: (context, anim, __, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 2), end: Offset(0, 0)).animate(anim),
+          child: child,
+        );
+      },
+    );
+  }
 }
-
-}
-
-
 
 mixin ValidationMixin {
   bool isFieldEmpty(String fieldValue) => fieldValue?.isEmpty ?? true;

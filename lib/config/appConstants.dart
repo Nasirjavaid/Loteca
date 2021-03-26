@@ -22,6 +22,8 @@ class APIConstants {
   static final String getParticipatedLeaguesEndPoint = baseUrl + "/participatedleagues";
   static final String getParticipatedleagueDetailsEndPoint = baseUrl + "/leagueDetails";
   static final String feedBackEndPoint = baseUrl + "/feedback";
+  static final String confirmEmailEndPoint = baseUrl + "/confirmEmail";
+  static final String resendCodeEndPoint = baseUrl + "/resendCode";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

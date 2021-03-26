@@ -101,7 +101,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
           //validator: _validateFirstName,
 
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.flag, color: Colors.grey),
+            prefixIcon: Icon(Icons.email, color: Colors.grey),
             counterText: "",
             // filled: true,
             // fillColor: AppTheme.appDefaultColor,

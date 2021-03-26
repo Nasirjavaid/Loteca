@@ -8,6 +8,8 @@ abstract class MainRoundState {
 }
 
 class MainRoundInProgressState extends MainRoundState {}
+class MainRoundUserEmailIsnotVarifiedYetState extends MainRoundState {}
+
 
 class MainRoundBetSubmitingInProgressState extends MainRoundState {
 

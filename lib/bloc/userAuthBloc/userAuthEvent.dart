@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:locteca/model/feedback.dart';
 import 'package:locteca/model/userLogin.dart';
 
 import 'package:meta/meta.dart';
@@ -31,3 +32,13 @@ class AuthLoggedIn extends UserAuthEvent {
 
 //When we need to log out the user we will use this event
 class AuthLoggedOut extends UserAuthEvent {}
+
+//Auth starting point
+class AuthVerifyEmail extends UserAuthEvent {
+
+final String code;
+  AuthVerifyEmail({this.code});
+}
+class AuthReSendCode extends UserAuthEvent {}
+
+

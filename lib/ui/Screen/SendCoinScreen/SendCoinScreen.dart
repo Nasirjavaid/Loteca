@@ -7,7 +7,7 @@ import 'package:locteca/bloc/sendCoinBloc/sendCoinEvent.dart';
 
 import 'package:locteca/bloc/sendCoinBloc/sendCoinState.dart';
 import 'package:locteca/config/appTheme.dart';
-import 'package:locteca/config/methods.dart';
+
 import 'package:locteca/main.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';

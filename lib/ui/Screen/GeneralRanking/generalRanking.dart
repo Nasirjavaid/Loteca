@@ -2,7 +2,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardBloc.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardEvent.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardState.dart';
@@ -106,170 +105,208 @@ class _GeneralRankingState extends State<GeneralRanking> {
 
   Widget postionedBaseUserCards(List<LeaderBoardMonthly> leaderBoardMonthly) {
     return Container(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.end,
+        child: Column(
       children: [
-        Column(
-          children: [
-            Avatar(
-              circleTextWidget: ScaleAnimatedTextKit(
-                repeatForever: true,
-                duration: const Duration(milliseconds: 1000),
-                onTap: () {
-                  print("Tap Event");
-                },
-                text: ["2"],
-                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                textAlign: TextAlign.start,
-              ),
-              circleShow: true,
-              circleColor: Colors.blueGrey,
-              circleHeight: 22,
-              circleWidth: 22,
-              height: 65,
-              width: 65,
-              imageUrl: leaderBoardMonthly[1].image == null ||
-                      leaderBoardMonthly[1].image == ""
-                  ? APIConstants.userImagePlaceHolder
-                  : leaderBoardMonthly[1].image,
-              radius: 40,
-              backgroundColor: Colors.white,
-              borderColor: Colors.grey.shade300,
-              borderWidth: 4.0,
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.all(
+                Radius.circular(0),
+              )),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add_alert,
+                  size: 15,
+                  color: Colors.redAccent,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Each correct answer will give you 10 points for Leaderboard."
+                      .tr()
+                      .toString(),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: Colors.black54, fontSize: 11),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-                leaderBoardMonthly[1].name == null ||
-                        leaderBoardMonthly[1].name == ""
-                    ? "N/A"
-                    : leaderBoardMonthly[1].name,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appBackgroundColorforCard1,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900)),
-            SizedBox(
-              height: 10,
-            ),
-            creditWidget(context, Colors.amberAccent,
-                leaderBoardMonthly[1].winningCoins),
-          ],
+          ),
         ),
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(
-              height: 30,
+            Column(
+              children: [
+                Avatar(
+                  circleTextWidget: ScaleAnimatedTextKit(
+                    repeatForever: true,
+                    duration: const Duration(milliseconds: 1000),
+                    onTap: () {
+                      print("Tap Event");
+                    },
+                    text: ["2"],
+                    textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                        ),
+                    // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                    textAlign: TextAlign.start,
+                  ),
+                  circleShow: true,
+                  circleColor: Colors.blueGrey,
+                  circleHeight: 20,
+                  circleWidth: 20,
+                  height: 65,
+                  width: 65,
+                  imageUrl: leaderBoardMonthly[1].image == null ||
+                          leaderBoardMonthly[1].image == ""
+                      ? APIConstants.userImagePlaceHolder
+                      : leaderBoardMonthly[1].image,
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  borderColor: Colors.grey.shade300,
+                  borderWidth: 4.0,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                    leaderBoardMonthly[1].name == null ||
+                            leaderBoardMonthly[1].name == ""
+                        ? "N/A"
+                        : leaderBoardMonthly[1].name,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appBackgroundColorforCard1,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900)),
+                SizedBox(
+                  height: 10,
+                ),
+                creditWidget(context, Colors.amberAccent,
+                    leaderBoardMonthly[1].winningCoins),
+              ],
             ),
-            Avatar(
-              circleTextWidget: ScaleAnimatedTextKit(
-                repeatForever: true,
-                duration: const Duration(milliseconds: 1000),
-                onTap: () {
-                  print("Tap Event");
-                },
-                text: ["1"],
-                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                    ),
-                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                textAlign: TextAlign.start,
-              ),
-              circleShow: true,
-              circleColor: Colors.green,
-              circleHeight: 32,
-              circleWidth: 32,
-              height: 100,
-              width: 100,
-              imageUrl: leaderBoardMonthly[0].image == null ||
-                      leaderBoardMonthly[0].image == ""
-                  ? APIConstants.userImagePlaceHolder
-                  : leaderBoardMonthly[0].image,
-              radius: 40,
-              backgroundColor: Colors.white,
-              borderColor: Colors.grey.shade300,
-              borderWidth: 4.0,
+            Column(
+              children: [
+                SizedBox(
+                  height: 6,
+                ),
+                Avatar(
+                  circleTextWidget: ScaleAnimatedTextKit(
+                    repeatForever: true,
+                    duration: const Duration(milliseconds: 1000),
+                    onTap: () {
+                      print("Tap Event");
+                    },
+                    text: ["1"],
+                    textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                        ),
+                    // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                    textAlign: TextAlign.start,
+                  ),
+                  circleShow: true,
+                  circleColor: Colors.green,
+                  circleHeight: 30,
+                  circleWidth: 30,
+                  height: 100,
+                  width: 100,
+                  imageUrl: leaderBoardMonthly[0].image == null ||
+                          leaderBoardMonthly[0].image == ""
+                      ? APIConstants.userImagePlaceHolder
+                      : leaderBoardMonthly[0].image,
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  borderColor: Colors.grey.shade300,
+                  borderWidth: 4.0,
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Text(
+                    leaderBoardMonthly[0].name == null ||
+                            leaderBoardMonthly[0].name == ""
+                        ? "N/A"
+                        : leaderBoardMonthly[0].name,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appBackgroundColorforCard1,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900)),
+                SizedBox(
+                  height: 8,
+                ),
+                creditWidget(context, Colors.blueGrey[100],
+                    leaderBoardMonthly[0].winningCoins),
+                SizedBox(
+                  height: 0,
+                )
+              ],
             ),
-            SizedBox(
-              height: 18,
+            Column(
+              children: [
+                Avatar(
+                  circleTextWidget: ScaleAnimatedTextKit(
+                    repeatForever: true,
+                    duration: const Duration(milliseconds: 1000),
+                    onTap: () {
+                      print("Tap Event");
+                    },
+                    text: ["3"],
+                    textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                        ),
+                    // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
+                    textAlign: TextAlign.start,
+                  ),
+                  circleShow: true,
+                  circleColor: Colors.cyan,
+                  circleHeight: 20,
+                  circleWidth: 20,
+                  height: 65,
+                  width: 65,
+                  imageUrl: leaderBoardMonthly[2].image == null ||
+                          leaderBoardMonthly[2].image == ""
+                      ? APIConstants.userImagePlaceHolder
+                      : leaderBoardMonthly[2].image,
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  borderColor: Colors.grey.shade300,
+                  borderWidth: 4.0,
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                    leaderBoardMonthly[2].name == null ||
+                            leaderBoardMonthly[2].name == ""
+                        ? "N/A"
+                        : leaderBoardMonthly[2].name,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appBackgroundColorforCard1,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900)),
+                SizedBox(
+                  height: 8,
+                ),
+                creditWidget(context, AppTheme.background3,
+                    leaderBoardMonthly[2].winningCoins),
+              ],
             ),
-            Text(
-                leaderBoardMonthly[0].name == null ||
-                        leaderBoardMonthly[0].name == ""
-                    ? "N/A"
-                    : leaderBoardMonthly[0].name,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appBackgroundColorforCard1,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900)),
-            SizedBox(
-              height: 8,
-            ),
-            creditWidget(context, Colors.blueGrey[100],
-                leaderBoardMonthly[0].winningCoins),
-            SizedBox(
-              height: 0,
-            )
-          ],
-        ),
-        Column(
-          children: [
-            Avatar(
-              circleTextWidget: ScaleAnimatedTextKit(
-                repeatForever: true,
-                duration: const Duration(milliseconds: 1000),
-                onTap: () {
-                  print("Tap Event");
-                },
-                text: ["3"],
-                textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                textAlign: TextAlign.start,
-              ),
-              circleShow: true,
-              circleColor: Colors.cyan,
-              circleHeight: 22,
-              circleWidth: 22,
-              height: 65,
-              width: 65,
-              imageUrl: leaderBoardMonthly[2].image == null ||
-                      leaderBoardMonthly[2].image == ""
-                  ? APIConstants.userImagePlaceHolder
-                  : leaderBoardMonthly[2].image,
-              radius: 40,
-              backgroundColor: Colors.white,
-              borderColor: Colors.grey.shade300,
-              borderWidth: 4.0,
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-                leaderBoardMonthly[2].name == null ||
-                        leaderBoardMonthly[2].name == ""
-                    ? "N/A"
-                    : leaderBoardMonthly[2].name,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appBackgroundColorforCard1,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900)),
-            SizedBox(
-              height: 8,
-            ),
-            creditWidget(context, AppTheme.background3,
-                leaderBoardMonthly[2].winningCoins),
           ],
         ),
       ],
@@ -288,14 +325,21 @@ class _GeneralRankingState extends State<GeneralRanking> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.coins, size: 14, color: AppTheme.nearlyGold),
+            Container(
+              height: 10,
+              width: 10,
+              decoration: BoxDecoration(
+                  color: AppTheme.nearlyGold,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  )),
+            ),
             SizedBox(
               width: 12,
             ),
             Countup(
                 begin: 0,
                 end: coins.toDouble() == null ? 0.0 : coins.toDouble(),
-               
                 duration: Duration(seconds: 3),
                 separator: ',',
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
@@ -327,7 +371,16 @@ class _GeneralRankingState extends State<GeneralRanking> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.coins, size: 12, color: AppTheme.nearlyGold),
+            //Icon(FontAwesomeIcons.circle, size: 12, color: Colors.black38),
+            Container(
+              height: 10,
+              width: 10,
+              decoration: BoxDecoration(
+                  color: AppTheme.nearlyGold,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  )),
+            ),
             SizedBox(
               width: 8,
             ),
@@ -365,9 +418,10 @@ class _GeneralRankingState extends State<GeneralRanking> {
                 return leaderBoardGenericList.length == 0
                     ? Center(
                         child: Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: Text("No Items".tr().toString(),)
-                      ))
+                            padding: const EdgeInsets.only(top: 25.0),
+                            child: Text(
+                              "No Items".tr().toString(),
+                            )))
                     : listWiewItemCard(
                         context, index, leaderBoardGenericList[index]);
               }),
@@ -444,7 +498,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
                       leaderBordGenericItem.winningCoins == null ||
                               leaderBordGenericItem.winningCoins == ""
                           ? "N/A"
-                          : "Total Coins".tr().toString()+" : ${leaderBordGenericItem.coins}",
+                          : "Total Coins".tr().toString() +
+                              " : ${leaderBordGenericItem.coins}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -498,12 +553,13 @@ class _GeneralRankingState extends State<GeneralRanking> {
                 fontSize: 16,
                 fontWeight: FontWeight.w700),
           ),
+
           backgroundColor: AppTheme.appDefaultColor,
           bottom: TabBar(
             tabs: [
               Tab(
                   icon: Text(
-                "Per Points".tr().toString(),
+                "Monthly".tr().toString(),
                 style: Theme.of(context).textTheme.button.copyWith(
                     color: Colors.white70,
                     fontSize: 12,

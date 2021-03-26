@@ -20,25 +20,19 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   // Mapping Events with state
   @override
   Stream<UserAuthState> mapEventToState(UserAuthEvent event) async* {
-
-    if(state is AuthInitial){
-
-       await Future.delayed(Duration(seconds: 3));
+    if (state is AuthInitial) {
+      await Future.delayed(Duration(seconds: 1));
     }
-    
+
     //check if Authentication is confirmed from repostory
     if (event is AuthStarted) {
-
-
-
       bool hassToken = await userAuthRepository.hasToken();
 
       // if token exists then return Login in success
       if (hassToken) {
-
         //get FCM Token
-      // String deviceFCMtoken = await   fcmToken();
-      // print("FCM token in Auth Bloc $deviceFCMtoken");
+        // String deviceFCMtoken = await   fcmToken();
+        // print("FCM token in Auth Bloc $deviceFCMtoken");
 
         UserLogin userLoginWithRole = UserLogin();
         userLoginWithRole =
@@ -67,10 +61,10 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       // await Future.delayed(Duration(milliseconds: 500));
 
       await userAuthRepository.persistToken(event.userLogin);
-      
-        //get FCM Token
-       String deviceFCMtoken = await   fcmToken();
-       print("FCM token in Auth Bloc $deviceFCMtoken");
+
+      //get FCM Token
+      String deviceFCMtoken = await fcmToken();
+      print("FCM token in Auth Bloc $deviceFCMtoken");
 
       if (event.userLogin.data.user.roles == "1") {
         yield AuthSuccess();
@@ -90,6 +84,47 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       await userAuthRepository.deleteToken();
 
       yield AuthFailure();
+    }
+
+    if (event is AuthVerifyEmail) {
+      yield AuthInProgress();
+
+      var feedBack = await userAuthRepository.verifyUserCode(event.code);
+
+      if (feedBack.status == 200) {
+        yield AuthCodeVerificationMessage(feedback: feedBack);
+
+        await Future.delayed(Duration(milliseconds: 2000));
+        yield AuthCodeVerifiedSuccessfully(feedback: feedBack);
+        yield AuthSuccess();
+      }
+      if (feedBack.status == 209) {
+        yield AuthCodeVerificationFailed(feedback: feedBack);
+        yield AuthSuccess();
+      }
+      if (feedBack.status >= 400) {
+        yield AuthCodeVerificationFailed(feedback: feedBack);
+        yield AuthSuccess();
+      }
+    }
+
+    if (event is AuthReSendCode) {
+      yield AuthInProgress();
+
+      var feedBack = await userAuthRepository.resendCode();
+
+      if (feedBack.status == 200) {
+        yield AuthCodeResentSuccessfully(feedback: feedBack);
+        yield AuthSuccess();
+      }
+      if (feedBack.status == 209) {
+        yield AuthCodeVerificationFailed(feedback: feedBack);
+        yield AuthSuccess();
+      }
+      if (feedBack.status > 400) {
+        yield AuthCodeVerificationFailed(feedback: feedBack);
+        yield AuthSuccess();
+      }
     }
   }
 
