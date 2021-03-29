@@ -56,8 +56,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> with ValidationMixin {
           yield SignUpInProgress();
           await Future.delayed(Duration(seconds: 1));
           yield SignUpInSuccess(message: userLogin.message);
-          await Future.delayed(Duration(seconds: 1));
-          yield SignUpSuccessAndGoToLoginScreen();
+          // await Future.delayed(Duration(seconds: 1));
+          // yield SignUpSuccessAndGoToLoginScreen();
         } else if (userLogin.response == ("false")) {
           yield SignUpFailure(error: userLogin.message);
         } else {

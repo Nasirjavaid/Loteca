@@ -24,6 +24,8 @@ class APIConstants {
   static final String feedBackEndPoint = baseUrl + "/feedback";
   static final String confirmEmailEndPoint = baseUrl + "/confirmEmail";
   static final String resendCodeEndPoint = baseUrl + "/resendCode";
+  static final String resetPasswordCodeEndPoint = baseUrl + "/resetPasswordCode";
+  static final String updatePasswordCodeEndPoint = baseUrl + "/updatePassword";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

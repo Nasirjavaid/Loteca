@@ -46,7 +46,6 @@
     "Recipt date and time": "Data e hora do Recibo",
     "Username": "Usuario",
     "Selected Package": "Pacote Selecionado",
-   
     "Round ID #": "Identificacao da Rodada #",
     "Total Packages": "Total de Pacotes",
     "Total Games": "Total de Jogos",
@@ -106,12 +105,18 @@
     "phone": "Telefone",
 
 
-
-
-
     "Live": "ao vivo",
     "LIVE": "ao vivo",
     "Draw": "Desenhar",
+    "Create New User": "Criar novo usuário",
+    "Verify": "Verificar",
+    "You entered the wrong code": "Você digitou o código errado",
+    "Reset Password": "Redefinir senha",
+    "Confirm Passowrd": "Confirme a senha",
+    "Enter Password": "Digite a senha",
+    "Password doesn't match": "Senha não coincide",
+    "Verify Email": "Verificar e-mail",
+    "Verify Code": "Código de verificação",
     "Resend Code": "Reenviar código",
     "Didn't recevie the code yet ?": "Ainda não recebeu o código?",
     "Enter Code": "Coloque o código",

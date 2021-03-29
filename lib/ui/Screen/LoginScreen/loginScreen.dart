@@ -11,6 +11,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
+import 'package:locteca/ui/Screen/ForgetPasswordScreen/forgetPasswordScreen.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -429,6 +430,7 @@ cursorColor: AppTheme.appCardColor,
   Widget forgotPasswordText(BuildContext context) {
 //return Text("FORGOT PASSWORD?", style:  GoogleFonts.lato());
     return InkWell(
+      
       child: Text("Forget Your Password ?".tr().toString(),
           style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: AppTheme.appDefaultColor,
@@ -438,8 +440,8 @@ cursorColor: AppTheme.appCardColor,
                 decorationColor: AppTheme.appDefaultColor,
               )),
       onTap: () {
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => ForgetPasswordScreenMain()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ForgetPasswordScreenMain()));
       },
     );
   }
