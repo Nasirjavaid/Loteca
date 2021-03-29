@@ -39,7 +39,7 @@ class _UserValidationWithEmailFormWidgetState extends State<UserValidationWithEm
 
   _submitButtonPressed() {
     if (etEmail.text == null || etEmail.text.isEmpty) {
-      _showToast(context, "Please enter email");
+      _showToast(context, "Please enter email".tr().toString());
     
     } else {
       BlocProvider.of<SendCoinBloc>(context).add(

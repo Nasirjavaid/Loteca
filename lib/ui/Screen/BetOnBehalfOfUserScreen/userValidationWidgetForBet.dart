@@ -28,7 +28,7 @@ class UserValidationWidgetForBetState
   UserValidationWidgetForBetState({this.validateUser});
   submitButtonPressed(String coins, BuildContext context, String email) {
     if (coins == null || coins.isEmpty) {
-      Methods.showToast(context, "Please Enter Coins");
+      Methods.showToast(context, "Please Enter Coins".tr().toString());
     } else {
       BlocProvider.of<SendCoinBloc>(context).add(
         SendCoinsToUserEvent(email: email, coins: coins),

@@ -362,27 +362,27 @@ class UserInfo extends StatelessWidget {
                                               .copyWith(fontSize: 12),
                                         ),
                                 ),
-                                ListTile(
-                                  dense: true,
-                                  leading: Icon(
-                                    FontAwesomeIcons.coins,
-                                    color: AppTheme.nearlyGold,
-                                  ),
-                                  title: Text(
-                                    "Coins".tr().toString(),
-                                    style: Theme.of(context).textTheme.button,
-                                  ),
-                                  subtitle: userLogin.data.user.coins == null ||
-                                          userLogin.data.user.coins == ""
-                                      ? Text("N/A")
-                                      : Text(
-                                          "Total Coins".tr().toString()+" : ${userLogin.data.user.coins}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(fontSize: 12),
-                                        ),
-                                ),
+                                // ListTile(
+                                //   dense: true,
+                                //   leading: Icon(
+                                //     FontAwesomeIcons.coins,
+                                //     color: AppTheme.nearlyGold,
+                                //   ),
+                                //   title: Text(
+                                //     "Coins".tr().toString(),
+                                //     style: Theme.of(context).textTheme.button,
+                                //   ),
+                                //   subtitle: userLogin.data.user.coins == null ||
+                                //           userLogin.data.user.coins == ""
+                                //       ? Text("N/A")
+                                //       : Text(
+                                //           "Total Coins".tr().toString()+" : ${userLogin.data.user.coins}",
+                                //           style: Theme.of(context)
+                                //               .textTheme
+                                //               .bodyText1
+                                //               .copyWith(fontSize: 12),
+                                //         ),
+                                // ),
                                 ListTile(
                                   dense: true,
                                   leading: Icon(

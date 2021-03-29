@@ -88,7 +88,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
   }
 
   void submitBetRequest(MainRound mainRound) {
-    if (mainRound.user.coins == 0 || mainRound.user.coins == null) {
+    if (mainRound.agent.coins == 0 || mainRound.agent.coins == null) {
       //show message with no coins error
       //  showMessageError("You dont have enough coins.");
       noEnoughCoinsWidget();
@@ -96,7 +96,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
     } else if (selectedPackageId == null || selectedPackageId == 0) {
       // show error message to select a participation fee package
       print("Request not Submitted... did not selected the participation fee");
-      showMessageError("Please select your bet fee");
+      showMessageError("Please select your bet fee".tr().toString());
     } else {
       bool checkPoint = true;
       for (int i = 0; i < mainRound.round.games.length; i++) {
@@ -105,7 +105,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             mainRound.round.games[i].widegtSwitch2 == false) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from All team listed above");
+              "Must select your choice from all the Games listed above".tr().toString());
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
           checkPoint = false;
@@ -115,7 +115,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             mainRound.round.games[i].widegtSwitch2 == null) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from all the Games listed above");
+              "Must select your choice from all the Games listed above".tr().toString());
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
           checkPoint = false;
@@ -1026,7 +1026,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             ),
             anitext.AnimatedText(
               globalUserCoinsValue == 0
-                  ? "${mainRound.user.coins}"
+                  ? "${mainRound.agent.coins}"
                   : globalUserCoinsValue.toString(),
               duration: const Duration(milliseconds: 500),
               style: Theme.of(context).textTheme.bodyText2.copyWith(
@@ -1083,7 +1083,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                     // selectedPackageAccumulativePrice =
                     //     mainRound.round.packages[0].accumulativePrice;
 
-                    if (mainRound.user.coins <
+                    if (mainRound.agent.coins <
                         int.parse(
                             mainRound.round.packages[0].participationFee)) {
                       noEnoughCoinsWidget();
@@ -1100,7 +1100,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                           mainRound.round.packages[0].accumulativePrice;
 
                       globalUserCoinsValue = 0;
-                      globalUserCoinsValue = mainRound.user.coins -
+                      globalUserCoinsValue = mainRound.agent.coins -
                           int.parse(
                               mainRound.round.packages[0].participationFee);
                     }
@@ -1122,7 +1122,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                     // selectedPackageAccumulativePrice =
                     //     mainRound.round.packages[1].accumulativePrice;
 
-                    if (mainRound.user.coins <
+                    if (mainRound.agent.coins <
                         int.parse(
                             mainRound.round.packages[1].participationFee)) {
                       noEnoughCoinsWidget();
@@ -1139,7 +1139,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                           mainRound.round.packages[1].accumulativePrice;
 
                       globalUserCoinsValue = 0;
-                      globalUserCoinsValue = mainRound.user.coins -
+                      globalUserCoinsValue = mainRound.agent.coins -
                           int.parse(
                               mainRound.round.packages[1].participationFee);
                     }
@@ -1161,7 +1161,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                     // selectedPackageAccumulativePrice =
                     //     mainRound.round.packages[2].accumulativePrice;
 
-                    if (mainRound.user.coins <
+                    if (mainRound.agent.coins <
                         int.parse(
                             mainRound.round.packages[2].participationFee)) {
                       noEnoughCoinsWidget();
@@ -1176,7 +1176,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                           mainRound.round.packages[2].accumulativePrice;
 // updating User coins value live
                       globalUserCoinsValue = 0;
-                      globalUserCoinsValue = mainRound.user.coins -
+                      globalUserCoinsValue = mainRound.agent.coins -
                           int.parse(
                               mainRound.round.packages[2].participationFee);
                     }
@@ -1380,7 +1380,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                 ),
                 onPressed: () async {
                   print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(context, "Bet Sumitted".tr().toString(),
+                  Methods.showInfoFlushbarHelper(context, "Bet Submitted".tr().toString(),
                       "You are already submitted the bet".tr().toString(),);
 
                   // Methods.showToast(

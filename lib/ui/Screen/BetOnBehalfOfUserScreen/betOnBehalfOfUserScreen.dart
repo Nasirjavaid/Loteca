@@ -13,7 +13,7 @@ import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/noLiveRoundOrmissingUserWidget.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/userValidationWidgetForBet.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/userValidationWithEmailFormWidget.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 class BetOnBehalfOfUserScreenMain extends StatelessWidget {
   @override
@@ -58,7 +58,7 @@ class _BetOnBehalfOfUserScreenState extends State<BetOnBehalfOfUserScreen> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white38),
         title: Text(
-          "Bet for Special User",
+          "Bet For special User".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),
