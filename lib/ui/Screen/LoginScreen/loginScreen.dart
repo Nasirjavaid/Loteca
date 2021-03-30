@@ -485,7 +485,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: OvalTopBorderClipper(),
         child: Container(
-          height: 100,
+          height: MediaQuery.of(context).size.height*0.06,
           color: Colors.blue[100].withOpacity(0.5),
           child: Center(child: Text("")),
         ),
@@ -493,7 +493,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: WaveClipperTwo(reverse: true),
         child: Container(
-          height: 100,
+          height: MediaQuery.of(context).size.height*0.06,
           color: Colors.blue[900].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
@@ -501,7 +501,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: WaveClipperOne(reverse: true),
         child: Container(
-          height: 100,
+          height: MediaQuery.of(context).size.height*0.06,
           color: Colors.blue[600].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
@@ -515,7 +515,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: OvalBottomBorderClipper(),
         child: Container(
-          height: 100,
+          height: MediaQuery.of(context).size.height*0.11,
           color: Colors.blue[100].withOpacity(0.7),
           child: Center(child: Text("")),
         ),
@@ -523,7 +523,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: WaveClipperTwo(reverse: false),
         child: Container(
-          height: 170,
+          height:MediaQuery.of(context).size.height*0.08,
           color: Colors.blue[900].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
@@ -531,7 +531,7 @@ cursorColor: AppTheme.appCardColor,
       ClipPath(
         clipper: WaveClipperOne(reverse: false),
         child: Container(
-          height: 150,
+          height: MediaQuery.of(context).size.height*0.05,
           color: Colors.blue[600].withOpacity(0.1),
           child: Center(child: Text("")),
         ),

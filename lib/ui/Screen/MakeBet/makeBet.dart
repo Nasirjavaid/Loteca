@@ -1025,11 +1025,11 @@ class _MakeBetState extends State<MakeBet> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.008,
+            height: MediaQuery.of(context).size.height * 0.004,
           ),
           creditWidget(context, mainRound),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.005,
+            height: MediaQuery.of(context).size.height * 0.002,
           ),
           selectAmoutWidget(mainRound),
           Spacer(),
@@ -1045,7 +1045,7 @@ class _MakeBetState extends State<MakeBet> {
               ? CommonWidgets.progressIndicator
               : submitButton(mainRound),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.004,
+            height: MediaQuery.of(context).size.height * 0.002,
           ),
         ],
       ),
@@ -1091,7 +1091,7 @@ class _MakeBetState extends State<MakeBet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5),
+            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1246,7 +1246,7 @@ class _MakeBetState extends State<MakeBet> {
       decoration: BoxDecoration(
           color: AppTheme.background1,
           borderRadius: BorderRadius.all(
-            Radius.circular(15),
+            Radius.circular(10),
           )),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
