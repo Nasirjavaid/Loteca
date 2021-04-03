@@ -55,8 +55,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           children: [
             Container(
               height: widget.validateUser == null
-                  ? MediaQuery.of(context).size.height * 0.80
-                  : MediaQuery.of(context).size.height * 0.90,
+                  ? MediaQuery.of(context).size.height * 0.55
+                  : MediaQuery.of(context).size.height * 0.70,
               decoration: BoxDecoration(
                 color: AppTheme.nearlyGold,
                 borderRadius: BorderRadius.circular(20.0),
@@ -173,10 +173,10 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                                   ],
                                 ),
                           roundInformationWidget(widget.mainRound),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          selectedAnswersList(context, widget.mainRound),
+                          // SizedBox(
+                          //   height: 5,
+                          // ),
+                          // selectedAnswersList(context, widget.mainRound),
                           // Spacer(),
                           // saveAndShareButton(context),
                         ],
@@ -393,25 +393,25 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             SizedBox(
               height: 4,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total available coins".tr().toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(fontSize: 10),
-                ),
-                Text(
-                  user.coins.toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      .copyWith(fontSize: 11),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       "Total available coins".tr().toString(),
+            //       style: Theme.of(context)
+            //           .textTheme
+            //           .bodyText1
+            //           .copyWith(fontSize: 10),
+            //     ),
+            //     Text(
+            //       user.coins.toString(),
+            //       style: Theme.of(context)
+            //           .textTheme
+            //           .bodyText2
+            //           .copyWith(fontSize: 11),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -505,27 +505,27 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             // SizedBox(
             //   height: 4,
             // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total Available Coins".tr().toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(fontSize: 10),
-                ),
-                validateUser.user.coins == 0
-                    ? Text("0")
-                    : Text(
-                        validateUser.user.coins.toString(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .copyWith(fontSize: 11),
-                      ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       "Total Available Coins".tr().toString(),
+            //       style: Theme.of(context)
+            //           .textTheme
+            //           .bodyText1
+            //           .copyWith(fontSize: 10),
+            //     ),
+            //     validateUser.user.coins == 0
+            //         ? Text("0")
+            //         : Text(
+            //             validateUser.user.coins.toString(),
+            //             style: Theme.of(context)
+            //                 .textTheme
+            //                 .bodyText2
+            //                 .copyWith(fontSize: 11),
+            //           ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -556,8 +556,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           ),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.25,
-              minHeight: MediaQuery.of(context).size.height * 0.20,
+              maxHeight: MediaQuery.of(context).size.height * 0.20,
+              minHeight: MediaQuery.of(context).size.height * 0.18,
             ),
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

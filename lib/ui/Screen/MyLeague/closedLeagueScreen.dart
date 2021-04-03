@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,19 +9,23 @@ import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/closedLeague.dart';
+import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ClosedLeagueScreenMain extends StatelessWidget {
   final int roundId;
-  ClosedLeagueScreenMain({this.roundId});
+  final String bettingDate;
+  ClosedLeagueScreenMain({this.roundId, this.bettingDate});
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
         create: (context) {
-          return LeaguesBloc()..add(GetClosedLeagueEvent(roundId: roundId));
+          return LeaguesBloc()
+            ..add(GetClosedLeagueEvent(
+                roundId: roundId, bettingDate: bettingDate));
         },
         child: ClosedLeagueScreen(
           roundId: roundId,
@@ -59,8 +64,6 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +74,7 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
         iconTheme: IconThemeData(color: Colors.white38),
         centerTitle: true,
         backgroundColor: AppTheme.appDefaultColor,
-actions: [actionWidget(context)],
+        actions: [actionWidget(context)],
         title: Text(
           "Recent Closed League".tr().toString(),
           style: Theme.of(context).textTheme.button.copyWith(
@@ -103,7 +106,7 @@ actions: [actionWidget(context)],
     );
   }
 
-     Widget actionWidget(BuildContext context) {
+  Widget actionWidget(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: IconButton(
@@ -163,83 +166,117 @@ actions: [actionWidget(context)],
                 ),
               ],
             )),
-            SliverToBoxAdapter(
-                child: Container(
-              //color: AppTheme.background2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                // boxShadow: [
-                //   BoxShadow(color: Colors.green, spreadRadius: 3),
-                // ],
-              ),
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: _tabWidget(context, closedLeague),
-            )),
+            closedLeague.firstPackageWinners == null &&
+                    closedLeague.secondPackageWinners == null &&
+                    closedLeague.thirdPackageWinners == null
+                ? SliverToBoxAdapter()
+                : SliverToBoxAdapter(
+                    child: Container(
+                    //color: AppTheme.background2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      // boxShadow: [
+                      //   BoxShadow(color: Colors.green, spreadRadius: 3),
+                      // ],
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.30,
+                    child: _tabWidget(context, closedLeague),
+                  )),
             SliverToBoxAdapter(
                 child: Column(
               children: [
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                      ),
-                      color: Colors.white
-                      //color: AppTheme.appDefaultColor2,
-                      ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 15.0,
-                          horizontal: 15,
-                        ),
-                        child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: AppTheme.appCardColor,
-                                //color: AppTheme.appDefaultColor2,
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10),
-                                  child: Text(
-                                    "Over All Result".tr().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .copyWith(
-                                            fontSize: 14, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            headingCard(context),
-                          ],
-                        ),
-                      ),
-                    ],
+              ],
+            )),
+            closedLeague.answers == null
+                ? SliverToBoxAdapter()
+                : SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        textDynamicWidget(context, "Round Answers"),
+                        _resultWidget(contex, closedLeague.answers),
+                      ],
+                    ),
                   ),
+            SliverToBoxAdapter(
+                child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
                 ),
               ],
             )),
-            _resultWidget(contex, closedLeague),
+            closedLeague.userAnswers == null
+                ? SliverToBoxAdapter()
+                : SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        textDynamicWidget(context, "User Answers"),
+                        _resultWidget(contex, closedLeague.userAnswers),
+                      ],
+                    ),
+                  ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget textDynamicWidget(BuildContext context, String text) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10),
+            topLeft: Radius.circular(10),
+          ),
+          color: Colors.white
+          //color: AppTheme.appDefaultColor2,
+          ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 15.0,
+              horizontal: 15,
+            ),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: AppTheme.appCardColor,
+                    //color: AppTheme.appDefaultColor2,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10),
+                      child: Text(
+                        text.tr().toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(fontSize: 14, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                headingCard(context),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -284,7 +321,8 @@ actions: [actionWidget(context)],
                       closedLeague.round.startingDate == null ||
                               closedLeague.round.startingDate == ""
                           ? "N/A"
-                          : "Starting Date".tr().toString()+" : " +
+                          : "Starting Date".tr().toString() +
+                              " : " +
                               closedLeague.round.startingDate,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black45, fontWeight: FontWeight.w500),
@@ -296,7 +334,9 @@ actions: [actionWidget(context)],
                       closedLeague.round.endingDate == null ||
                               closedLeague.round.endingDate == ""
                           ? "N/A"
-                          : "Ending Date".tr().toString()+" :   " + closedLeague.round.endingDate,
+                          : "Ending Date".tr().toString() +
+                              " :   " +
+                              closedLeague.round.endingDate,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black45, fontWeight: FontWeight.w500),
                     ),
@@ -318,13 +358,14 @@ actions: [actionWidget(context)],
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 15, bottom: 10),
+          padding:
+              const EdgeInsets.only(left: 15.0, top: 15, bottom: 10, right: 15),
           child: Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), 
-                color: AppTheme.appDefaultColor2,
-                ),
+              borderRadius: BorderRadius.circular(10),
+              color: AppTheme.appDefaultColor2,
+            ),
             child: Center(
               child: Padding(
                 padding:
@@ -341,7 +382,7 @@ actions: [actionWidget(context)],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:18.0),
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: TabBar(
             unselectedLabelColor: Colors.black38,
             isScrollable: true,
@@ -365,14 +406,23 @@ actions: [actionWidget(context)],
           child: TabBarView(
             children: [
               closedLeague.firstPackageWinners == null
-                  ? Center(child: Text("No Winners".tr().toString(),))
-                  : postionedBaseUserCards(closedLeague.firstPackageWinners),
+                  ? Center(
+                      child: Text(
+                      "No Winners".tr().toString(),
+                    ))
+                  : horizontalList(closedLeague.firstPackageWinners),
               closedLeague.secondPackageWinners == null
-                  ? Center(child: Text("No Winners".tr().toString(),))
-                  : postionedBaseUserCards(closedLeague.secondPackageWinners),
+                  ? Center(
+                      child: Text(
+                      "No Winners".tr().toString(),
+                    ))
+                  : horizontalList(closedLeague.secondPackageWinners),
               closedLeague.thirdPackageWinners == null
-                  ? Center(child: Text("No Winners".tr().toString(),))
-                  : postionedBaseUserCards(closedLeague.thirdPackageWinners),
+                  ? Center(
+                      child: Text(
+                      "No Winners".tr().toString(),
+                    ))
+                  : horizontalList(closedLeague.thirdPackageWinners),
             ],
             controller: _tabController,
           ),
@@ -381,201 +431,52 @@ actions: [actionWidget(context)],
     );
   }
 
-  Widget postionedBaseUserCards(dynamic package) {
-    return Container(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      verticalDirection: VerticalDirection.down,
-      children: [
-        package.length == 2
-            ? Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Avatar(
-                    circleTextWidget: ScaleAnimatedTextKit(
-                      repeatForever: true,
-                      duration: const Duration(milliseconds: 1000),
-                      onTap: () {
-                        print("Tap Event");
-                      },
-                      text: ["2"],
-                      textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                          ),
-                      // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                      textAlign: TextAlign.start,
-                    ),
-                    circleShow: true,
-                    circleColor: Colors.blueGrey,
-                    circleHeight: 18,
-                    circleWidth: 18,
-                    height: 50,
-                    width: 50,
-                    //imageUrl: APIConstants.userImagePlaceHolder,
-                    imageUrl: package[1].image == null || package[1].image == ""
-                        ? APIConstants.userImagePlaceHolder
-                        : package[1].image,
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.grey.shade300,
-                    borderWidth: 4.0,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                      package[1].name == null || package[1].name == ""
-                          ? "N/A"
-                          : package[1].name,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color: AppTheme.appBackgroundColorforCard1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  creditWidget(
-                      context,
-                      Colors.amberAccent,
-
-                      // leaderBoardMonthly[1].winningCoins
-                      300),
-                ],
-              )
-            : Container(),
-        package.length == 1
-            ? Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Avatar(
-                    circleTextWidget: ScaleAnimatedTextKit(
-                      repeatForever: true,
-                      duration: const Duration(milliseconds: 1000),
-                      onTap: () {
-                        print("Tap Event");
-                      },
-                      text: ["1"],
-                      textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                          ),
-                      // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                      textAlign: TextAlign.start,
-                    ),
-                    circleShow: true,
-                    circleColor: Colors.green,
-                    circleHeight: 20,
-                    circleWidth: 20,
-                    height: 65,
-                    width: 65,
-                    //imageUrl: APIConstants.userImagePlaceHolder,
-
-                    imageUrl: package[0].image == null || package[0].image == ""
-                        ? APIConstants.userImagePlaceHolder
-                        : package[0].image,
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.grey.shade300,
-                    borderWidth: 4.0,
-                  ),
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Text(
-                      package[0].name == null || package[0].name == ""
-                          ? "N/A"
-                          : package[0].name,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color: AppTheme.appBackgroundColorforCard1,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  creditWidget(
-                      context,
-                      Colors.blueGrey[100],
-                      // leaderBoardMonthly[0].winningCoins
-                      300),
-                  SizedBox(
-                    height: 0,
-                  )
-                ],
-              )
-            : Container(),
-        package.length == 3
-            ? Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Avatar(
-                    circleTextWidget: ScaleAnimatedTextKit(
-                      repeatForever: true,
-                      duration: const Duration(milliseconds: 1000),
-                      onTap: () {
-                        print("Tap Event");
-                      },
-                      text: ["3"],
-                      textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                          ),
-                      // textStyle: TextStyle(fontSize: 14.0, fontFamily: "Canterbury"),
-                      textAlign: TextAlign.start,
-                    ),
-                    circleShow: true,
-                    circleColor: Colors.cyan,
-                    circleHeight: 18,
-                    circleWidth: 18,
-                    height: 50,
-                    width: 50,
-                    //imageUrl: APIConstants.userImagePlaceHolder,
-                    imageUrl: package[2].image == null || package[2].image == ""
-                        ? APIConstants.userImagePlaceHolder
-                        : package[2].image,
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.grey.shade300,
-                    borderWidth: 4.0,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text("N/A",
-                      // leaderBoardMonthly[2].name == null ||
-                      //         leaderBoardMonthly[2].name == ""
-                      //     ? "N/A"
-                      //     : leaderBoardMonthly[2].name,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color: AppTheme.appBackgroundColorforCard1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  creditWidget(
-                      context,
-                      AppTheme.background3,
-                      //leaderBoardMonthly[2].winningCoins
-                      300),
-                ],
-              )
-            : Container(),
-      ],
-    ));
+  Widget horizontalList(List<dynamic> package) {
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: package.length,
+        itemBuilder: (BuildContext context, int index) =>
+            winnerListItemCard(package[index]),
+      ),
+    );
   }
 
-  Widget creditWidget(BuildContext context, Color backgroundColor, int coins) {
+  Widget winnerListItemCard(dynamic package) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.30,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CirculerImageView(
+            height: 60,
+            width: 60,
+            imageUrl: package.image == null || package.image == ""
+                ? APIConstants.userImagePlaceHolder
+                : package.image,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+              package.name == null || package.name == "" ? "N/A" : package.name,
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  color: AppTheme.appBackgroundColorforCard1,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900)),
+          SizedBox(
+            height: 10,
+          ),
+          creditWidget(context, Colors.amberAccent, package.winningCoins),
+        ],
+      ),
+    );
+  }
+
+  Widget creditWidget(
+      BuildContext context, Color backgroundColor, dynamic coins) {
     return Container(
       decoration: BoxDecoration(
           color: backgroundColor,
@@ -591,30 +492,47 @@ actions: [actionWidget(context)],
             SizedBox(
               width: 12,
             ),
-            Text(coins == null ? "0" : "$coins",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appDefaultColor,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w900)),
+            coins == null || coins == "N/A"
+                ? Container()
+                : Countup(
+                    begin: 0,
+                    end:
+                        double.parse(coins) == null ? 0.0 : double.parse(coins),
+                    duration: Duration(seconds: 3),
+                    separator: ',',
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: AppTheme.appDefaultColor,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900)),
+            // Text(coins == null ? "0" : "$coins",
+            //     style: Theme.of(context).textTheme.bodyText2.copyWith(
+            //         color: AppTheme.appDefaultColor,
+            //         fontSize: 11,
+            //         fontWeight: FontWeight.w900)),
           ],
         ),
       ),
     );
   }
 
-  Widget _resultWidget(BuildContext context, ClosedLeague closedLeague) {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (BuildContext contex, int index) {
-        return closedLeague.answers.length != 0
-            ? listWiewItemCard(contex, closedLeague.answers[index])
-            : Center(
-                child: Text("No itmes".tr().toString(),),
-              );
-      },
-      childCount:
-          closedLeague.answers.length == 0 ? 1 : closedLeague.answers.length,
-    ));
+  Widget _resultWidget(BuildContext context, dynamic dynamicAnswers) {
+    return SizedBox(
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext contex, int index) {
+          return dynamicAnswers.length != 0
+              ? listWiewItemCard(contex, dynamicAnswers[index])
+              : Center(
+                  child: Text(
+                    "No itmes".tr().toString(),
+                  ),
+                );
+        },
+        itemCount: dynamicAnswers.length == 0 ? 1 : dynamicAnswers.length,
+      ),
+    );
   }
 
   Widget headingCard(BuildContext context) {
@@ -631,13 +549,31 @@ actions: [actionWidget(context)],
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team A".tr().toString(), 15, FontWeight.w900, Colors.black54),
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Team A".tr().toString(),
+                  15,
+                  FontWeight.w900,
+                  Colors.black54),
 
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Team B".tr().toString(), 15, FontWeight.w900, Colors.black54),
-              creditWidgetTwo(context, 10, AppTheme.pieChartBackgroundColor1,
-                  "Winner".tr().toString(), 15, FontWeight.w900, AppTheme.appDefaultColor),
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Team B".tr().toString(),
+                  15,
+                  FontWeight.w900,
+                  Colors.black54),
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Winner".tr().toString(),
+                  15,
+                  FontWeight.w900,
+                  AppTheme.appDefaultColor),
               // Row(
               //   children: [
               //     Text(
@@ -672,36 +608,38 @@ actions: [actionWidget(context)],
       double fontSize,
       FontWeight fontWeight,
       Color textColor) {
-    return Container(
-      // height: MediaQuery.of(context).size.height * 0.070,
-      decoration: BoxDecoration(
-          // color: bgColor,
-          // shape: BoxShape.circle,
-          // borderRadius: BorderRadius.all(
-          //   Radius.circular(cornerRadius),
-          // )
+    return Expanded(
+      child: Container(
+        // height: MediaQuery.of(context).size.height * 0.070,
+        decoration: BoxDecoration(
+            // color: bgColor,
+            // shape: BoxShape.circle,
+            // borderRadius: BorderRadius.all(
+            //   Radius.circular(cornerRadius),
+            // )
+            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon(FontAwesomeIcons.coins, size: 20, color: AppTheme.nearlyGold),
+              // SizedBox(
+              //   width: 14,
+              // ),
+              Text(text,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: textColor,
+                      fontSize: fontSize,
+                      fontWeight: fontWeight)),
+            ],
           ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon(FontAwesomeIcons.coins, size: 20, color: AppTheme.nearlyGold),
-            // SizedBox(
-            //   width: 14,
-            // ),
-            Text(text,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: textColor,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight)),
-          ],
         ),
       ),
     );
   }
 
-  Widget listWiewItemCard(BuildContext context, Answers answers) {
+  Widget listWiewItemCard(BuildContext context, dynamic answers) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0),
       child: Container(

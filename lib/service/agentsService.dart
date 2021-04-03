@@ -35,7 +35,7 @@ class AgentsService{
         endPoint: APIConstants.agentsEndPoint, header: _getRequestHeaders());
     print("status code ${response.statusCode}");
 
-    if (response.statusCode == 200) {
+    if (response. statusCode == 200) {
       print("response body  in agentsToBuyCoins service : : ${response.body}");
 
       var json = jsonDecode(response.body);

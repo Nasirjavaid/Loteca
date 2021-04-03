@@ -203,7 +203,7 @@ class Methods {
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.25),
       transitionDuration: Duration(milliseconds: 400),
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierLabel: '',
       context: context,
       pageBuilder: (_, __, ___) {

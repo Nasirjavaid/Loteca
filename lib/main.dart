@@ -210,6 +210,14 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        final scale = mediaQueryData.textScaleFactor.clamp(0.95,0.95);
+        return MediaQuery(
+          child: child,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+        );
+      },
       home: networkCheck
           ? BlocBuilder<UserAuthBloc, UserAuthState>(
               builder: (context, state) {

@@ -37,6 +37,7 @@ class ParticipatedLeagues {
   String name;
   String startingDate;
   String endingDate;
+  String bettingDate;
   String createdAt;
   String updatedAt;
   String status;
@@ -61,6 +62,7 @@ class ParticipatedLeagues {
     name = json['name'];
     startingDate = json['starting_date'];
     endingDate = json['ending_date'];
+    bettingDate = json['betting_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     status = json['status'];
@@ -75,6 +77,7 @@ class ParticipatedLeagues {
     data['name'] = this.name;
     data['starting_date'] = this.startingDate;
     data['ending_date'] = this.endingDate;
+    data['betting_date'] = this.bettingDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['status'] = this.status;

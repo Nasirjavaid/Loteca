@@ -127,8 +127,8 @@ class _UserValidationWithEmailFormWidgetState extends State<UserValidationWithEm
 
   Widget submitButton(BuildContext context) {
     return SizedBox(
-      height: 40,
-      width: MediaQuery.of(context).size.width * 0.5,
+      height: 45,
+      width: MediaQuery.of(context).size.width * 0.65,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
         child: Container(

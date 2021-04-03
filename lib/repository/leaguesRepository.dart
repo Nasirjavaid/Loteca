@@ -34,13 +34,13 @@ class LeaguesRepository {
     return mainRound;
   }
 
-  Future<ClosedLeague> getClosedLeagueDetail(int roundId) async {
+  Future<ClosedLeague> getClosedLeagueDetail(int roundId,String bettingDate) async {
 //custom delay
     // await Future.delayed(Duration(seconds: 1));
 
     ClosedLeague closedLeague = ClosedLeague();
 
-    closedLeague = await leaguesService.getClosedLeagueDetail(roundId);
+    closedLeague = await leaguesService.getClosedLeagueDetail(roundId,bettingDate);
 
     // if (mainRound != null) {
     //   return mainRound;

@@ -14,7 +14,6 @@ import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class AgentDetailScreenMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -56,9 +55,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               elevation: 0,
               actions: [
                 actionWidget(context),
-              ]
-              
-              ),
+              ]),
           // body: _buildBody(context),
 
           body: BlocListener<AgentDashboardBloc, AgentDashboardState>(
@@ -140,7 +137,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return Stack(children: [
       Container(
-        height: MediaQuery.of(context).size.height * 0.21,
+        height: MediaQuery.of(context).size.height * 0.25,
         decoration: BoxDecoration(
             color: AppTheme.appDefaultColor,
             borderRadius: BorderRadius.only(
@@ -159,7 +156,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.10,
+              height: MediaQuery.of(context).size.height * 0.15,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.195,
@@ -215,7 +212,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "Avilable Coins".tr().toString()+":    ",
+                              "Avilable Coins".tr().toString() + ":    ",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -239,7 +236,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "Phone".tr().toString()+":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
+                          "Phone".tr().toString() +
+                              ":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -249,7 +247,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           height: 3,
                         ),
                         Text(
-                          "WhatsApp".tr().toString()+":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
+                          "WhatsApp".tr().toString() +
+                              ":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -292,22 +291,20 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
   Widget sendCoinsButton(BuildContext context) {
     return InkWell(
       onTap: () {
+        NetworkConnectivity.check().then((internet) {
+          if (internet) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SendCoinScreenMain(),
+              ),
+            );
+          } else {
+            //show network erro
 
-
-         NetworkConnectivity.check().then((internet) {
-                          if (internet) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SendCoinScreenMain(),
-                              ),
-                            );
-                          } else {
-                            //show network erro
-
-                            Methods.showToast(context, "Check your network".tr().toString());
-                          }
-                        });
+            Methods.showToast(context, "Check your network".tr().toString());
+          }
+        });
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 0.062,
@@ -324,7 +321,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               color: AppTheme.appCardColor,
               fontSize: 16,
               fontWeight: FontWeight.w900),
-        )),
+        )
+        ),
       ),
     );
   }
@@ -332,7 +330,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
   Widget perDayAndWeeklySaleWidget(
       BuildContext context, AgentDashboardModel agentDashboardModel, state) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.30,
+      height: MediaQuery.of(context).size.height * 0.31,
       decoration: BoxDecoration(
           color: AppTheme.background2,
           borderRadius: BorderRadius.all(
@@ -401,7 +399,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             heading,
             style: Theme.of(context)
                 .textTheme
-                .bodyText2
+                .bodyText1
                 .copyWith(color: Colors.black87),
           ),
           // SizedBox(
@@ -411,7 +409,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             subHeading,
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: AppTheme.appDefaultColor,
-                fontSize: 25,
+                fontSize: 15,
                 fontWeight: FontWeight.w900),
           ),
         ]),
@@ -438,7 +436,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             style: Theme.of(context)
                 .textTheme
                 .bodyText2
-                .copyWith(color: Colors.black87, fontSize: 16),
+                .copyWith(color: Colors.black87, fontSize: 13),
           ),
           // SizedBox(
           //   height: 18,
@@ -447,7 +445,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             subHeading,
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: AppTheme.appDefaultColor,
-                fontSize: 30,
+                fontSize: 16,
                 fontWeight: FontWeight.w900),
           ),
         ]),

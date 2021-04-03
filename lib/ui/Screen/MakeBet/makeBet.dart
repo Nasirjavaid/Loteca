@@ -57,9 +57,6 @@ class _MakeBetState extends State<MakeBet> {
   String selectedPackageAccumulativePrice;
   MainRound mainRoundGlobal;
 
-
-  
-
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: color,
@@ -70,8 +67,6 @@ class _MakeBetState extends State<MakeBet> {
       duration: const Duration(seconds: 3),
     ));
   }
-
-
 
   Widget actionWidget(BuildContext context) {
     return Padding(
@@ -224,17 +219,24 @@ class _MakeBetState extends State<MakeBet> {
 
         print("Error : ${state.errorMessage}");
       }
-      // if (state is MainRoundSuccessState) {
-      //   if (state.mainRound.user.emailVerifiedAt == null) {
-      //     Methods.showDialogForEmailVerification(context,
-      //        );
-      //   }
+      // if(state is MainRoundUpdateWidgetState){
+
       // }
+      if (state is MainRoundSuccessState) {
+        if (state.mainRound.bid) {
+          widegtSwitch0 = false;
+          widegtSwitch1 = false;
+          widegtSwitch2 = false;
+          selectedPackageId=0;
+          Methods.showDialogueForUserBetDetail(context, state.mainRound, null);
+        }
+      }
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
       if (state is MainRoundSuccessState) {
         mainRoundGlobal = MainRound();
         mainRoundGlobal = state.mainRound;
+
         return bodyTwoCurrentDesign(state);
       }
 
@@ -504,7 +506,7 @@ class _MakeBetState extends State<MakeBet> {
                 height: 1,
               ),
               Text(
-                mainRound == null || mainRound == " "
+                mainRound.round.startingDate.isEmpty
                     ? "---"
                     : "${mainRound.round.startingDate}",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
@@ -819,6 +821,7 @@ class _MakeBetState extends State<MakeBet> {
                     child: Text(
                       teamName != null ? "$teamName" : "---",
                       maxLines: 2,
+                      textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white60,
@@ -866,6 +869,7 @@ class _MakeBetState extends State<MakeBet> {
                     child: Text(
                       teamName != null ? "$teamName" : "---",
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: AppTheme.appDefaultColor,
@@ -1027,7 +1031,9 @@ class _MakeBetState extends State<MakeBet> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.004,
           ),
-          creditWidget(context, mainRound),
+          state is MainRoundBetSubmitingInProgressState
+              ? CommonWidgets.progressIndicator
+              : creditWidget(context, mainRound),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.002,
           ),
@@ -1041,9 +1047,8 @@ class _MakeBetState extends State<MakeBet> {
           //     return submitButton(mainRound);
           //   }
           // }),
-          state is MainRoundBetSubmitingInProgressState
-              ? CommonWidgets.progressIndicator
-              : submitButton(mainRound),
+
+          submitButton(mainRound, state),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.002,
           ),
@@ -1246,7 +1251,7 @@ class _MakeBetState extends State<MakeBet> {
       decoration: BoxDecoration(
           color: AppTheme.background1,
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(15),
           )),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
@@ -1256,18 +1261,18 @@ class _MakeBetState extends State<MakeBet> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Rs: ${packages.participationFee}"
+                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.w700)),
             SizedBox(
               height: 2,
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    ? "Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.black45,
@@ -1294,7 +1299,7 @@ class _MakeBetState extends State<MakeBet> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Rs: ${packages.participationFee}"
+                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.nearlyWhite,
@@ -1305,7 +1310,7 @@ class _MakeBetState extends State<MakeBet> {
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    ? "Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white70,
@@ -1317,12 +1322,15 @@ class _MakeBetState extends State<MakeBet> {
     );
   }
 
-  Widget submitButton(MainRound mainRound) {
+  Widget submitButton(MainRound mainRound, state) {
     if (mainRound.bid) {
       globalUserCoinsValue = 0;
     }
-    return mainRound.bid == false
-        ? SizedBox(
+    // return mainRound.bid == false
+    //     ?
+    return state is MainRoundBetSubmitingInProgressState
+        ? showReciptAndBetSubmittedButtons(mainRound)
+        : SizedBox(
             height: MediaQuery.of(context).size.height * 0.047,
             width: MediaQuery.of(context).size.width * 0.95,
             child: Padding(
@@ -1380,111 +1388,57 @@ class _MakeBetState extends State<MakeBet> {
                     }),
               ),
             ),
-          )
-        : showReciptAndBetSubmittedButtons(mainRound);
+          );
   }
 
   Widget showReciptAndBetSubmittedButtons(MainRound mainRound) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.047,
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 0.0),
-          child: Container(
-            // margin: EdgeInsets.only(top: 0.0),
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              gradient: new LinearGradient(
-                  colors: [AppTheme.grey, AppTheme.grey],
-                  begin: const FractionalOffset(0.0, 1.0),
-                  end: const FractionalOffset(0.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: MaterialButton(
-                highlightColor: AppTheme.appDefaultButtonSplashColor,
-                splashColor: AppTheme.appDefaultButtonSplashColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(2.0))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 12.0),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.047,
+      width: MediaQuery.of(context).size.width * 0.95,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0),
+        child: Container(
+          // margin: EdgeInsets.only(top: 0.0),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            gradient: new LinearGradient(
+                colors: [AppTheme.grey, AppTheme.grey],
+                begin: const FractionalOffset(0.0, 1.0),
+                end: const FractionalOffset(0.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+          child: MaterialButton(
+              highlightColor: AppTheme.appDefaultButtonSplashColor,
+              splashColor: AppTheme.appDefaultButtonSplashColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2.0))),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
 
 //checking user before placing the order
-                  // child: guestUserValue
-                  //     ? Text("Sign In",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white))
-                  //     : Text("Check out",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white)),
+                // child: guestUserValue
+                //     ? Text("Sign In",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white))
+                //     : Text("Check out",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Bet Submitted".tr().toString(),
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontWeight: FontWeight.w600, color: Colors.white)),
-                ),
-                onPressed: () async {
-                  print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(
-                      context,
-                      "Bet Submitted".tr().toString(),
-                      "You are already submitted the bet".tr().toString());
-                  // Methods.showToast(
-                  //     context, "You are already submitted the bet.");
-                }),
-          ),
+                child: Text("Please wait".tr().toString(),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.white)),
+              ),
+              onPressed: () async {
+               
+
+                // Methods.showToast(
+                //     context, "You are already submitted the bet.");
+              }),
         ),
       ),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.047,
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 0.0),
-          child: Container(
-            // margin: EdgeInsets.only(top: 0.0),
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              gradient: new LinearGradient(
-                  colors: [AppTheme.grey, AppTheme.grey],
-                  begin: const FractionalOffset(0.0, 1.0),
-                  end: const FractionalOffset(0.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: MaterialButton(
-                highlightColor: AppTheme.appDefaultButtonSplashColor,
-                splashColor: AppTheme.appDefaultButtonSplashColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(2.0))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 12.0),
-
-//checking user before placing the order
-                  // child: guestUserValue
-                  //     ? Text("Sign In",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white))
-                  //     : Text("Check out",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white)),
-
-                  child: Text("Show Recipt".tr().toString(),
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontWeight: FontWeight.w600, color: Colors.white)),
-                ),
-                onPressed: () async {
-                  Methods.showDialogueForUserBetDetail(
-                      context, mainRound, null);
-
-                  // Methods.showToast(
-                  //     context, "You are already submitted the bet.");
-                }),
-          ),
-        ),
-      ),
-    ]);
+    );
   }
 
   Widget noLiveRoundWidget(BuildContext context, String errorMessage) {
@@ -1517,7 +1471,7 @@ class _MakeBetState extends State<MakeBet> {
               title: Text(
                 "You don't Have enough coins to join this Round !!!"
                     .tr()
-                    .toString(), 
+                    .toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
               ),

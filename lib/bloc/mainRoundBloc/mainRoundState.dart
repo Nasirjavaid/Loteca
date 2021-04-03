@@ -27,7 +27,17 @@ class OnBetPriceChangeState extends MainRoundState {
 
 
 
-class MainRoundInitialState extends MainRoundState {}
+class MainRoundInitialState extends MainRoundState {
+
+
+}
+
+class MainRoundUpdateWidgetState extends MainRoundState {
+final MainRound mainRound;
+
+   MainRoundUpdateWidgetState({this.mainRound});
+  
+}
 
 class NoLiveRoundAvailableMainRoundState extends MainRoundState {
 

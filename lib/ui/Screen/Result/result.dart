@@ -101,7 +101,7 @@ class _ResultState extends State<Result> {
               //   height: 12,
               // ),
               Flexible(
-                flex: 2,
+                flex: 3,
                 child: headingCard(context),
               ),
               Flexible(
@@ -330,7 +330,7 @@ class _ResultState extends State<Result> {
       FontWeight fontWeight,
       Color textColor) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.070,
+      height: MediaQuery.of(context).size.height * 0.080,
       decoration: BoxDecoration(
         color: bgColor,
         shape: BoxShape.circle,

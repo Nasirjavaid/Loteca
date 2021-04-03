@@ -160,7 +160,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
                 //         style: Theme.of(context).textTheme.bodyText2.copyWith(
                 //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                child: Text("Verify To send Coins".tr().toString(),
+                child: Text("Verify To send Coins".tr().toString(),textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText2.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),

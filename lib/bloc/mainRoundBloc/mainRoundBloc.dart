@@ -59,6 +59,8 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
         mainRound =
             await mainRoundRepository.submitBetOfMainRound(event.mainRound);
         if (mainRound.response == "true") {
+
+      
           yield MainRoundSuccessState(mainRound: mainRound);
         } else {
           yield MainRoundFailureState(errorMessage: mainRound.message);

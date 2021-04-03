@@ -6,6 +6,7 @@ class ClosedLeague {
   List<SecondPackageWinners> secondPackageWinners;
   List<ThirdPackageWinners> thirdPackageWinners;
   List<Answers> answers;
+  List<Answers> userAnswers;
   Round round;
 
   ClosedLeague(
@@ -16,7 +17,8 @@ class ClosedLeague {
       this.secondPackageWinners,
       this.thirdPackageWinners,
       this.answers,
-      this.round});
+      this.round,
+      this.userAnswers});
 
   ClosedLeague.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -46,6 +48,14 @@ class ClosedLeague {
         answers.add(new Answers.fromJson(v));
       });
     }
+
+    if (json['userAnswers'] != null) {
+      userAnswers = new List<Answers>();
+      json['userAnswers'].forEach((v) {
+        userAnswers.add(new Answers.fromJson(v));
+      });
+    }
+
     round = json['round'] != null ? new Round.fromJson(json['round']) : null;
   }
 
@@ -69,6 +79,11 @@ class ClosedLeague {
     if (this.answers != null) {
       data['answers'] = this.answers.map((v) => v.toJson()).toList();
     }
+
+    if (this.userAnswers != null) {
+      data['userAnswers'] = this.userAnswers.map((v) => v.toJson()).toList();
+    }
+
     if (this.round != null) {
       data['round'] = this.round.toJson();
     }
@@ -112,7 +127,7 @@ class FirstPackageWinners {
     roles = json['roles'];
     coins = json['coins'];
     image = json['image'];
-    winningCoins = json['Winning Coins'];
+    winningCoins = json['winningCoins'];
     if (json['images'] != null) {
       images = new List<Images>();
       json['images'].forEach((v) {
@@ -132,13 +147,14 @@ class FirstPackageWinners {
     data['roles'] = this.roles;
     data['coins'] = this.coins;
     data['image'] = this.image;
-    data['Winning Coins'] = this.winningCoins;
+    data['winningCoins'] = this.winningCoins;
     if (this.images != null) {
       data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
+
 class SecondPackageWinners {
   int id;
   String name;
@@ -175,7 +191,7 @@ class SecondPackageWinners {
     roles = json['roles'];
     coins = json['coins'];
     image = json['image'];
-    winningCoins = json['Winning Coins'];
+    winningCoins = json['winningCoins'];
     if (json['images'] != null) {
       images = new List<Images>();
       json['images'].forEach((v) {
@@ -195,13 +211,14 @@ class SecondPackageWinners {
     data['roles'] = this.roles;
     data['coins'] = this.coins;
     data['image'] = this.image;
-    data['Winning Coins'] = this.winningCoins;
+    data['winningCoins'] = this.winningCoins;
     if (this.images != null) {
       data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
+
 class ThirdPackageWinners {
   int id;
   String name;
@@ -238,7 +255,7 @@ class ThirdPackageWinners {
     roles = json['roles'];
     coins = json['coins'];
     image = json['image'];
-    winningCoins = json['Winning Coins'];
+    winningCoins = json['winningCoins'];
     if (json['images'] != null) {
       images = new List<Images>();
       json['images'].forEach((v) {
@@ -258,7 +275,7 @@ class ThirdPackageWinners {
     data['roles'] = this.roles;
     data['coins'] = this.coins;
     data['image'] = this.image;
-    data['Winning Coins'] = this.winningCoins;
+    data['winningCoins'] = this.winningCoins;
     if (this.images != null) {
       data['images'] = this.images.map((v) => v.toJson()).toList();
     }

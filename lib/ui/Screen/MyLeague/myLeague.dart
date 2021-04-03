@@ -11,7 +11,6 @@ import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locteca/ui/Screen/MyLeague/closedLeagueScreen.dart';
 
-
 class MyLeagueMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -227,10 +226,11 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
 
   Widget listofTeams(
     BuildContext context,
-    List<ParticipatedLeagues> participatedLeague,) {
+    List<ParticipatedLeagues> participatedLeague,
+  ) {
     return Container(
       //  height: MediaQuery.of(context).size.height * 0.35,
-      width: MediaQuery.of(context).size.width ,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
@@ -240,9 +240,8 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
         padding: const EdgeInsets.symmetric(vertical: 0.0),
         child: ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 5),
-            itemCount: participatedLeague.length == 0
-                ? 1
-                : participatedLeague.length,
+            itemCount:
+                participatedLeague.length == 0 ? 1 : participatedLeague.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return participatedLeague.length != 0
@@ -253,7 +252,9 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                   : Center(
                       child: Padding(
                       padding: const EdgeInsets.only(top: 25.0),
-                      child: Text("You've no record yet".tr().toString(),),
+                      child: Text(
+                        "You've no record yet".tr().toString(),
+                      ),
                     ));
             }),
       ),
@@ -262,7 +263,8 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
 
   Widget listWiewItemCard(
     BuildContext context,
-    ParticipatedLeagues leaguesItem,) {
+    ParticipatedLeagues leaguesItem,
+  ) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -270,11 +272,12 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
           MaterialPageRoute(
               builder: (context) => ClosedLeagueScreenMain(
                     roundId: leaguesItem.id,
+                    bettingDate: leaguesItem.bettingDate,
                   )),
         );
       },
       child: Container(
-        width: MediaQuery.of(context).size.width*10,
+        width: MediaQuery.of(context).size.width * 10,
         decoration: BoxDecoration(
             color: AppTheme.background,
             borderRadius: BorderRadius.all(
@@ -303,14 +306,43 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      leaguesItem.name == null || leaguesItem.name == ""
-                          ? "N/A"
-                          : leaguesItem.name,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 12.5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          leaguesItem.name == null || leaguesItem.name == ""
+                              ? "N/A"
+                              : leaguesItem.name,
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12.5),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.cyan[100],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(2),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 1),
+                            child: Text(
+                              leaguesItem.status.contains("1")
+                                  ? "Live".tr().toString()
+                                  : "Closed".tr().toString(),
+                              textAlign: TextAlign.end,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Colors.cyan[900],
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 4,
@@ -380,6 +412,43 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                   .bodyText1
                                   .copyWith(
                                       color: Colors.red[900],
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          "Bet Date".tr().toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black38, fontSize: 10),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green[100],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(2),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 8),
+                            child: Text(
+                              "${leaguesItem.bettingDate == null || leaguesItem.bettingDate == "" ? "N/A" : leaguesItem.bettingDate} ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Colors.green[900],
                                       fontWeight: FontWeight.w600,
                                       fontSize: 10),
                             ),

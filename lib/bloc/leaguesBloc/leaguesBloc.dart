@@ -35,7 +35,7 @@ class LeaguesBloc extends Bloc<LeaguesEvent, LeaguesState> {
       try {
         yield LeaguesInProgressState();
 
-        final closedLeague = await leaguesRepository.getClosedLeagueDetail(event.roundId);
+        final closedLeague = await leaguesRepository.getClosedLeagueDetail(event.roundId,event.bettingDate);
 
         if (closedLeague.response == "true") {
           yield ClosedLeaguesSuccessState(closedLeague: closedLeague);

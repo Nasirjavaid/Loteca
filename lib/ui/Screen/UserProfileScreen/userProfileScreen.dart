@@ -341,27 +341,27 @@ class UserInfo extends StatelessWidget {
                             ...ListTile.divideTiles(
                               color: Colors.grey,
                               tiles: [
-                                ListTile(
-                                  dense: true,
-                                  leading: Icon(
-                                    FontAwesomeIcons.anchor,
-                                    color: AppTheme.appBackgroundColorforCard2,
-                                  ),
-                                  title: Text(
-                                    "Role".tr().toString(),
-                                    style: Theme.of(context).textTheme.button,
-                                  ),
-                                  subtitle: userLogin.data.user.roles == null ||
-                                          userLogin.data.user.roles == ""
-                                      ? Text("N/A")
-                                      : Text(
-                                          "Available as".tr().toString()+" ${userLogin.data.user.roles == "1" ? "'Player'" : "'Agent'"}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(fontSize: 12),
-                                        ),
-                                ),
+                                // ListTile(
+                                //   dense: true,
+                                //   leading: Icon(
+                                //     FontAwesomeIcons.anchor,
+                                //     color: AppTheme.appBackgroundColorforCard2,
+                                //   ),
+                                //   title: Text(
+                                //     "Role".tr().toString(),
+                                //     style: Theme.of(context).textTheme.button,
+                                //   ),
+                                //   subtitle: userLogin.data.user.roles == null ||
+                                //           userLogin.data.user.roles == ""
+                                //       ? Text("N/A")
+                                //       : Text(
+                                //           "Available as".tr().toString()+" ${userLogin.data.user.roles == "1" ? "'Player'" : "'Agent'"}",
+                                //           style: Theme.of(context)
+                                //               .textTheme
+                                //               .bodyText1
+                                //               .copyWith(fontSize: 12),
+                                //         ),
+                                // ),
                                 // ListTile(
                                 //   dense: true,
                                 //   leading: Icon(

@@ -9,11 +9,11 @@ class CommonWidgets {
         children: <Widget>[
           Center(
             child: Container(
-              height: 20,
-              width: 20,
+              height: 17,
+              width: 17,
               margin: EdgeInsets.all(5),
               child: CircularProgressIndicator(
-                strokeWidth: 2.0,
+                strokeWidth: 2.5,
                 backgroundColor: Colors.blue,
               ),
             ),

@@ -86,13 +86,14 @@ class LeaguesService {
     return mainRound;
   }
 
-  Future<ClosedLeague> getClosedLeagueDetail(int roundId) async {
+  Future<ClosedLeague> getClosedLeagueDetail(int roundId,String bettingDate) async {
     ClosedLeague closedLeague;
 
     userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
 
     Map<String, dynamic> requestBody = <String, dynamic>{
       'round_id': roundId,
+      'betting_date': bettingDate,
     };
     final http.Response response = await httpService.postRequestWithToken(
         endPoint: APIConstants.getParticipatedleagueDetailsEndPoint,

@@ -276,27 +276,30 @@ class _BuyState extends State<Buy> {
   }
 
   Widget creditWidget(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.green[100],
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
-          )),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon(FontAwesomeIcons.coins, size: 20, color: AppTheme.nearlyGold),
-            // SizedBox(
-            //   width: 14,
-            // ),
-            Text("N/A",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.green,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600)),
-          ],
+    return Padding(
+      padding: const EdgeInsets.only(right:8.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.blue[100],
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(FontAwesomeIcons.userCheck, size: 11, color: Colors.blue),
+              // SizedBox(
+              //   width: 8,
+              // ),
+              // Text("",
+              //     style: Theme.of(context).textTheme.bodyText2.copyWith(
+              //         color: Colors.blue,
+              //         fontSize: 9,
+              //         fontWeight: FontWeight.w600)),
+            ],
+          ),
         ),
       ),
     );

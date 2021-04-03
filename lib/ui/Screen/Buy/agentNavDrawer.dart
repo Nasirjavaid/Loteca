@@ -9,7 +9,10 @@ import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
+import 'package:locteca/model/validateUser.dart';
+import 'package:locteca/model/validateUser.dart' as useAsValidateUser;
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
+import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/agentBetScreen.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/betOnBehalfOfUserScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
@@ -51,6 +54,9 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
   bool guestUserValue = false;
   String userImagePlaceHolder =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/768px-Circle-icons-profile.svg.png";
+
+  useAsValidateUser.ValidateUser validateUser =
+      useAsValidateUser.ValidateUser();
 
   @override
   void initState() {
@@ -97,6 +103,10 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                 return CommonWidgets.progressIndicator;
               }
               if (state is UserProfiledetailTakenSuccessfully) {
+                
+                validateUser =
+                    ValidateUser.fromJson(state.userLogin.data.toJson());
+
                 return userInfoWidget(state.userLogin);
               }
 
@@ -160,6 +170,32 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SignUpScreen()),
+                            );
+                          } else {
+                            //show network erro
+
+                            Methods.showToast(
+                              context,
+                              "Check your network".tr().toString(),
+                            );
+                          }
+                        }),
+                      }),
+              Divider(),
+
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.odnoklassniki,
+                  colorData: Colors.black54,
+                  text: 'Make my Bet'.tr().toString(),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AgentBetScreenMain(
+                                      validateUser: validateUser)),
                             );
                           } else {
                             //show network erro

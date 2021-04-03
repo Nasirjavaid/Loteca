@@ -12,6 +12,7 @@ import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
 
 class GeneralRankingMain extends StatelessWidget {
   @override
@@ -397,7 +398,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
 
   Widget listofTeams(BuildContext context, List leaderBoardGenericList) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(top: 0.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.65,
         width: MediaQuery.of(context).size.width * 0.95,
@@ -406,14 +407,14 @@ class _GeneralRankingState extends State<GeneralRanking> {
             borderRadius: BorderRadius.all(
               Radius.circular(0),
             )),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0),
+       
           child: ListView.builder(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.only(top:2,bottom: 100),
               itemCount: leaderBoardGenericList.length == 0
                   ? 1
                   : leaderBoardGenericList.length,
               scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return leaderBoardGenericList.length == 0
                     ? Center(
@@ -425,7 +426,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                     : listWiewItemCard(
                         context, index, leaderBoardGenericList[index]);
               }),
-        ),
+        
       ),
     );
   }
@@ -494,17 +495,17 @@ class _GeneralRankingState extends State<GeneralRanking> {
                     SizedBox(
                       height: 4,
                     ),
-                    Text(
-                      leaderBordGenericItem.winningCoins == null ||
-                              leaderBordGenericItem.winningCoins == ""
-                          ? "N/A"
-                          : "Total Coins".tr().toString() +
-                              " : ${leaderBordGenericItem.coins}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: Colors.black38, fontSize: 10),
-                    ),
+                    // Text(
+                    //   leaderBordGenericItem.winningCoins == null ||
+                    //           leaderBordGenericItem.winningCoins == ""
+                    //       ? "N/A"
+                    //       : "Total Coins".tr().toString() +
+                    //           " : ${leaderBordGenericItem.coins}",
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .bodyText1
+                    //       .copyWith(color: Colors.black38, fontSize: 10),
+                    // ),
                   ],
                 ),
               ],

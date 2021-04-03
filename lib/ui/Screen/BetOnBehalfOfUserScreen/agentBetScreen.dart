@@ -17,11 +17,12 @@ import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
+
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
 
 class AgentBetScreenMain extends StatelessWidget {
-  final ValidateUser validateUser;
+  final dynamic validateUser;
   AgentBetScreenMain({this.validateUser});
 
   @override
@@ -105,7 +106,9 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             mainRound.round.games[i].widegtSwitch2 == false) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from all the Games listed above".tr().toString());
+              "Must select your choice from all the Games listed above"
+                  .tr()
+                  .toString());
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].name} is not selected");
           checkPoint = false;
@@ -115,7 +118,9 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             mainRound.round.games[i].widegtSwitch2 == null) {
           //show error to slect all the team winners/losser/or draw
           showMessageError(
-              "Must select your choice from all the Games listed above".tr().toString());
+              "Must select your choice from all the Games listed above"
+                  .tr()
+                  .toString());
           print(
               "Request not Submitted beacue team ${mainRound.round.games[i].id} is not selected");
           checkPoint = false;
@@ -208,6 +213,16 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         showMessageError("${state.errorMessage}");
 
         print("Error : ${state.errorMessage}");
+      }
+      if (state is MainRoundSuccessState) {
+        if (state.mainRound.bid) {
+          widegtSwitch0 = false;
+          widegtSwitch1 = false;
+          widegtSwitch2 = false;
+          selectedPackageId=0;
+          Methods.showDialogueForUserBetDetail(
+              context, state.mainRound, widget.validateUser);
+        }
       }
     }, child:
         BlocBuilder<MainRoundBloc, MainRoundState>(builder: (context, state) {
@@ -402,7 +417,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
               mainRoundCallDirection: 2, userId: widget.validateUser.user.id));
         },
       ),
-      drawer: MyNavDrawer(context),
+      drawer: AgentNavDrawer(context),
     );
   }
 
@@ -776,6 +791,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                       teamName != null ? "$teamName" : "---",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white60,
                           fontWeight: FontWeight.w700,
@@ -822,6 +838,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                     child: Text(
                       teamName != null ? "$teamName" : "---",
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: AppTheme.appDefaultColor,
@@ -926,7 +943,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         Row(
           children: [
             Text(
-              "Championship".tr().toString()+" : ",
+              "Championship".tr().toString() + " : ",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: Colors.white54,
                   fontSize: 9,
@@ -946,7 +963,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         ),
         Row(children: [
           Text(
-            "Happening Date".tr().toString()+" : ",
+            "Happening Date".tr().toString() + " : ",
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: Colors.white54,
                 fontSize: 9,
@@ -983,7 +1000,9 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.008,
           ),
-          creditWidget(context, mainRound),
+          state is MainRoundBetSubmitingInProgressState
+              ? CommonWidgets.progressIndicator
+              : creditWidget(context, mainRound),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.005,
           ),
@@ -997,9 +1016,8 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           //     return submitButton(mainRound);
           //   }
           // }),
-          state is MainRoundBetSubmitingInProgressState
-              ? CommonWidgets.progressIndicator
-              : submitButton(mainRound),
+          
+             submitButton(mainRound, state),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.004,
           ),
@@ -1212,18 +1230,18 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Rs: ${packages.participationFee}"
+                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.w700)),
             SizedBox(
               height: 2,
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    ?"Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.black45,
@@ -1250,7 +1268,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Rs: ${packages.participationFee}"
+                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.nearlyWhite,
@@ -1261,7 +1279,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate Rs: ${packages.accumulativePrice}"
+                    ? "Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white70,
@@ -1273,12 +1291,15 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
     );
   }
 
-  Widget submitButton(MainRound mainRound) {
+  Widget submitButton(MainRound mainRound, state) {
     if (mainRound.bid) {
       globalUserCoinsValue = 0;
     }
-    return mainRound.bid == false
-        ? SizedBox(
+    // return mainRound.bid == false
+    //     ?
+    return state is MainRoundBetSubmitingInProgressState
+        ? showReciptAndBetSubmittedButtons(mainRound)
+        : SizedBox(
             height: MediaQuery.of(context).size.height * 0.047,
             width: MediaQuery.of(context).size.width * 0.95,
             child: Padding(
@@ -1326,118 +1347,66 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                         } else {
                           //show network erro
 
-                           Methods.showToast(context, "Check your network".tr().toString(),);
+                          Methods.showToast(
+                            context,
+                            "Check your network".tr().toString(),
+                          );
                           print("No internet ..............");
                         }
                       });
                     }),
               ),
             ),
-          )
-        : showReciptAndBetSubmittedButtons(mainRound, widget.validateUser);
+          );
+    //: showReciptAndBetSubmittedButtons(mainRound, widget.validateUser);
   }
 
-  Widget showReciptAndBetSubmittedButtons(
-      MainRound mainRound, ValidateUser validateUser) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.047,
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 0.0),
-          child: Container(
-            // margin: EdgeInsets.only(top: 0.0),
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              gradient: new LinearGradient(
-                  colors: [AppTheme.grey, AppTheme.grey],
-                  begin: const FractionalOffset(0.0, 1.0),
-                  end: const FractionalOffset(0.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: MaterialButton(
-                highlightColor: AppTheme.appDefaultButtonSplashColor,
-                splashColor: AppTheme.appDefaultButtonSplashColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(2.0))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 12.0),
+  Widget showReciptAndBetSubmittedButtons(MainRound mainRound) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.047,
+      width: MediaQuery.of(context).size.width * 0.95,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0),
+        child: Container(
+          // margin: EdgeInsets.only(top: 0.0),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            gradient: new LinearGradient(
+                colors: [AppTheme.grey, AppTheme.grey],
+                begin: const FractionalOffset(0.0, 1.0),
+                end: const FractionalOffset(0.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+          child: MaterialButton(
+              highlightColor: AppTheme.appDefaultButtonSplashColor,
+              splashColor: AppTheme.appDefaultButtonSplashColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2.0))),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
 
 //checking user before placing the order
-                  // child: guestUserValue
-                  //     ? Text("Sign In",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white))
-                  //     : Text("Check out",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white)),
+                // child: guestUserValue
+                //     ? Text("Sign In",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white))
+                //     : Text("Check out",
+                //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //             fontWeight: FontWeight.w600, color: Colors.white)),
 
-                  child: Text("Bet Submitted".tr().toString(),
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontWeight: FontWeight.w600, color: Colors.white)),
-                ),
-                onPressed: () async {
-                  print("submit button pressed");
-                  Methods.showInfoFlushbarHelper(context, "Bet Submitted".tr().toString(),
-                      "You are already submitted the bet".tr().toString(),);
-
-                  // Methods.showToast(
-                  //     context, "You are already submitted the bet.");
-                }),
-          ),
+                child: Text("Please wait".tr().toString(),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.white)),
+              ),
+              onPressed: () async {
+                // Methods.showToast(
+                //     context, "You are already submitted the bet.");
+              }),
         ),
       ),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.047,
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 0.0),
-          child: Container(
-            // margin: EdgeInsets.only(top: 0.0),
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              gradient: new LinearGradient(
-                  colors: [AppTheme.grey, AppTheme.grey],
-                  begin: const FractionalOffset(0.0, 1.0),
-                  end: const FractionalOffset(0.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: MaterialButton(
-                highlightColor: AppTheme.appDefaultButtonSplashColor,
-                splashColor: AppTheme.appDefaultButtonSplashColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(2.0))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 12.0),
-
-//checking user before placing the order
-                  // child: guestUserValue
-                  //     ? Text("Sign In",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white))
-                  //     : Text("Check out",
-                  //         style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  //             fontWeight: FontWeight.w600, color: Colors.white)),
-
-                  child: Text("Show Recipt".tr().toString(),
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontWeight: FontWeight.w600, color: Colors.white)),
-                ),
-                onPressed: () async {
-                  Methods.showDialogueForUserBetDetail(
-                      context, mainRound, validateUser);
-
-                  // Methods.showToast(
-                  //     context, "You are already submitted the bet.");
-                }),
-          ),
-        ),
-      ),
-    ]);
+    );
   }
 
   Widget noLiveRoundWidget(BuildContext context, String errorMessage) {
@@ -1468,12 +1437,16 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
               ),
               entryAnimation: EntryAnimation.TOP,
               title: Text(
-                "You don't Have enough coins to join this Round !!!".tr().toString(),
+                "You don't Have enough coins to join this Round !!!"
+                    .tr()
+                    .toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                "To buy coins please go to 'Buy' section from bottom bar".tr().toString(),
+                "To buy coins please go to 'Buy' section from bottom bar"
+                    .tr()
+                    .toString(),
                 textAlign: TextAlign.center,
               ),
               onlyOkButton: true,

@@ -7,5 +7,6 @@ class GetLeaguesListEvent extends LeaguesEvent {}
 
 class GetClosedLeagueEvent extends LeaguesEvent {
   final int roundId;
-  GetClosedLeagueEvent({this.roundId});
+  final String bettingDate;
+  GetClosedLeagueEvent({this.roundId,this.bettingDate});
 }
