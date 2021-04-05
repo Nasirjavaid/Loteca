@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:locteca/model/feedback.dart';
+
 import 'package:locteca/model/userLogin.dart';
 
 import 'package:meta/meta.dart';

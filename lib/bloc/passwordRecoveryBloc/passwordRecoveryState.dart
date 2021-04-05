@@ -1,6 +1,5 @@
 import 'package:locteca/model/passwordRecovery.dart';
-import 'package:locteca/model/sendCoin.dart';
-import 'package:locteca/model/validateUser.dart';
+
 
 abstract class PasswordRecoveryState {
   const PasswordRecoveryState();

@@ -79,6 +79,8 @@ void main() async {
             BlocProvider<UserProfileBloc>(
               create: (context) => UserProfileBloc(),
             ),
+
+       
             BlocProvider<FeedbackBloc>(
               create: (context) => FeedbackBloc(),
             ),

@@ -390,7 +390,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          "Ending Date ".tr().toString(),
+                          "Ending Date".tr().toString(),
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1

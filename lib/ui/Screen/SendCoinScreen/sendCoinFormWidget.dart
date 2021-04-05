@@ -128,7 +128,7 @@ class _SendCoinFormWidgetState extends State<SendCoinFormWidget> {
   Widget createLeageButtom(BuildContext context) {
     return SizedBox(
       height: 40,
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.70,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 0.0),
         child: Container(

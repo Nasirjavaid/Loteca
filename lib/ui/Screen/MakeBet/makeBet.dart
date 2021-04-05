@@ -396,7 +396,7 @@ class _MakeBetState extends State<MakeBet> {
           ));
         },
       ),
-      drawer: MyNavDrawer(context),
+      drawer: MyNaveDrawerMain(),
     );
   }
 
@@ -428,7 +428,7 @@ class _MakeBetState extends State<MakeBet> {
           ));
         },
       ),
-      drawer: MyNavDrawer(context),
+      drawer: MyNaveDrawerMain(),
     );
   }
 

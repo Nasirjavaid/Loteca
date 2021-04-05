@@ -18,8 +18,8 @@ import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
-
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
+
 
 class AgentBetScreenMain extends StatelessWidget {
   final dynamic validateUser;

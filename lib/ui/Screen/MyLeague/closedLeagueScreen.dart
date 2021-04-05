@@ -180,7 +180,7 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
                       //   BoxShadow(color: Colors.green, spreadRadius: 3),
                       // ],
                     ),
-                    height: MediaQuery.of(context).size.height * 0.30,
+                    height: MediaQuery.of(context).size.height * 0.325,
                     child: _tabWidget(context, closedLeague),
                   )),
             SliverToBoxAdapter(
@@ -432,19 +432,18 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
   }
 
   Widget horizontalList(List<dynamic> package) {
-    return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: package.length,
-        itemBuilder: (BuildContext context, int index) =>
-            winnerListItemCard(package[index]),
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: package.length,
+      itemBuilder: (BuildContext context, int index) =>
+          winnerListItemCard(package[index]),
     );
   }
 
   Widget winnerListItemCard(dynamic package) {
     return Container(
+      alignment: Alignment.center,
       width: MediaQuery.of(context).size.width * 0.30,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
