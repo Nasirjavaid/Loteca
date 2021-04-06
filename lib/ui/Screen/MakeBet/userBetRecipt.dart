@@ -55,8 +55,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           children: [
             Container(
               height: widget.validateUser == null
-                  ? MediaQuery.of(context).size.height * 0.55
-                  : MediaQuery.of(context).size.height * 0.70,
+                  ? MediaQuery.of(context).size.height * 0.70
+                  : MediaQuery.of(context).size.height * 0.85,
               decoration: BoxDecoration(
                 color: AppTheme.nearlyGold,
                 borderRadius: BorderRadius.circular(20.0),
@@ -153,7 +153,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          widget.validateUser == null
+                          widget.validateUser == null 
                               ? userInformationWidget(
                                   widget.mainRound, widget.mainRound.user)
                               : userInformationWidget(
@@ -165,18 +165,18 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                               ? Container()
                               : Column(
                                   children: [
-                                    validatedUserInformationWidget(
-                                        widget.validateUser, widget.mainRound),
+                                  widget.validateUser.user.id != widget.mainRound.agent.id ?   validatedUserInformationWidget(
+                                        widget.validateUser, widget.mainRound) : Container(),
                                     SizedBox(
                                       height: 5,
                                     ),
                                   ],
                                 ),
                           roundInformationWidget(widget.mainRound),
-                          // SizedBox(
-                          //   height: 5,
-                          // ),
-                          // selectedAnswersList(context, widget.mainRound),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          selectedAnswersList(context, widget.mainRound),
                           // Spacer(),
                           // saveAndShareButton(context),
                         ],

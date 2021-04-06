@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:anitex/anitex.dart' as anitext;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:locteca/bloc/mainRoundBloc/mainRoundBloc.dart';
@@ -13,12 +14,15 @@ import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/validateUser.dart';
+import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
+
+import '../../../main.dart';
 
 
 class AgentBetScreenMain extends StatelessWidget {
@@ -51,7 +55,7 @@ class AgentBetScreen extends StatefulWidget {
 
 class _AgentBetScreenState extends State<AgentBetScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  final userRepository = UserAuthRepository();
   String teamADummyImage =
       "https://png.pngtree.com/png-clipart/20200309/ourmid/pngtree-multicolored-soccer-ball-with-a-golden-crown-and-national-team-flags-png-image_2156370.jpg";
   String teamBDummyImage =
@@ -165,28 +169,43 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
       color: AppTheme.appDefaultColor,
       child: SafeArea(
         maintainBottomViewPadding: true,
-        child: Scaffold(
-          key: _scaffoldKey,
-          extendBodyBehindAppBar: true,
-          // appBar: AppBar(
-          //   iconTheme: IconThemeData(color: Colors.white38),
+        child: WillPopScope(
+      onWillPop: () {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // add your code here.
 
-          //   elevation: 0.0,
-          //   actions: [
-          //     actionWidget(context),
-          //   ],
-          //   // toolbarHeight: 50,
-          //   centerTitle: true,
-          //   // backgroundColor: AppTheme.appDefaultColor,
-          //   backgroundColor: Colors.transparent,
-          //   // title: Text(
-          //   //   "Loteca",
-          //   //   style:
-          //   //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
-          //   // ),
-          // ),
-          backgroundColor: AppTheme.appDefaultColor,
-          body: _buildBody(context),
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
+          );
+        });
+      },
+                  child: Scaffold(
+            key: _scaffoldKey,
+            extendBodyBehindAppBar: true,
+            // appBar: AppBar(
+            //   iconTheme: IconThemeData(color: Colors.white38),
+
+            //   elevation: 0.0,
+            //   actions: [
+            //     actionWidget(context),
+            //   ],
+            //   // toolbarHeight: 50,
+            //   centerTitle: true,
+            //   // backgroundColor: AppTheme.appDefaultColor,
+            //   backgroundColor: Colors.transparent,
+            //   // title: Text(
+            //   //   "Loteca",
+            //   //   style:
+            //   //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+            //   // ),
+            // ),
+            backgroundColor: AppTheme.appDefaultColor,
+            body: _buildBody(context),
+          ),
         ),
       ),
     );
@@ -417,7 +436,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
               mainRoundCallDirection: 2, userId: widget.validateUser.user.id));
         },
       ),
-      drawer: AgentNavDrawer(context),
+     // drawer: AgentNavDrawerMain(),
     );
   }
 

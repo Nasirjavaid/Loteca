@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,8 @@ import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/noLiveRoundOrmissingUs
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/userValidationWidgetForBet.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/userValidationWithEmailFormWidget.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '../../../main.dart';
 
 class BetOnBehalfOfUserScreenMain extends StatelessWidget {
   @override
@@ -52,40 +55,55 @@ class _BetOnBehalfOfUserScreenState extends State<BetOnBehalfOfUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white38),
-        title: Text(
-          "Bet For special User".tr().toString(),
-          style: Theme.of(context).textTheme.button.copyWith(
-              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
+    return WillPopScope(
+      onWillPop: () {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // add your code here.
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
+          );
+        });
+      },
+          child: Scaffold(
+        key: _scaffoldKey,
+        // extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white38),
+          title: Text(
+            "Bet For special User".tr().toString(),
+            style: Theme.of(context).textTheme.button.copyWith(
+                color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
+          ),
+
+          centerTitle: true,
+          elevation: 0.0,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.questionCircle,
+                  color: Colors.white38,
+                  size: 18,
+                ),
+                onPressed: null),
+          ],
+          // toolbarHeight: 50,
+
+          backgroundColor: AppTheme.appDefaultColor,
+          //backgroundColor: Colors.transparent,
+          // title: Text(
+          //   "Loteca",
+          //   style:
+          //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+          // ),
         ),
-
-        centerTitle: true,
-        elevation: 0.0,
-        actions: [
-          IconButton(
-              icon: Icon(
-                FontAwesomeIcons.questionCircle,
-                color: Colors.white38,
-                size: 18,
-              ),
-              onPressed: null),
-        ],
-        // toolbarHeight: 50,
-
-        backgroundColor: AppTheme.appDefaultColor,
-        //backgroundColor: Colors.transparent,
-        // title: Text(
-        //   "Loteca",
-        //   style:
-        //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
-        // ),
+        backgroundColor: AppTheme.background,
+        body: _buildBody(context),
       ),
-      backgroundColor: AppTheme.background,
-      body: _buildBody(context),
     );
   }
 

@@ -31,13 +31,14 @@ class Data {
   DailyData monthlyData;
   DailyData allTimeData;
   User user;
+double availableForWithdraw;
 
   Data(
       {this.dailyData,
       this.weeklyData,
       this.monthlyData,
       this.allTimeData,
-      this.user});
+      this.user,this.availableForWithdraw});
 
   Data.fromJson(Map<String, dynamic> json) {
     dailyData = json['daily_data'] != null
@@ -53,6 +54,7 @@ class Data {
         ? new DailyData.fromJson(json['all_time_data'])
         : null;
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+     availableForWithdraw = json['available_for_withdraw'];
   }
 
   Map<String, dynamic> toJson() {
@@ -72,6 +74,7 @@ class Data {
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }
+     data['available_for_withdraw'] = this.availableForWithdraw;
     return data;
   }
 }

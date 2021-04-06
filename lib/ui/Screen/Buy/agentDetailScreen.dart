@@ -212,7 +212,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "Avilable Coins".tr().toString() + ":    ",
+                              "Available Coins".tr().toString() + ":    ",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -281,7 +281,11 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             SizedBox(
               height: 12,
             ),
-            totalSaleAndCommissionWidget(context, agentDashboardModel, state)
+            totalSaleAndCommissionWidget(context, agentDashboardModel, state),
+            SizedBox(
+              height: 12,
+            ),
+            availableForWithdrawWidget(context, agentDashboardModel, state)
           ],
         ),
       ),
@@ -321,8 +325,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               color: AppTheme.appCardColor,
               fontSize: 16,
               fontWeight: FontWeight.w900),
-        )
-        ),
+        )),
       ),
     );
   }
@@ -381,6 +384,25 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
     );
   }
 
+  Widget availableForWithdrawWidget(
+      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.15,
+      decoration: BoxDecoration(
+          color: AppTheme.background2,
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          withdawInnerCardWidget(context, "Available for withdraw".tr().toString(),
+              "${state is AgentDashboardInProgressState || agentDashboardModel.data.availableForWithdraw == null || agentDashboardModel.data.availableForWithdraw == null ? "N/A" : agentDashboardModel.data.availableForWithdraw}"),
+        ]),
+      ),
+    );
+  }
+
   Widget saleInnerCard(
       BuildContext context, String heading, String subHeading) {
     return Container(
@@ -410,6 +432,42 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             style: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: AppTheme.appDefaultColor,
                 fontSize: 15,
+                fontWeight: FontWeight.w900),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Widget withdawInnerCardWidget(
+      BuildContext context, String heading, String subHeading) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.78,
+      height: MediaQuery.of(context).size.height * 0.128,
+      decoration: BoxDecoration(
+          color: AppTheme.background3,
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          Text(
+            heading,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(color: Colors.black87),
+          ),
+          // SizedBox(
+          //   height: 18,
+          // ),
+          Text(
+            subHeading,
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                color: AppTheme.appDefaultColor,
+                fontSize: 17,
                 fontWeight: FontWeight.w900),
           ),
         ]),

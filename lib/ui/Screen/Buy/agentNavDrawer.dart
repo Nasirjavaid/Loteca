@@ -18,7 +18,8 @@ import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/agentSideGeneralRanking.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart' as generalRanking;
+import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart'
+    as generalRanking;
 import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
@@ -210,55 +211,56 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                       }),
               Divider(),
 
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.layerGroup,
-              //     colorData: Colors.lime,
-              //     text: 'My Leagues'.tr().toString(),
-              //     onTap: () => {
-              //           Navigator.pop(context),
-              //           NetworkConnectivity.check().then((internet) {
-              //             if (internet) {
-              //               Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(
-              //                     builder: (context) => AgentLeagueMain()),
-              //               );
-              //             } else {
-              //               //show network erro
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.layerGroup,
+                  colorData: Colors.lime,
+                  text: 'My Leagues'.tr().toString(),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AgentLeagueMain()),
+                            );
+                          } else {
+                            //show network erro
 
-              //               Methods.showToast(
-              //                 context,
-              //                 "Check your network".tr().toString(),
-              //               );
-              //             }
-              //           }),
-              //         }),
-              // Divider(),
+                            Methods.showToast(
+                              context,
+                              "Check your network".tr().toString(),
+                            );
+                          }
+                        }),
+                      }),
+              Divider(),
 
-              //  new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.chartLine,
-              //     colorData: Colors.brown,
-              //     text: 'Ranking'.tr().toString(),
-              //     onTap: () => {
-              //           Navigator.pop(context),
-              //           NetworkConnectivity.check().then((internet) {
-              //             if (internet) {
-              //               Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(
-              //                     builder: (context) => AgentSideGeneralRankingMain()),
-              //               );
-              //             } else {
-              //               //show network erro
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.chartLine,
+                  colorData: Colors.brown,
+                  text: 'Ranking'.tr().toString(),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AgentSideGeneralRankingMain()),
+                            );
+                          } else {
+                            //show network erro
 
-              //               Methods.showToast(
-              //                 context,
-              //                 "Check your network".tr().toString(),
-              //               );
-              //             }
-              //           }),
-              //         }),
-              // Divider(),
+                            Methods.showToast(
+                              context,
+                              "Check your network".tr().toString(),
+                            );
+                          }
+                        }),
+                      }),
+              Divider(),
 
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.list,
