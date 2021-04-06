@@ -329,7 +329,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                             padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 1),
                             child: Text(
                               leaguesItem.status.contains("1")
-                                  ? "Live".tr().toString()
+                                  ? "Live Leagues".tr().toString()
                                   : "Closed".tr().toString(),
                               textAlign: TextAlign.end,
                               style: Theme.of(context)

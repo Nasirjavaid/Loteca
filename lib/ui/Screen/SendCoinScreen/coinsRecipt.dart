@@ -610,7 +610,7 @@ class _CoinReciptState extends State<CoinRecipt> {
           },
           color: AppTheme.nearlyGold,
           textColor: Colors.white,
-          child: Text("Cancel".tr().toString(), style: TextStyle(fontSize: 14)),
+          child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)),
         ),
       ],
     );

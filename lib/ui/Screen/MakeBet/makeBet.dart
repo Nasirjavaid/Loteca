@@ -131,15 +131,17 @@ class _MakeBetState extends State<MakeBet> {
         }
 
         if (checkPoint) {
-          //Finally submit the request
-          // showMessageError("Bet Submitted Successfully");
-          mainRound.round.selectedPackageId = 0;
-          mainRound.round.selectedPackageId = selectedPackageId;
-          print("Bet Submitted... Successfully");
-          BlocProvider.of<MainRoundBloc>(context)
-              .add(SubmitBetButtonClickedEvent(
-            mainRound: mainRound,
-          ));
+          // //Finally submit the request
+          // // showMessageError("Bet Submitted Successfully");
+          // mainRound.round.selectedPackageId = 0;
+          // mainRound.round.selectedPackageId = selectedPackageId;
+          // print("Bet Submitted... Successfully");
+          // BlocProvider.of<MainRoundBloc>(context)
+          //     .add(SubmitBetButtonClickedEvent(
+          //   mainRound: mainRound,
+          // ));
+
+          betConfirmationAlertBoWidget(mainRound);
         }
       }
     }
@@ -227,7 +229,7 @@ class _MakeBetState extends State<MakeBet> {
           widegtSwitch0 = false;
           widegtSwitch1 = false;
           widegtSwitch2 = false;
-          selectedPackageId=0;
+          selectedPackageId = 0;
           Methods.showDialogueForUserBetDetail(context, state.mainRound, null);
         }
       }
@@ -1261,7 +1263,8 @@ class _MakeBetState extends State<MakeBet> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
+                    ? "Coins".tr().toString() +
+                        " : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.appDefaultColor,
@@ -1272,7 +1275,8 @@ class _MakeBetState extends State<MakeBet> {
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
+                    ? "Accumulate".tr().toString() +
+                        " Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.black45,
@@ -1299,7 +1303,8 @@ class _MakeBetState extends State<MakeBet> {
           children: [
             Text(
                 packages.participationFee != null
-                    ? "Coins".tr().toString()+" : ${packages.participationFee}"
+                    ? "Coins".tr().toString() +
+                        " : ${packages.participationFee}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: AppTheme.nearlyWhite,
@@ -1310,7 +1315,8 @@ class _MakeBetState extends State<MakeBet> {
             ),
             Text(
                 packages.accumulativePrice != null
-                    ? "Accumulate".tr().toString()+" Rs: ${packages.accumulativePrice}"
+                    ? "Accumulate".tr().toString() +
+                        " Rs: ${packages.accumulativePrice}"
                     : "--",
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white70,
@@ -1431,8 +1437,6 @@ class _MakeBetState extends State<MakeBet> {
                         fontWeight: FontWeight.w600, color: Colors.white)),
               ),
               onPressed: () async {
-               
-
                 // Methods.showToast(
                 //     context, "You are already submitted the bet.");
               }),
@@ -1487,5 +1491,206 @@ class _MakeBetState extends State<MakeBet> {
                 Navigator.pop(context);
               },
             ));
+  }
+
+  void betConfirmationAlertBoWidget(MainRound mainRound) {
+    showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.25),
+      transitionDuration: Duration(milliseconds: 400),
+      barrierDismissible: false,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return Scaffold(
+          backgroundColor: Colors.black54,
+          body: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+              child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width * 0.99,
+                      decoration: BoxDecoration(
+                          color: Colors.white60,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          )),
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.050,
+                                decoration: BoxDecoration(
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(25),
+                                    )),
+                                child: Center(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Are You Sure ?',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black54)),
+                                ))),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.050,
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 0.0),
+                                child: Container(
+                                  // margin: EdgeInsets.only(top: 0.0),
+                                  decoration: new BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25.0)),
+                                    color: Colors.white,
+                                  ),
+                                  child: MaterialButton(
+                                      highlightColor:
+                                          AppTheme.appDefaultButtonSplashColor,
+                                      splashColor:
+                                          AppTheme.appDefaultButtonSplashColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(2.0))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 0.0, horizontal: 12.0),
+
+//checking user before placing the order
+                                        // child: guestUserValue
+                                        //     ? Text("Sign In",
+                                        //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                        //             fontWeight: FontWeight.w600, color: Colors.white))
+                                        //     : Text("Check out",
+                                        //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                        //             fontWeight: FontWeight.w600, color: Colors.white)),
+
+                                        child: Text("Go ahead".tr().toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.green)),
+                                      ),
+                                      onPressed: () async {
+                                        print("submit button pressed");
+
+                                        NetworkConnectivity.check()
+                                            .then((internet) {
+                                          if (internet) {
+                                            Navigator.pop(context);
+
+                                            mainRound.round.selectedPackageId =
+                                                0;
+                                            mainRound.round.selectedPackageId =
+                                                selectedPackageId;
+                                            print(
+                                                "Bet Submitted... Successfully");
+                                            BlocProvider.of<MainRoundBloc>(
+                                                    context)
+                                                .add(
+                                                    SubmitBetButtonClickedEvent(
+                                              mainRound: mainRound,
+                                            ));
+                                          } else {
+                                            print("No internet ..............");
+                                            Methods.showToast(
+                                              context,
+                                              "Check your network"
+                                                  .tr()
+                                                  .toString(),
+                                            );
+                                          }
+                                        });
+                                      }),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.050,
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 0.0),
+                                child: Container(
+                                  // margin: EdgeInsets.only(top: 0.0),
+                                  decoration: new BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25.0)),
+                                    color: Colors.white,
+                                  ),
+                                  child: MaterialButton(
+                                      highlightColor:
+                                          AppTheme.appDefaultButtonSplashColor,
+                                      splashColor:
+                                          AppTheme.appDefaultButtonSplashColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(2.0))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 0.0, horizontal: 12.0),
+
+//checking user before placing the order
+                                        // child: guestUserValue
+                                        //     ? Text("Sign In",
+                                        //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                        //             fontWeight: FontWeight.w600, color: Colors.white))
+                                        //     : Text("Check out",
+                                        //         style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                        //             fontWeight: FontWeight.w600, color: Colors.white)),
+
+                                        child: Text("Cancel".tr().toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.red)),
+                                      ),
+                                      onPressed: () async {
+                                        print("submit button pressed");
+
+                                        Navigator.pop(context);
+                                      }),
+                                ),
+                              ),
+                            ),
+                          ]))),
+            ),
+          ),
+        );
+      },
+
+      // transitionBuilder: (context, animation, anotherAnimation, child) {
+      //   return FadeTransition(
+      //     opacity: animation,
+      //     child: child,
+      //   );
+      // },
+
+      // transitionBuilder: (context, anim, __, child) {
+      //   return SlideTransition(
+      //     position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+      //     child: child,
+      //   );
+      // },
+    );
   }
 }
