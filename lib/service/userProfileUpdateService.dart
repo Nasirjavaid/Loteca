@@ -79,9 +79,6 @@ class UserProfileUpdateService {
     //   },
     // );
 
-
-
-
     
     final http.Response response = await httpService.postRequestWithToken(
         endPoint: APIConstants.userProfileUpdateEndPoint,

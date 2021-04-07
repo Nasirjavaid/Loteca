@@ -1532,7 +1532,7 @@ class _MakeBetState extends State<MakeBet> {
                                 child: Center(
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Are You Sure ?',
+                                  child: Text("Are You Sure ?".tr().toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2

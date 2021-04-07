@@ -26,6 +26,7 @@ class APIConstants {
   static final String resendCodeEndPoint = baseUrl + "/resendCode";
   static final String resetPasswordCodeEndPoint = baseUrl + "/resetPasswordCode";
   static final String updatePasswordCodeEndPoint = baseUrl + "/updatePassword";
+  static final String coinsRecordEndPoint = baseUrl + "/coins_record";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

@@ -7,6 +7,7 @@ import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
+import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/validateUser.dart';
@@ -14,6 +15,7 @@ import 'package:locteca/model/validateUser.dart' as useAsValidateUser;
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/agentBetScreen.dart';
 import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/betOnBehalfOfUserScreen.dart';
+import 'package:locteca/ui/Screen/CoinRecordScreen/coinRecordScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -198,6 +200,30 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                               MaterialPageRoute(
                                   builder: (context) => AgentBetScreenMain(
                                       validateUser: validateUser)),
+                            );
+                          } else {
+                            //show network erro
+
+                            Methods.showToast(
+                              context,
+                              "Check your network".tr().toString(),
+                            );
+                          }
+                        }),
+                      }),
+              Divider(),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.coins,
+                  colorData: AppTheme.nearlyGold,
+                  text: 'Coin History'.tr().toString(),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        NetworkConnectivity.check().then((internet) {
+                          if (internet) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CoinRecordScreenMain()),
                             );
                           } else {
                             //show network erro
