@@ -167,228 +167,226 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
               )),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-            child: Expanded(
-              child: Row(
-                children: [
-                  Row(
+            child: Row(
+              children: [
+                Row(
+                  children: [
+                    Avatar(
+                      circleShow: false,
+                      circleColor: Colors.amber,
+                      circleHeight: 22,
+                      circleWidth: 22,
+                      height: 60,
+                      width: 60,
+                      imageUrl: records.image == null || records.image == ""
+                          ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
+                          : records.image,
+                      radius: 40,
+                      backgroundColor: Colors.white,
+                      borderColor: Colors.grey.shade300,
+                      borderWidth: 4.0,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 14,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Avatar(
-                        circleShow: false,
-                        circleColor: Colors.amber,
-                        circleHeight: 22,
-                        circleWidth: 22,
-                        height: 60,
-                        width: 60,
-                        imageUrl: records.image == null || records.image == ""
-                            ? "https://cdn.pixabay.com/photo/2018/08/26/23/55/woman-3633737__340.jpg"
-                            : records.image,
-                        radius: 40,
-                        backgroundColor: Colors.white,
-                        borderColor: Colors.grey.shade300,
-                        borderWidth: 4.0,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            //  agents.name == null || agents.name ==""? "Agent Name".tr().toString() : agents.name ,
+                            "Name".tr().toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(
+                                    fontSize: 12.5,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            records.userName == null || records.userName == ""
+                                ? "N/A".tr().toString()
+                                : records.userName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(
+                                    fontSize: 12.5,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      records.type == 0
+                          ? Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Type".tr().toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                                Text(
+                                  "Sent coins",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Type".tr().toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                                Text(
+                                  "Bet Placed".tr().toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                              ],
+                            ),
+                             SizedBox(
+                        height: 1,
+                      ),
+
+                             Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Coins".tr().toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                                Text(
+                                  "${records.transferredCoins == null || records.transferredCoins == "" ? "" : records.transferredCoins}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black45,
+                                          fontSize: 10),
+                                ),
+                              ],
+                            ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Date".tr().toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                          Text(
+                            "${records.transferDate == null || records.transferDate == "" ? "" : todayDate(records.transferDate)}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Phone".tr().toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                          Text(
+                            "${records.userPhone == null || records.userPhone == "" ? "" : records.userPhone}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Email".tr().toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                          Text(
+                            "${records.userEmail == null || records.userEmail == "" ? "" : records.userEmail}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.black45, fontSize: 10),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              //  agents.name == null || agents.name ==""? "Agent Name".tr().toString() : agents.name ,
-                              "Name".tr().toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .copyWith(
-                                      fontSize: 12.5,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              records.userName == null || records.userName == ""
-                                  ? "N/A".tr().toString()
-                                  : records.userName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .copyWith(
-                                      fontSize: 12.5,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        records.type == 0
-                            ? Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Type".tr().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                  Text(
-                                    "Sent coins",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Type".tr().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                  Text(
-                                    "Bet Placed".tr().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                ],
-                              ),
-                               SizedBox(
-                          height: 1,
-                        ),
-
-                               Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Coins".tr().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                  Text(
-                                    "${records.transferredCoins == null || records.transferredCoins == "" ? "" : records.transferredCoins}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black45,
-                                            fontSize: 10),
-                                  ),
-                                ],
-                              ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Date".tr().toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                            Text(
-                              "${records.transferDate == null || records.transferDate == "" ? "" : todayDate(records.transferDate)}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Phone".tr().toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                            Text(
-                              "${records.userPhone == null || records.userPhone == "" ? "" : records.userPhone}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Email".tr().toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                            Text(
-                              "${records.userEmail == null || records.userEmail == "" ? "" : records.userEmail}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: Colors.black45, fontSize: 10),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
