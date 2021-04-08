@@ -239,50 +239,7 @@ class Round {
   }
 }
 
-class UserAnswers {
-  int id;
-  int roundId;
-  int userId;
-  int gameId;
-  String answer;
-  String createdAt;
-  String updatedAt;
-  int packageId;
 
-  UserAnswers(
-      {this.id,
-      this.roundId,
-      this.userId,
-      this.gameId,
-      this.answer,
-      this.createdAt,
-      this.updatedAt,
-      this.packageId});
-
-  UserAnswers.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    roundId = json['round_id'];
-    userId = json['user_id'];
-    gameId = json['game_id'];
-    answer = json['answer'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    packageId = json['package_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['round_id'] = this.roundId;
-    data['user_id'] = this.userId;
-    data['game_id'] = this.gameId;
-    data['answer'] = this.answer;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['package_id'] = this.packageId;
-    return data;
-  }
-}
 
 class Packages {
   int id;
@@ -408,6 +365,31 @@ class Pivot {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['round_id'] = this.roundId;
     data['game_id'] = this.gameId;
+    return data;
+  }
+}
+
+class UserAnswers {
+  int id;
+  String teamA;
+  String teamB;
+  String winner;
+
+  UserAnswers({this.id, this.teamA, this.teamB, this.winner});
+
+  UserAnswers.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    teamA = json['team_a'];
+    teamB = json['team_b'];
+    winner = json['winner'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['team_a'] = this.teamA;
+    data['team_b'] = this.teamB;
+    data['winner'] = this.winner;
     return data;
   }
 }

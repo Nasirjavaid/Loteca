@@ -450,114 +450,114 @@ class _CoinReciptState extends State<CoinRecipt> {
     );
   }
 
-  Widget selectedAnswersList(BuildContext context, MainRound mainRound) {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppTheme.background2,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0),
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          )),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-            "Selected Answers".tr().toString(),
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.25,
-              minHeight: MediaQuery.of(context).size.height * 0.20,
-            ),
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 10.0 / 3.5,
-              ),
-              itemCount: mainRound.userAnswers.reversed.length,
-              padding: EdgeInsets.all(8.0),
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return itemCardOfList(context, mainRound, index);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget selectedAnswersList(BuildContext context, MainRound mainRound) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //         color: AppTheme.background2,
+  //         borderRadius: BorderRadius.only(
+  //           topLeft: Radius.circular(15.0),
+  //           topRight: Radius.circular(15.0),
+  //           bottomLeft: Radius.circular(20.0),
+  //           bottomRight: Radius.circular(20.0),
+  //         )),
+  //     child: Column(
+  //       children: [
+  //         SizedBox(
+  //           height: 12,
+  //         ),
+  //         Text(
+  //           "Selected Answers".tr().toString(),
+  //           style: Theme.of(context).textTheme.bodyText2,
+  //         ),
+  //         SizedBox(
+  //           height: 6,
+  //         ),
+  //         ConstrainedBox(
+  //           constraints: BoxConstraints(
+  //             maxHeight: MediaQuery.of(context).size.height * 0.25,
+  //             minHeight: MediaQuery.of(context).size.height * 0.20,
+  //           ),
+  //           child: GridView.builder(
+  //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //               crossAxisCount: 2,
+  //               childAspectRatio: 10.0 / 3.5,
+  //             ),
+  //             itemCount: mainRound.userAnswers.reversed.length,
+  //             padding: EdgeInsets.all(8.0),
+  //             physics: BouncingScrollPhysics(),
+  //             itemBuilder: (BuildContext context, int index) {
+  //               return itemCardOfList(context, mainRound, index);
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget itemCardOfList(BuildContext context, MainRound mainRound, int index) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 2.0, right: 2),
-      child: Container(
-          decoration: BoxDecoration(
-              color: AppTheme.background3,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-                bottomLeft: Radius.circular(20.0),
-                bottomRight: Radius.circular(20.0),
-              )),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.flag,
-                  size: 16,
-                  color: Colors.black38,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        mainRound.userAnswers[index].gameId == null
-                            ? "--"
-                            : "Game ID# : " +
-                                mainRound.userAnswers[index].gameId.toString(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black38,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 9),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Expanded(
-                          child: Text(
-                        mainRound.userAnswers[index].answer == null
-                            ? "--"
-                            : mainRound.userAnswers[index].answer,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black45,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 9),
-                      )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )),
-    );
-  }
+  // Widget itemCardOfList(BuildContext context, MainRound mainRound, int index) {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 2.0, right: 2),
+  //     child: Container(
+  //         decoration: BoxDecoration(
+  //             color: AppTheme.background3,
+  //             borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(20.0),
+  //               topRight: Radius.circular(20.0),
+  //               bottomLeft: Radius.circular(20.0),
+  //               bottomRight: Radius.circular(20.0),
+  //             )),
+  //         child: Padding(
+  //           padding: const EdgeInsets.all(8.0),
+  //           child: Row(
+  //             children: [
+  //               Icon(
+  //                 Icons.flag,
+  //                 size: 16,
+  //                 color: Colors.black38,
+  //               ),
+  //               SizedBox(
+  //                 width: 5,
+  //               ),
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       mainRound.userAnswers[index].gameId == null
+  //                           ? "--"
+  //                           : "Game ID# : " +
+  //                               mainRound.userAnswers[index].gameId.toString(),
+  //                       maxLines: 2,
+  //                       overflow: TextOverflow.ellipsis,
+  //                       style: Theme.of(context).textTheme.bodyText1.copyWith(
+  //                           color: Colors.black38,
+  //                           fontWeight: FontWeight.w500,
+  //                           fontSize: 9),
+  //                     ),
+  //                     SizedBox(
+  //                       height: 2,
+  //                     ),
+  //                     Expanded(
+  //                         child: Text(
+  //                       mainRound.userAnswers[index].answer == null
+  //                           ? "--"
+  //                           : mainRound.userAnswers[index].answer,
+  //                       maxLines: 2,
+  //                       overflow: TextOverflow.ellipsis,
+  //                       style: Theme.of(context).textTheme.bodyText1.copyWith(
+  //                           color: Colors.black45,
+  //                           fontWeight: FontWeight.w700,
+  //                           fontSize: 9),
+  //                     )),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         )),
+  //   );
+  // }
 
   Widget saveAndShareButton(
     BuildContext context,

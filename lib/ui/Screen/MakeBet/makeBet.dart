@@ -141,7 +141,7 @@ class _MakeBetState extends State<MakeBet> {
           //   mainRound: mainRound,
           // ));
 
-          betConfirmationAlertBoWidget(mainRound);
+          betConfirmationAlertBoWidget(mainRound,context);
         }
       }
     }
@@ -1493,14 +1493,14 @@ class _MakeBetState extends State<MakeBet> {
             ));
   }
 
-  void betConfirmationAlertBoWidget(MainRound mainRound) {
-    showGeneralDialog(
+  void betConfirmationAlertBoWidget(MainRound mainRound,BuildContext contextA) {
+    showDialog(
       barrierColor: Colors.black.withOpacity(0.25),
-      transitionDuration: Duration(milliseconds: 400),
+
       barrierDismissible: false,
       barrierLabel: '',
       context: context,
-      pageBuilder: (_, __, ___) {
+      builder: (BuildContext context) {
         return Scaffold(
           backgroundColor: Colors.black54,
           body: Align(
@@ -1600,7 +1600,7 @@ class _MakeBetState extends State<MakeBet> {
                                             print(
                                                 "Bet Submitted... Successfully");
                                             BlocProvider.of<MainRoundBloc>(
-                                                    context)
+                                                    contextA)
                                                 .add(
                                                     SubmitBetButtonClickedEvent(
                                               mainRound: mainRound,

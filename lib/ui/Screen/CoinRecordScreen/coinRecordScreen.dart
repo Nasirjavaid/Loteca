@@ -236,7 +236,7 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Sent coin".tr().toString(),
+                                    "Type".tr().toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -245,7 +245,7 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
                                             fontSize: 10),
                                   ),
                                   Text(
-                                    "${records.transferredCoins == null || records.transferredCoins == "" ? "" : records.transferredCoins}",
+                                    "Sent coins",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -261,7 +261,7 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Bet".tr().toString(),
+                                    "Type".tr().toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -271,6 +271,35 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
                                   ),
                                   Text(
                                     "Bet Placed".tr().toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
+                                            color: Colors.black45,
+                                            fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                               SizedBox(
+                          height: 1,
+                        ),
+
+                               Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Coins".tr().toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
+                                            color: Colors.black45,
+                                            fontSize: 10),
+                                  ),
+                                  Text(
+                                    "${records.transferredCoins == null || records.transferredCoins == "" ? "" : records.transferredCoins}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1

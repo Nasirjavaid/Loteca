@@ -487,7 +487,7 @@ class UserInfo extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AgentBetScreenMain(validateUser:validateUser),
+                              builder: (context) => AgentBetScreenMain(validateUser:validateUser,bottomSheetcontextFlag:1),
                             ),
                           );
                       } else {

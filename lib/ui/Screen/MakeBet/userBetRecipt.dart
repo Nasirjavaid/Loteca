@@ -55,8 +55,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           children: [
             Container(
               height: widget.validateUser == null
-                  ? MediaQuery.of(context).size.height * 0.70
-                  : MediaQuery.of(context).size.height * 0.85,
+                  ? MediaQuery.of(context).size.height * 0.90
+                  : MediaQuery.of(context).size.height * 0.95,
               decoration: BoxDecoration(
                 color: AppTheme.nearlyGold,
                 borderRadius: BorderRadius.circular(20.0),
@@ -176,6 +176,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                           SizedBox(
                             height: 5,
                           ),
+                          textDynamicWidget(context,"User Answers".tr().toString()),
                           selectedAnswersList(context, widget.mainRound),
                           // Spacer(),
                           // saveAndShareButton(context),
@@ -532,10 +533,14 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
+
+
+
+
   Widget selectedAnswersList(BuildContext context, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
-          color: AppTheme.background2,
+         // color: AppTheme.background2,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
@@ -544,31 +549,28 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           )),
       child: Column(
         children: [
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-            "Selected Answers".tr().toString(),
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          SizedBox(
-            height: 6,
-          ),
+          // SizedBox(
+          //   height: 12,
+          // ),
+          // Text(
+          //   "Selected Answers".tr().toString(),
+          //   style: Theme.of(context).textTheme.bodyText2,
+          // ),
+          // SizedBox(
+          //   height: 6,
+          // ),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.20,
-              minHeight: MediaQuery.of(context).size.height * 0.18,
+              maxHeight: MediaQuery.of(context).size.height * 0.35,
+              minHeight: MediaQuery.of(context).size.height * 0.30,
             ),
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 10.0 / 3.5,
-              ),
-              itemCount: mainRound.userAnswers.reversed.length,
+            child: ListView.builder(
+             
+              itemCount: mainRound.userAnswers.length,
               padding: EdgeInsets.all(8.0),
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return itemCardOfList(context, mainRound, index);
+                return listWiewItemCard(context, mainRound.userAnswers[index],);
               },
             ),
           ),
@@ -577,67 +579,259 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
-  Widget itemCardOfList(BuildContext context, MainRound mainRound, int index) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 2.0, right: 2),
-      child: Container(
-          decoration: BoxDecoration(
-              color: AppTheme.background3,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-                bottomLeft: Radius.circular(20.0),
-                bottomRight: Radius.circular(20.0),
-              )),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+
+ Widget textDynamicWidget(BuildContext context, String text) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+           
+            Radius.circular(10),
+          ),
+          color: Colors.white
+          //color: AppTheme.appDefaultColor2,
+          ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5.0,
+              horizontal: 5,
+            ),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.flag,
-                  size: 16,
-                  color: Colors.black38,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        mainRound.userAnswers[index].gameId == null
-                            ? "--"
-                            : "Game ID# : " +
-                                mainRound.userAnswers[index].gameId.toString(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black38,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 9),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: AppTheme.appCardColor,
+                    //color: AppTheme.appDefaultColor2,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 10),
+                      child: Text(
+                        text.tr().toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(fontSize: 12, color: Colors.white),
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Expanded(
-                          child: Text(
-                        mainRound.userAnswers[index].answer == null
-                            ? "--"
-                            : mainRound.userAnswers[index].answer,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.black45,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 9),
-                      )),
-                    ],
+                    ),
                   ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
+                headingCard(context),
               ],
             ),
-          )),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget listWiewItemCard(BuildContext context, UserAnswers answers) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 0.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(3),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              creditWidgetListCard(
+                  context,
+                  5,
+                  AppTheme.background,
+                  "${answers.teamA != null || answers.teamA != "" ? answers.teamA : "--"}",
+                  9.0,
+                  FontWeight.w600,
+                  Colors.black54),
+              SizedBox(
+                width: 5,
+              ),
+              creditWidgetListCard(
+                  context,
+                  5,
+                  AppTheme.background,
+                  "${answers.teamB != null || answers.teamB != "" ? answers.teamB : "--"}",
+                  9.0,
+                  FontWeight.w600,
+                  Colors.black54),
+              SizedBox(
+                width: 5,
+              ),
+              creditWidgetListCard(
+                  context,
+                  5,
+                  AppTheme.background,
+                  "${answers.winner != null || answers.winner != "" ? answers.winner : "--"}",
+                  9.0,
+                  FontWeight.w600,
+                  Colors.cyan),
+              // Row(
+              //   children: [
+              //     Text(
+              //       "Team Name",
+              //       style: Theme.of(context)
+              //           .textTheme
+              //           .bodyText2
+              //           .copyWith(color: Colors.white60),
+              //     ),
+              //     SizedBox(
+              //       width: 4,
+              //     ),
+              //     Icon(
+              //       Icons.flag,
+              //       size: 25,
+              //       color: Colors.white,
+              //     ),
+              //   ],
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget headingCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 0.0),
+      child: Container(
+        // height: MediaQuery.of(context).size.height * 0.080,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Team A".tr().toString(),
+                  10,
+                  FontWeight.w900,
+                  Colors.black54),
+
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Team B".tr().toString(),
+                  10,
+                  FontWeight.w900,
+                  Colors.black54),
+              creditWidgetTwo(
+                  context,
+                  10,
+                  AppTheme.pieChartBackgroundColor1,
+                  "Selected".tr().toString(),
+                  10,
+                  FontWeight.w900,
+                  AppTheme.appDefaultColor),
+              // Row(
+              //   children: [
+              //     Text(
+              //       "Team Name",
+              //       style: Theme.of(context)
+              //           .textTheme
+              //           .bodyText2
+              //           .copyWith(color: Colors.white60),
+              //     ),
+              //     SizedBox(
+              //       width: 4,
+              //     ),
+              //     Icon(
+              //       Icons.flag,
+              //       size: 25,
+              //       color: Colors.white,
+              //     ),
+              //   ],
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+Widget creditWidgetTwo(
+      BuildContext context,
+      double cornerRadius,
+      Color bgColor,
+      String text,
+      double fontSize,
+      FontWeight fontWeight,
+      Color textColor) {
+    return Expanded(
+      child: Container(
+        // height: MediaQuery.of(context).size.height * 0.070,
+        decoration: BoxDecoration(
+            // color: bgColor,
+            // shape: BoxShape.circle,
+            // borderRadius: BorderRadius.all(
+            //   Radius.circular(cornerRadius),
+            // )
+            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon(FontAwesomeIcons.coins, size: 20, color: AppTheme.nearlyGold),
+              // SizedBox(
+              //   width: 14,
+              // ),
+              Text(text,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: textColor,
+                      fontSize: fontSize,
+                      fontWeight: fontWeight)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Widget creditWidgetListCard(
+      BuildContext context,
+      double cornerRadius,
+      Color bgColor,
+      String text,
+      double fontSize,
+      FontWeight fontWeight,
+      Color textColor) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(cornerRadius),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 3),
+          child: Center(
+            child: Text(text,
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: textColor,
+                    fontSize: fontSize,
+                    fontWeight: fontWeight)),
+          ),
+        ),
+      ),
     );
   }
 

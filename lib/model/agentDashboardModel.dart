@@ -1,3 +1,5 @@
+
+
 class AgentDashboardModel {
   int status;
   String response;
@@ -31,14 +33,15 @@ class Data {
   DailyData monthlyData;
   DailyData allTimeData;
   User user;
-double availableForWithdraw;
+  int availableForWithdraw;
 
   Data(
       {this.dailyData,
       this.weeklyData,
       this.monthlyData,
       this.allTimeData,
-      this.user,this.availableForWithdraw});
+      this.user,
+      this.availableForWithdraw});
 
   Data.fromJson(Map<String, dynamic> json) {
     dailyData = json['daily_data'] != null
@@ -54,7 +57,7 @@ double availableForWithdraw;
         ? new DailyData.fromJson(json['all_time_data'])
         : null;
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-     availableForWithdraw = json['available_for_withdraw'];
+    availableForWithdraw = json['available_for_withdraw'];
   }
 
   Map<String, dynamic> toJson() {
@@ -74,14 +77,14 @@ double availableForWithdraw;
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }
-     data['available_for_withdraw'] = this.availableForWithdraw;
+    data['available_for_withdraw'] = this.availableForWithdraw;
     return data;
   }
 }
 
 class DailyData {
-  dynamic sales;
-  dynamic comission;
+  int sales;
+  int comission;
 
   DailyData({this.sales, this.comission});
 
@@ -102,14 +105,15 @@ class User {
   int id;
   String name;
   String email;
-  String emailVerifiedAt;
+  Null emailVerifiedAt;
   String createdAt;
   String updatedAt;
   String roles;
   int coins;
+  String authCode;
+  Comissions comissions;
   List<Contacts> contacts;
   List<Images> images;
-  Comissions comissions;
 
   User(
       {this.id,
@@ -120,9 +124,10 @@ class User {
       this.updatedAt,
       this.roles,
       this.coins,
+      this.authCode,
+      this.comissions,
       this.contacts,
-      this.images,
-      this.comissions});
+      this.images});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -133,6 +138,10 @@ class User {
     updatedAt = json['updated_at'];
     roles = json['roles'];
     coins = json['coins'];
+    authCode = json['auth_code'];
+    comissions = json['comissions'] != null
+        ? new Comissions.fromJson(json['comissions'])
+        : null;
     if (json['contacts'] != null) {
       contacts = new List<Contacts>();
       json['contacts'].forEach((v) {
@@ -145,9 +154,6 @@ class User {
         images.add(new Images.fromJson(v));
       });
     }
-    comissions = json['comissions'] != null
-        ? new Comissions.fromJson(json['comissions'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -160,15 +166,49 @@ class User {
     data['updated_at'] = this.updatedAt;
     data['roles'] = this.roles;
     data['coins'] = this.coins;
+    data['auth_code'] = this.authCode;
+    if (this.comissions != null) {
+      data['comissions'] = this.comissions.toJson();
+    }
     if (this.contacts != null) {
       data['contacts'] = this.contacts.map((v) => v.toJson()).toList();
     }
     if (this.images != null) {
       data['images'] = this.images.map((v) => v.toJson()).toList();
     }
-    if (this.comissions != null) {
-      data['comissions'] = this.comissions.toJson();
-    }
+    return data;
+  }
+}
+
+class Comissions {
+  int id;
+  String comissionPercentage;
+  int userId;
+  String createdAt;
+  String updatedAt;
+
+  Comissions(
+      {this.id,
+      this.comissionPercentage,
+      this.userId,
+      this.createdAt,
+      this.updatedAt});
+
+  Comissions.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    comissionPercentage = json['comission_percentage'];
+    userId = json['user_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['comission_percentage'] = this.comissionPercentage;
+    data['user_id'] = this.userId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
@@ -241,39 +281,4 @@ class Images {
     return data;
   }
 }
-
-class Comissions {
-  int id;
-  String comissionPercentage;
-  int userId;
-  String createdAt;
-  String updatedAt;
-
-  Comissions(
-      {this.id,
-      this.comissionPercentage,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
-
-  Comissions.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    comissionPercentage = json['comission_percentage'];
-    userId = json['user_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['comission_percentage'] = this.comissionPercentage;
-    data['user_id'] = this.userId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-
 

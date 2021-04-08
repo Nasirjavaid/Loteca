@@ -19,14 +19,14 @@ import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
 
 import '../../../main.dart';
 
 class AgentBetScreenMain extends StatelessWidget {
+  final int bottomSheetcontextFlag;
   final dynamic validateUser;
-  AgentBetScreenMain({this.validateUser});
+  AgentBetScreenMain({this.validateUser, this.bottomSheetcontextFlag});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,7 @@ class AgentBetScreenMain extends StatelessWidget {
         },
         child: AgentBetScreen(
           validateUser: validateUser,
+          bottomSheetcontextFlag: bottomSheetcontextFlag,
         ),
       ),
     );
@@ -46,8 +47,9 @@ class AgentBetScreenMain extends StatelessWidget {
 }
 
 class AgentBetScreen extends StatefulWidget {
+  final int bottomSheetcontextFlag;
   final ValidateUser validateUser;
-  AgentBetScreen({this.validateUser});
+  AgentBetScreen({this.validateUser, this.bottomSheetcontextFlag});
   @override
   _AgentBetScreenState createState() => _AgentBetScreenState();
 }
@@ -91,7 +93,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             }));
   }
 
-  void submitBetRequest(MainRound mainRound,BuildContext context) {
+  void submitBetRequest(MainRound mainRound, BuildContext context) {
     if (mainRound.agent.coins == 0 || mainRound.agent.coins == null) {
       //show message with no coins error
       //  showMessageError("You dont have enough coins.");
@@ -141,7 +143,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
         //     SubmitBetButtonClickedFromAgentSideEvent(
         //         mainRound: mainRound, validateUser: widget.validateUser));
 
-        betConfirmationAlertBoWidget(mainRound,context);
+        betConfirmationAlertBoWidget(mainRound, context);
       }
     }
   }
@@ -1367,7 +1369,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
 
                       NetworkConnectivity.check().then((internet) {
                         if (internet) {
-                          submitBetRequest(mainRound,context);
+                          submitBetRequest(mainRound, context);
                         } else {
                           //show network erro
 
@@ -1480,14 +1482,15 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
             ));
   }
 
-  void betConfirmationAlertBoWidget(MainRound mainRound, BuildContext contextA) {
-    showGeneralDialog(
+  void betConfirmationAlertBoWidget(
+      MainRound mainRound, BuildContext contextA) {
+    showDialog(
       barrierColor: Colors.black.withOpacity(0.25),
-      transitionDuration: Duration(milliseconds: 400),
+      //transitionDuration: Duration(milliseconds: 400),
       barrierDismissible: false,
       barrierLabel: '',
       context: context,
-      pageBuilder: (_, __, ___) {
+      builder: (BuildContext context) {
         return Scaffold(
           backgroundColor: Colors.black54,
           body: Align(
@@ -1578,8 +1581,14 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                                         NetworkConnectivity.check()
                                             .then((internet) {
                                           if (internet) {
-                                            Navigator.pop(context);
+                                            // if (widget.bottomSheetcontextFlag ==
+                                            //     0) {
+                                            //   Navigator.pop(contextA);
+                                            // } else {
+                                            //   Navigator.pop(context);
+                                            // }
 
+                                            Navigator.pop(context);
                                             mainRound.round.selectedPackageId =
                                                 0;
                                             mainRound.round.selectedPackageId =
@@ -1587,7 +1596,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                                             print(
                                                 "Bet Submitted... Successfully");
                                             BlocProvider.of<MainRoundBloc>(
-                                                    context)
+                                                    contextA)
                                                 .add(
                                                     SubmitBetButtonClickedFromAgentSideEvent(
                                                         mainRound: mainRound,
@@ -1655,7 +1664,13 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
                                       onPressed: () async {
                                         print("submit button pressed");
 
-                                        Navigator.pop(contextA);
+                                        // if (widget.bottomSheetcontextFlag ==
+                                        //     1) {
+                                        //   Navigator.pop(contextA);
+                                        // } else {
+                                        //   Navigator.pop(context);
+                                        // }
+                                        Navigator.pop(context);
                                       }),
                                 ),
                               ),

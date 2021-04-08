@@ -199,7 +199,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AgentBetScreenMain(
-                                      validateUser: validateUser)),
+                                      validateUser: validateUser,bottomSheetcontextFlag:1)),
                             );
                           } else {
                             //show network erro
