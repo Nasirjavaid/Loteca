@@ -31,27 +31,22 @@ class MyLeague extends StatefulWidget {
 }
 
 class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
-  // List _elements = [
-  //   {'name': 'John', 'group': 'Active League'},
-  //   {'name': 'John mall', 'group': 'Active League'},
-  //   {'name': 'Wada Mall', 'group': 'Active League'},
-  //   {'name': 'Big Bond', 'group': 'Active League'},
-  //   {'name': 'James Bond', 'group': 'Active League'},
-  //   {'name': 'Chiita jhony', 'group': 'Active League'},
-  //   {'name': 'Mango Topa', 'group': 'Closed League'},
-  //   {'name': 'Dor Dor', 'group': 'Closed League'},
-  //   {'name': 'Fity Mu', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  //   {'name': 'Chal Chuti kr', 'group': 'Closed League'},
-  // ];
+
+
+    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 3),
+    ));
+  }
 
   Widget actionWidget(BuildContext context) {
     return Padding(
@@ -98,6 +93,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
     return Scaffold(
       //  extendBodyBehindAppBar: true,
       //backgroundColor: AppTheme.background,
+      key:_scaffoldKey,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white38),
 
@@ -119,6 +115,11 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
 
       body: BlocListener<LeaguesBloc, LeaguesState>(
           listener: (BuildContext context, state) {
+
+            if(state is LeaguesFailureState)
+            {
+              showMessageError("${state.errorMessage}");
+            }
         print("Printing state from bloc lstener, and state is :  $state");
       }, child: BlocBuilder<LeaguesBloc, LeaguesState>(
         builder: (BuildContext context, state) {

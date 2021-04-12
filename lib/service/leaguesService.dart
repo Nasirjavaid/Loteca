@@ -86,7 +86,8 @@ class LeaguesService {
     return mainRound;
   }
 
-  Future<ClosedLeague> getClosedLeagueDetail(int roundId,String bettingDate) async {
+  Future<ClosedLeague> getClosedLeagueDetail(
+      int roundId, String bettingDate) async {
     ClosedLeague closedLeague;
 
     userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
@@ -122,13 +123,7 @@ class LeaguesService {
     return closedLeague;
   }
 
-
-
-
-
-
-
- Future<ParticipatedLeague> getParticipatedLeagues() async {
+  Future<ParticipatedLeague> getParticipatedLeagues() async {
     ParticipatedLeague participatedLeague;
 
     userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
@@ -139,20 +134,29 @@ class LeaguesService {
     //     "&ToDate=" +
     //     toDate;
     final http.Response response = await httpService.getRequestWithAccessToken(
-        endPoint: APIConstants.getParticipatedLeaguesEndPoint, header: _getRequestHeaders());
+        endPoint: APIConstants.getParticipatedLeaguesEndPoint,
+        header: _getRequestHeaders());
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {
-      print("response body  in participatedLeague service : : ${response.body}");
+      print(
+          "response body  in participatedLeague service : : ${response.body}");
 
       var json = jsonDecode(response.body);
 
       participatedLeague = ParticipatedLeague.fromJson(json);
 
-      print("response body  in participatedLeague service : ${participatedLeague.message}");
+      print(
+          "response body  in participatedLeague service : ${participatedLeague.message}");
+    } else if (response.statusCode >= 400) {
+      var json = jsonDecode(response.body);
+
+      participatedLeague = ParticipatedLeague.fromJson(json);
     } else {
-      throw Exception("participatedLeague Service: Failed to get participatedLeague");
+      throw Exception(
+          "participatedLeague Service: Failed to get participatedLeague");
     }
 
     return participatedLeague;
-  }}
+  }
+}
