@@ -257,7 +257,7 @@ class _PasswordUpdateFormState extends State<PasswordUpdateForm> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 0.0, horizontal: 12.0),
                     child: Text("Back".tr().toString(),
-                        style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
                             fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
                   onPressed: () async {
@@ -293,7 +293,8 @@ class _PasswordUpdateFormState extends State<PasswordUpdateForm> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 0.0, horizontal: 12.0),
                     child: Text("Reset Password".tr().toString(),
-                        style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
                             fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
                   onPressed: () async {

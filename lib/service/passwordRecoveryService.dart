@@ -48,7 +48,7 @@ class PasswordRecoveryService {
     HttpService httpService = new HttpService.internal();
     Map<String, dynamic> requestBody = <String, dynamic>{
       'email': email,
-      'password': email,
+      'password': password,
     };
     final http.Response response = await httpService.postRequest(
         endPoint: APIConstants.updatePasswordCodeEndPoint, data: requestBody);
