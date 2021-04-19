@@ -442,15 +442,15 @@ class _MakeBetState extends State<MakeBet> {
             Radius.circular(25),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 22),
+        padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 18),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 30.0,
+              width: 65.0,
               child: ScaleAnimatedTextKit(
                 repeatForever: true,
-                duration: const Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1500),
                 onTap: () {
                   print("Tap Event");
                 },

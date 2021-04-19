@@ -148,11 +148,11 @@ class _LoginScreenState extends State<LoginScreen>
                         //Image logo
                         Center(
                           child: Container(
-                              height: 150,
-                              width: 250,
-                              child: Image.asset('assets/images/splash.png')),
+                              height: 240,
+                              width: 300,
+                              child: Image.asset('assets/images/icon.png')),
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 0),
                         // loginText(context),
                         Container(
                           child: state is LoginInProgress

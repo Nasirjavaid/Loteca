@@ -105,10 +105,11 @@
     "phone": "Telefone",
 
 
-    "Live": "ao vivo",
-    "LIVE": "ao vivo",
+    "Live": "Rodada Atual",
+    "LIVE": "Rodada Atual",
     "Bet": "Aposta",
     "Type": "Tipo",
+    "Round name": "Nome redondo",
     "Selected": "Selecionada",
  
     "Are You Sure ?": "Tem certeza ?",

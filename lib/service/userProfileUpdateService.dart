@@ -9,16 +9,17 @@ import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
 
 class UserProfileUpdateService {
+  //  Dio dio = new Dio();
   UserLogin userLogin;
   HttpService httpService = new HttpService.internal();
 
-  Map<String, String> _getRequestHeaders() {
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${userLogin.data.token}'
-    };
-  }
+  // Map<String, String> _getRequestHeaders() {
+  //   return {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${userLogin.data.token}'
+  //   };
+  // }
 
   Future<UserLogin> updateUserProfile(
       String role,
@@ -30,76 +31,97 @@ class UserProfileUpdateService {
       String whatsApp,
       File profilePicturePath) async {
     UserLogin usersLogin = new UserLogin();
-   UserAuthRepository userAuthRepository = UserAuthRepository();
+    UserAuthRepository userAuthRepository = UserAuthRepository();
 
     userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
 
-    // HttpService httpService = new HttpService.internal();
-
-    // Map<dynamic, String> requestBody = <dynamic, String>{
-    //   'Customerid': userId,
-    //   'customer_name': name,
-    //   'UserPicture':await http.MultipartFile.fromPath("field", profilePicturePath.path),
-    //   'email': email,
-    //   'mobile': phone,
-    //   'Address': address,
-    //   //'password': password,
-    // };
-    // FormData formdata = FormData.fromMap({
+    // Map<String, dynamic> requestBody = <String, dynamic>{
     //   "image": profilePicturePath.path != ""
     //       ? await MultipartFile.fromFile(profilePicturePath.path,
     //           filename: basename(profilePicturePath.path))
     //       : null,
     //   'role': role,
-    //   'customer_name': name,
+    //   'name': name,
     //   'email': email,
     //   'phone': phone,
     //   'whatsapp': whatsApp,
-    //   // 'password': newPassword == null ? "" : newPassword,
-    //   // 'oldpassword': oldPassword == null ? "" : oldPassword,
-    // });
+    // };
 
-    Map<String, dynamic> requestBody = <String, dynamic>{
+    final dio = Dio(BaseOptions(
+      connectTimeout: 30000,
+      baseUrl: APIConstants.baseUrl,
+      responseType: ResponseType.json,
+      contentType: ContentType.json.toString(),
+    ));
+
+    dio.options.headers["Authorization"] = "Bearer ${userLogin.data.token}";
+    FormData formdata = FormData.fromMap({
       "image": profilePicturePath.path != ""
           ? await MultipartFile.fromFile(profilePicturePath.path,
               filename: basename(profilePicturePath.path))
           : null,
       'role': role,
-      'customer_name': name,
+      'name': name,
       'email': email,
       'phone': phone,
       'whatsapp': whatsApp,
-    };
+    });
 
-    // Response response = await dio.post(
-    //   APIConstants.userProfileUpdateEndPoint,
-    //   data: formdata,
-    //   onSendProgress: (int sent, int total) {
-    //     // String percentage = (sent / total * 100).toStringAsFixed(2);
-    //   },
-    // );
+    //final http.Response response = await httpService.postRequest(
+    //  APIConstants.userProfileUpdateEndpoint, formdata);
 
-    
-    final http.Response response = await httpService.postRequestWithToken(
-        endPoint: APIConstants.userProfileUpdateEndPoint,
-        header: _getRequestHeaders(),
-        data: requestBody);
-    print("status code ${response.statusCode}");
+    Response response = await dio.post(
+      APIConstants.userProfileUpdateEndPoint,
+      data: formdata,
+      // queryParameters: _getRequestHeaders()
+    );
 
     if (response.statusCode == 200) {
-      print("response body  in user Profile update Service: ${response.body}");
+      print("response body  in user Profile update Service: ${response.data}");
       var json = jsonDecode(response.toString());
+      if (json['data'] is List) {
+        usersLogin.message = json['message'];
+        usersLogin.status = json['status'];
+      } else {
+        usersLogin = UserLogin.fromJson(json);
+      }
+    } else if (response.statusCode == 400) {
+      var json = jsonDecode(response.data);
+      print("response body  in Profile update Service: ${response.data}");
 
-      usersLogin = UserLogin.fromJson(json);
-    } else if (response.statusCode >= 400) {
-      var json = jsonDecode(response.body);
-      print("response body  in Profile update Service: ${response.body}");
+      if (json['data'] is List) {
+        usersLogin.message = json['data'];
+        usersLogin.status = json['status'];
+      }
 
-      usersLogin = UserLogin.fromJson(json);
+      // usersLogin = UserLogin.fromJson(json);
     } else {
       throw Exception("UserProfileUpdate service: Failed to Register new User");
     }
 
     return usersLogin;
   }
+
+  //   final http.Response response = await httpService.postRequestWithToken(
+  //       endPoint: APIConstants.userProfileUpdateEndPoint,
+  //       header: _getRequestHeaders(),
+  //       data: requestBody);
+  //   print("status code ${response.statusCode}");
+
+  //   if (response.statusCode == 200) {
+  //     print("response body  in user Profile update Service: ${response.body}");
+  //     var json = jsonDecode(response.toString());
+
+  //     usersLogin = UserLogin.fromJson(json);
+  //   } else if (response.statusCode >= 400) {
+  //     var json = jsonDecode(response.body);
+  //     print("response body  in Profile update Service: ${response.body}");
+
+  //     usersLogin = UserLogin.fromJson(json);
+  //   } else {
+  //     throw Exception("UserProfileUpdate service: Failed to Register new User");
+  //   }
+
+  //   return usersLogin;
+  // }
 }

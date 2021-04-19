@@ -18,7 +18,8 @@ class MainRound {
       this.user,
       this.round,
       this.userAns,
-      this.betDate,this.agent});
+      this.betDate,
+      this.agent});
 
   MainRound.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -52,7 +53,7 @@ class MainRound {
     if (this.round != null) {
       data['round'] = this.round.toJson();
     }
-     if (this.agent != null) {
+    if (this.agent != null) {
       data['agent'] = this.agent.toJson();
     }
     data['userAns'] = this.userAns;
@@ -72,6 +73,7 @@ class Agent {
   String createdAt;
   String updatedAt;
   String roles;
+  String phone;
   int coins;
 
   Agent(
@@ -82,6 +84,7 @@ class Agent {
       this.createdAt,
       this.updatedAt,
       this.roles,
+      this.phone,
       this.coins});
 
   Agent.fromJson(Map<String, dynamic> json) {
@@ -93,6 +96,7 @@ class Agent {
     updatedAt = json['updated_at'];
     roles = json['roles'];
     coins = json['coins'];
+    phone = json['phone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -105,10 +109,10 @@ class Agent {
     data['updated_at'] = this.updatedAt;
     data['roles'] = this.roles;
     data['coins'] = this.coins;
+    data['phone'] = this.phone;
     return data;
   }
 }
-
 
 class User {
   int id;
@@ -118,6 +122,7 @@ class User {
   String createdAt;
   String updatedAt;
   String roles;
+  String phone;
   String selectedPackageId;
   int coins;
 
@@ -130,6 +135,7 @@ class User {
       this.updatedAt,
       this.roles,
       this.coins,
+      this.phone,
       this.selectedPackageId});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -142,6 +148,7 @@ class User {
     roles = json['roles'];
     selectedPackageId = json['selectedPackageId'];
     coins = json['coins'];
+    phone = json['phone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -155,6 +162,7 @@ class User {
     data['roles'] = this.roles;
     data['selectedPackageId'] = this.selectedPackageId;
     data['coins'] = this.coins;
+    data['phone'] = this.phone;
     return data;
   }
 }
@@ -238,8 +246,6 @@ class Round {
     return data;
   }
 }
-
-
 
 class Packages {
   int id;
@@ -374,13 +380,23 @@ class UserAnswers {
   String teamA;
   String teamB;
   String winner;
+  String happeningDate;
+  String championShip;
 
-  UserAnswers({this.id, this.teamA, this.teamB, this.winner});
+  UserAnswers(
+      {this.id,
+      this.teamA,
+      this.teamB,
+      this.winner,
+      this.happeningDate,
+      this.championShip});
 
   UserAnswers.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     teamA = json['team_a'];
     teamB = json['team_b'];
+    happeningDate = json['happening_date'];
+    championShip = json['championship'];
     winner = json['winner'];
   }
 
@@ -389,6 +405,8 @@ class UserAnswers {
     data['id'] = this.id;
     data['team_a'] = this.teamA;
     data['team_b'] = this.teamB;
+    data['happening_date'] = this.happeningDate;
+    data['championship'] = this.championShip;
     data['winner'] = this.winner;
     return data;
   }

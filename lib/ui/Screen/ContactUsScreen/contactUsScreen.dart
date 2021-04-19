@@ -30,9 +30,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         ),
         backgroundColor: AppTheme.appDefaultColor,
         body: ContactUs(
-          cardColor: Colors.white,
+          companyFontSize:35,
+          cardColor: Colors.blue[100],
           textColor: Colors.teal.shade900,
-          logo: AssetImage('assets/images/splash.png'),
+          logo: AssetImage('assets/images/icon.png'),
           email: 'nasirjavaid73@gmail.com',
           companyName: 'Loteca 2.0',
           companyColor: Colors.teal.shade100,

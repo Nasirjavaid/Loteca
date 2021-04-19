@@ -13,7 +13,7 @@ class APIConstants {
   static final String leaguesEndPoint = baseUrl + "/leagues";
   static final String agentsEndPoint = baseUrl + "/agents";
   static final String createMyLeagueEndPoint = baseUrl + "/myleague";
-  static final String userProfileUpdateEndPoint = baseUrl + "/updateProfile";
+  static final String userProfileUpdateEndPoint = "/updateProfile";
   static final String agentDashboardEndPoint = baseUrl + "/agentDashBoard";
   static final String validateUserToSendCoinEndPoint = baseUrl + "/userRecord";
   static final String sendCoinToUserEndPoint = baseUrl + "/sendCoins";
@@ -27,6 +27,7 @@ class APIConstants {
   static final String resetPasswordCodeEndPoint = baseUrl + "/resetPasswordCode";
   static final String updatePasswordCodeEndPoint = baseUrl + "/updatePassword";
   static final String coinsRecordEndPoint = baseUrl + "/coins_record";
+  static final String userCoinsRecordEndPoint = baseUrl + "/user_coins_record";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

@@ -456,7 +456,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 30.0,
+              width: 65.0,
               child: ScaleAnimatedTextKit(
                 repeatForever: true,
                 duration: const Duration(milliseconds: 1000),

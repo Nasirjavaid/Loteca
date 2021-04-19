@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,8 @@ import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
+import 'package:locteca/config/methods.dart';
+import 'package:locteca/config/networkConnectivity.dart';
 
 import 'package:locteca/main.dart';
 import 'package:locteca/model/userLogin.dart';
@@ -16,6 +19,7 @@ import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/Screen/UserProfileScreen/userProfileUpdateScreen.dart';
 import 'package:meta/meta.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -44,42 +48,61 @@ class UserProfiletPage extends StatefulWidget {
 class _UserProfiletPageState extends State<UserProfiletPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // backgroundColor: AppTheme.background,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white38),
-           title: Text(
-          "My Profile".tr().toString(),
-          style: Theme.of(context).textTheme.button.copyWith(
-              color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
-        ),),
-        body: BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (BuildContext context, state) {
-            if (state is InProgresssGettingUserProfileState) {
-              return CommonWidgets.progressIndicator;
-            }
-            if (state is UserProfiledetailTakenSuccessfully) {
-              //TODO: Uncomment this block
-              // BlocProvider.of<UserProfileBloc>(context)
-              //     .add(GetUserDataUserProfileEvent());
+      final userRepository = UserAuthRepository();
+    return WillPopScope(
+      onWillPop: () {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // add your code here.
 
-              return _buildBody(state.userLogin, context);
-            }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => App(
+                      userRepository: userRepository,
+                    )),
+          );
+        });
+      },
+          child: Scaffold(
+          // backgroundColor: AppTheme.background,
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.white38),
+            title: Text(
+              "My Profile".tr().toString(),
+              style: Theme.of(context).textTheme.button.copyWith(
+                  color: Colors.white70,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          body: BlocBuilder<UserProfileBloc, UserProfileState>(
+            builder: (BuildContext context, state) {
+              if (state is InProgresssGettingUserProfileState) {
+                return CommonWidgets.progressIndicator;
+              }
+              if (state is UserProfiledetailTakenSuccessfully) {
+                //TODO: Uncomment this block
+                // BlocProvider.of<UserProfileBloc>(context)
+                //     .add(GetUserDataUserProfileEvent());
 
-            if (state is FailedTogetUserProfileData) {
-              return Center(
-                child: failedWidget(context),
-              );
-            }
+                return _buildBody(state.userLogin, context);
+              }
 
-            return Container();
-          },
-        ));
+              if (state is FailedTogetUserProfileData) {
+                return Center(
+                  child: failedWidget(context),
+                );
+              }
+
+              return Container();
+            },
+          )),
+    );
   }
 }
 
@@ -153,10 +176,10 @@ Widget _buildBody(UserLogin userLogin, BuildContext context) {
                   ? "N/A"
                   : userLogin.data.user.name,
 
-              subtitle: userLogin.data.user.email == null ||
-                      userLogin.data.user.email == ""
-                  ? "N/A"
-                  : userLogin.data.user.email,
+              // subtitle: userLogin.data.user.email == null ||
+              //         userLogin.data.user.email == ""
+              //     ? "N/A"
+              //     : userLogin.data.user.email,
               // actions: <Widget>[
               //   MaterialButton(
               //     color: Colors.blue,
@@ -264,7 +287,7 @@ class UserInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 5.0,top: 15),
+                          padding: const EdgeInsets.only(left: 5.0, top: 15),
                           child: Text(
                             "User Information".tr().toString(),
                             style: Theme.of(context)
@@ -275,42 +298,53 @@ class UserInfo extends StatelessWidget {
                           ),
                         ),
 
-                        // GestureDetector(
-                        //   onTap: (){
+                        GestureDetector(
+                          onTap: () {
+                            NetworkConnectivity.check().then((internet) {
+                              if (internet) {
+                                Navigator.of(context)
+                                    .push(
+                                      new MaterialPageRoute(
+                                          builder: (_) =>
+                                              new UserProfileUpdateScreenMain()),
+                                    )
+                                    .then((val) => val
+                                        ? BlocProvider.of<UserProfileBloc>(
+                                                context)
+                                            .add(GetUserDataUserProfileEvent())
+                                        : null);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>UserProfileUpdateScreenMain()
+                                //   ),
+                                // );
+                              } else {
+                                //show network erro
 
-                        //      NetworkConnectivity.check().then((internet) {
-                        //   if (internet) {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) =>UserProfileUpdateScreenMain()
-                        //       ),
-                        //     );
-                        //   } else {
-                        //     //show network erro
-
-                        //     Methods.showToast(context, "Check your network");
-                        //   }
-                        // });
-                        //   },
-                        //                           child: Container(
-                        //     height: 50,
-                        //     width: 50,
-                        //     decoration: new BoxDecoration(
-                        //       color: AppTheme.appBackgroundColorforCard2,
-                        //       borderRadius: BorderRadius.only(
-                        //         topLeft: Radius.circular(0.0),
-                        //         topRight: Radius.circular(4.0),
-                        //         bottomLeft: Radius.circular(35.0),
-                        //         bottomRight: Radius.circular(0.0),
-                        //       ),
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.edit,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // )
+                                Methods.showToast(
+                                    context, "Check your network");
+                              }
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: new BoxDecoration(
+                              color: AppTheme.appBackgroundColorforCard2,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(0.0),
+                                topRight: Radius.circular(4.0),
+                                bottomLeft: Radius.circular(35.0),
+                                bottomRight: Radius.circular(0.0),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                         // IconButton(
                         //     icon: Padding(
                         //       padding: const EdgeInsets.only(right: 15.0),

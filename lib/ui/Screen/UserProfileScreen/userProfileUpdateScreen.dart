@@ -34,7 +34,7 @@ class UserProfileUpdateScreen extends StatefulWidget {
       _UserProfileUpdateScreenState();
 }
 
-class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
+class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen>  with WidgetsBindingObserver{
   TextEditingController etwhatsAppNumber = TextEditingController();
   TextEditingController etEmail = TextEditingController();
   TextEditingController etMobile = TextEditingController();
@@ -49,21 +49,25 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
   _imgFromCamera() async {
     File image = await ImagePicker.pickImage(
         source: ImageSource.camera, imageQuality: 50);
-
+if(image !=null){
     setState(() {
       _image = image;
       imageSwitch = true;
-    });
+    });}
   }
 
   _imgFromGallery() async {
     File image = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
 
-    setState(() {
+if(image !=null)
+{
+ setState(() {
       _image = image;
       imageSwitch = true;
     });
+}
+   
   }
 
   void _showPicker(context) {
@@ -119,7 +123,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       BlocProvider.of<UserProfileUpdateBloc>(context).add(
           UserProfileUpdateButtonPressed(
               userLoginGlobal.data.user.roles,
-
               etUserName.text,
               etEmail.text,
               etPasswordOld.text,
@@ -131,7 +134,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       _image = new File("");
       BlocProvider.of<UserProfileUpdateBloc>(context).add(
           UserProfileUpdateButtonPressed(
-            userLoginGlobal.data.user.roles,
+              userLoginGlobal.data.user.roles,
               etUserName.text,
               etEmail.text,
               etPasswordOld.text,
@@ -171,8 +174,8 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
         etMobile.text = "";
         etwhatsAppNumber.text = "";
       }
-      if (state is SignUpSuccessAndGoToLoginScreen) {
-        Navigator.pop(context);
+      if (state is UserProfileUpdateSuccessAndGoToOtherScreen) {
+        Navigator.pop(context, true);
       }
     }, child: BlocBuilder<UserProfileUpdateBloc, UserProfileUpdateState>(
             builder: (context, state) {
@@ -440,7 +443,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       keyboardType: TextInputType.emailAddress,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+ cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -626,6 +629,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
   Widget firstNameInputField(BuildContext context) {
     return TextFormField(
       controller: etUserName,
+      cursorColor: AppTheme.appCardColor,
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
@@ -689,6 +693,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
   Widget lastNameInputField(BuildContext context) {
     return TextFormField(
       // controller: _usernameController,
+       cursorColor: AppTheme.appCardColor,
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
@@ -755,6 +760,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
+       cursorColor: AppTheme.appCardColor,
 
       //controller: firstNameTextController,
       //validator: _validateFirstName,
@@ -818,7 +824,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+ cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -881,7 +887,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+ cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,
@@ -944,7 +950,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       autocorrect: false,
-
+ cursorColor: AppTheme.appCardColor,
       //controller: firstNameTextController,
       //validator: _validateFirstName,
       maxLength: 128,

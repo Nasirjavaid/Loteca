@@ -218,30 +218,30 @@ class _BuyState extends State<Buy> {
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w700),
                           ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            "Per coin rate".tr().toString()+" :  N/A",
-                            style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,fontSize: 10
-                                    ),
-                          ),
-                          Text(
-                            "Total available coins".tr().toString()+":  ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
-                            style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,fontSize: 10
-                                    ),
-                          ),
-                          Text(
-                         agents.contacts.length !=0  ? "Phone".tr().toString()+" : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
-                            style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Colors.black45,fontSize: 10
-                                    ),
-                          ),
+                        //   SizedBox(
+                        //     height: 6,
+                        //   ),
+                        //   Text(
+                        //     "Per coin rate".tr().toString()+" :  N/A",
+                        //     style:
+                        //         Theme.of(context).textTheme.bodyText1.copyWith(
+                        //               color: Colors.black45,fontSize: 10
+                        //             ),
+                        //   ),
+                        //   Text(
+                        //     "Total available coins".tr().toString()+":  ${ agents.coins == null ||  agents.coins == "" ? "" :  agents.coins}",
+                        //     style:
+                        //         Theme.of(context).textTheme.bodyText1.copyWith(
+                        //               color: Colors.black45,fontSize: 10
+                        //             ),
+                        //   ),
+                        //   Text(
+                        //  agents.contacts.length !=0  ? "Phone".tr().toString()+" : ${agents.contacts[0].phone == null ||  agents.contacts[0].phone == "" ? "" :  agents.contacts[0].phone}":"",
+                        //     style:
+                        //         Theme.of(context).textTheme.bodyText1.copyWith(
+                        //               color: Colors.black45,fontSize: 10
+                        //             ),
+                        //   ),
                         ],
                       ),
                     ],

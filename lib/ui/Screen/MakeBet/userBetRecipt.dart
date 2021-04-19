@@ -6,6 +6,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/validateUser.dart';
+import 'package:locteca/ui/Screen/MakeBet/printRecipt.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
@@ -153,7 +154,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          widget.validateUser == null 
+                          widget.validateUser == null
                               ? userInformationWidget(
                                   widget.mainRound, widget.mainRound.user)
                               : userInformationWidget(
@@ -165,8 +166,12 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                               ? Container()
                               : Column(
                                   children: [
-                                  widget.validateUser.user.id != widget.mainRound.agent.id ?   validatedUserInformationWidget(
-                                        widget.validateUser, widget.mainRound) : Container(),
+                                    widget.validateUser.user.id !=
+                                            widget.mainRound.agent.id
+                                        ? validatedUserInformationWidget(
+                                            widget.validateUser,
+                                            widget.mainRound)
+                                        : Container(),
                                     SizedBox(
                                       height: 5,
                                     ),
@@ -176,7 +181,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                           SizedBox(
                             height: 5,
                           ),
-                          textDynamicWidget(context,"User Answers".tr().toString()),
+                          textDynamicWidget(
+                              context, "User Answers".tr().toString()),
                           selectedAnswersList(context, widget.mainRound),
                           // Spacer(),
                           // saveAndShareButton(context),
@@ -191,7 +197,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 55,
+                  height: 110,
                   child: Column(
                     children: [
                       saveAndShareButton(context),
@@ -232,14 +238,14 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Round ID #".tr().toString(),
+                  "Round name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
                       .copyWith(fontSize: 10),
                 ),
                 Text(
-                  "L2-" + widget.mainRound.round.id.toString(),
+                  widget.mainRound.round.name,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
@@ -247,30 +253,30 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total Packages".tr().toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(fontSize: 10),
-                ),
-                widget.mainRound.round.packages.length == 0
-                    ? Text("N/A")
-                    : Text(
-                        "0" + widget.mainRound.round.packages.length.toString(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .copyWith(fontSize: 11),
-                      ),
-              ],
-            ),
+            // SizedBox(
+            //   height: 4,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       "Total Packages".tr().toString(),
+            //       style: Theme.of(context)
+            //           .textTheme
+            //           .bodyText1
+            //           .copyWith(fontSize: 10),
+            //     ),
+            //     widget.mainRound.round.packages.length == 0
+            //         ? Text("N/A")
+            //         : Text(
+            //             "0" + widget.mainRound.round.packages.length.toString(),
+            //             style: Theme.of(context)
+            //                 .textTheme
+            //                 .bodyText2
+            //                 .copyWith(fontSize: 11),
+            //           ),
+            //   ],
+            // ),
             SizedBox(
               height: 4,
             ),
@@ -394,6 +400,30 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             SizedBox(
               height: 4,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Phone".tr().toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: 10),
+                ),
+                user.phone == null
+                    ? Text("N/A")
+                    : Text(
+                        user.phone,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .copyWith(fontSize: 11),
+                      ),
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [
@@ -488,6 +518,27 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             SizedBox(
               height: 4,
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                "Phone".tr().toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: 10),
+              ),
+              validateUser.user.phone == null
+                  ? Text("N/A")
+                  : Text(
+                      validateUser.user.phone,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .copyWith(fontSize: 11),
+                    ),
+            ]),
+            SizedBox(
+              height: 4,
+            ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [
@@ -533,20 +584,16 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
-
-
-
-
   Widget selectedAnswersList(BuildContext context, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
-         // color: AppTheme.background2,
+          // color: AppTheme.background2,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0),
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          )),
+        topLeft: Radius.circular(15.0),
+        topRight: Radius.circular(15.0),
+        bottomLeft: Radius.circular(20.0),
+        bottomRight: Radius.circular(20.0),
+      )),
       child: Column(
         children: [
           // SizedBox(
@@ -565,12 +612,14 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               minHeight: MediaQuery.of(context).size.height * 0.30,
             ),
             child: ListView.builder(
-             
               itemCount: mainRound.userAnswers.length,
               padding: EdgeInsets.all(8.0),
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return listWiewItemCard(context, mainRound.userAnswers[index],);
+                return listWiewItemCard(
+                  context,
+                  mainRound.userAnswers[index],
+                );
               },
             ),
           ),
@@ -579,13 +628,11 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
-
- Widget textDynamicWidget(BuildContext context, String text) {
+  Widget textDynamicWidget(BuildContext context, String text) {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-           
             Radius.circular(10),
           ),
           color: Colors.white
@@ -633,6 +680,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
       ),
     );
   }
+
   Widget listWiewItemCard(BuildContext context, UserAnswers answers) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0),
@@ -703,7 +751,6 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
-
   Widget headingCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0),
@@ -768,7 +815,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
       ),
     );
   }
-Widget creditWidgetTwo(
+
+  Widget creditWidgetTwo(
       BuildContext context,
       double cornerRadius,
       Color bgColor,
@@ -806,6 +854,7 @@ Widget creditWidgetTwo(
       ),
     );
   }
+
   Widget creditWidgetListCard(
       BuildContext context,
       double cornerRadius,
@@ -838,45 +887,80 @@ Widget creditWidgetTwo(
   Widget saveAndShareButton(
     BuildContext context,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyGold,
+                    )),
+                onPressed: () async {
+                  dynamicFunctionForImageSaveAndShare(2);
+                },
+                color: AppTheme.nearlyGold,
+                textColor: Colors.white,
+                child: Icon(Icons.share_outlined, size: 18)),
+            RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyGold,
+                    )),
+                onPressed: () async {
+                  dynamicFunctionForImageSaveAndShare(1);
+                },
+                color: AppTheme.nearlyGold,
+                textColor: Colors.white,
+                child: Icon(Icons.save, size: 18)),
+            // RaisedButton(
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(18.0),
+            //       side: BorderSide(
+            //         color: AppTheme.nearlyGold,
+            //       )),
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   color: AppTheme.nearlyGold,
+            //   textColor: Colors.white,
+            //   child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)),
+            // ),
+
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(
+                    color: AppTheme.nearlyGold,
+                  )),
+              onPressed: () async {
+                PrintRecipt printRecipt = PrintRecipt(widget.mainRound);
+                await printRecipt.generateInvoice();
+              },
+              color: AppTheme.nearlyGold,
+              textColor: Colors.white,
+              child: Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
+            ),
+          ],
+        ),
         RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(
-                  color: AppTheme.nearlyGold,
-                )),
-            onPressed: () async {
-              dynamicFunctionForImageSaveAndShare(2);
-            },
-            color: AppTheme.nearlyGold,
-            textColor: Colors.white,
-            child: Icon(Icons.share_outlined, size: 18)),
-        RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(
-                  color: AppTheme.nearlyGold,
-                )),
-            onPressed: () async {
-              dynamicFunctionForImageSaveAndShare(1);
-            },
-            color: AppTheme.nearlyGold,
-            textColor: Colors.white,
-            child: Icon(Icons.save, size: 18)),
-        RaisedButton(
+          
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
               side: BorderSide(
-                color: AppTheme.nearlyGold,
+                color: AppTheme.nearlyRed,
               )),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: AppTheme.nearlyGold,
+          color: AppTheme.nearlyRed,
           textColor: Colors.white,
-          child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)),
+          child: Container(
+            width: MediaQuery.of(context).size.width*0.69,
+            child: Center(child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)))),
         ),
       ],
     );
@@ -927,7 +1011,10 @@ Widget creditWidgetTwo(
             quality: 100);
         print("File Saved to Gallery $result");
         Methods.showInfoFlushbarHelper(
-            context, "Recipt".tr().toString(),"Recipt successfully saved".tr().toString(),);
+          context,
+          "Recipt".tr().toString(),
+          "Recipt successfully saved".tr().toString(),
+        );
       }).catchError((onError) {
         print(onError);
       });
@@ -935,9 +1022,14 @@ Widget creditWidgetTwo(
       // print("Image file here ${result}");
     } else if (requestCode == 2) {
       // share(result);
-      ShareFilesAndScreenshotWidgets().shareScreenshot(previewContainer,
-          originalSize, "Loteca 2.0 Bet Recipt", "MyRecipt.png", "image/png",
-          text: "My Recipt".tr().toString(),);
+      ShareFilesAndScreenshotWidgets().shareScreenshot(
+        previewContainer,
+        originalSize,
+        "Loteca 2.0 Bet Recipt",
+        "MyRecipt.png",
+        "image/png",
+        text: "My Recipt".tr().toString(),
+      );
     }
   }
 }

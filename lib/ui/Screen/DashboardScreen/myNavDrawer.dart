@@ -7,9 +7,11 @@ import 'package:locteca/bloc/userProfileBloc/userProfileBloc.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileEvent.dart';
 import 'package:locteca/bloc/userProfileBloc/userProfileState.dart';
 import 'package:locteca/config/appConstants.dart';
+import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
+import 'package:locteca/ui/Screen/CoinRecordScreen/userCoinRecordScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 
 
@@ -128,22 +130,22 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           ),
                         ),
                       }),
-              // Divider(),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.gamepad,
-              //     colorData: Colors.amber,
-              //     text: 'Create My League',
-              //     onTap: () => {
-              //           //clossing the nav drawer after click
-              //           Navigator.pop(context),
+              Divider(),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.coins,
+                  colorData: AppTheme.nearlyGold,
+                  text: 'Coin History'.tr().toString(),
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
 
-              //           Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //               builder: (context) => CreateMyLeagueScreenMain(),
-              //             ),
-              //           ),
-              //         }),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserCoinRecordScreenMain(),
+                          ),
+                        ),
+                      }),
               Divider(),
               SizedBox(
                 height: 0,

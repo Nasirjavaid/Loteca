@@ -6,7 +6,6 @@ import 'package:locteca/repository/profileUpdateRepository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'userProfileUpdateEvent.dart';
 
-
 class UserProfileUpdateBloc
     extends Bloc<UserProfileUpdateEvent, UserProfileUpdateState>
     with ValidationMixin {
@@ -23,7 +22,7 @@ class UserProfileUpdateBloc
     if (event is UserProfileUpdateGetUserDataFromSharedPrefrences) {
       yield UserProfileUPdateLoadingINdicatorScreenState();
       UserLogin userLogin = await Methods.userInfoStoredInsharedPrefrences();
-       await Future.delayed(Duration(seconds: 1));
+     // await Future.delayed(Duration(milliseconds: 400));
       yield UserProfileUpdateInDataFromSharedPrefrencesState(
           userLogin: userLogin);
     }
@@ -32,13 +31,16 @@ class UserProfileUpdateBloc
       userLogin = UserLogin();
       yield UserProfileUpdateInProgress();
       if (this.isFieldEmpty(event.name)) {
-        yield UserProfileUpdateFailure(error: "Please Enter Name".tr().toString());
+        yield UserProfileUpdateFailure(
+            error: "Please Enter Name".tr().toString());
         return;
       } else if (this.isFieldEmpty(event.email)) {
-        yield UserProfileUpdateFailure(error: "Please Enter Email".tr().toString());
+        yield UserProfileUpdateFailure(
+            error: "Please Enter Email".tr().toString());
         return;
       } else if (!event.email.contains("@") || !event.email.contains(".")) {
-        yield UserProfileUpdateFailure(error: "Please Enter Valid Email".tr().toString());
+        yield UserProfileUpdateFailure(
+            error: "Please Enter Valid Email".tr().toString());
         return;
       }
       //  else if (this.isFieldEmpty(event.password)) {
@@ -52,25 +54,41 @@ class UserProfileUpdateBloc
       // }
 
       else if (this.isFieldEmpty(event.phone)) {
-        yield UserProfileUpdateFailure(error: "Please enter Phone number".tr().toString());
+        yield UserProfileUpdateFailure(
+            error: "Please enter Phone number".tr().toString());
         return;
       } else if (this.isFieldEmpty(event.whatsApp)) {
-        yield UserProfileUpdateFailure(error: "Please enter WhatsApp number".tr().toString());
+        yield UserProfileUpdateFailure(
+            error: "Please enter WhatsApp number".tr().toString());
         return;
       } else {
+        String newPhone = "";
+        String newWhatsApp = "";
+        if (!event.phone.startsWith("+55")) {
+          newPhone = "+55" + event.phone;
+        } else {
+          newPhone = event.phone;
+        }
+
+        if (!event.whatsApp.startsWith("+55")) {
+          newWhatsApp = "+55" + event.whatsApp;
+        } else {
+          newWhatsApp = event.whatsApp;
+        }
+
         userLogin = await userProfileUpdateUpRepository.updateUserProfile(
             event.role,
             event.name,
             event.email,
             event.oldPassword,
             event.newPassword,
-            event.phone,
-            event.whatsApp,
+            newPhone,
+            newWhatsApp,
             event.profilePicturePath);
 
-        if (userLogin.message == ("Sorry, Nothing was changed. Please try again later.")) {
+        if (userLogin.status != 200) {
           yield UserProfileUpdateFailure(error: userLogin.message);
-        } else if (userLogin.status == ("success")) {
+        } else if (userLogin.status == 200) {
           yield UserProfileUpdateInProgress();
 
           Methods.storeUserToSharedPref(userLogin);
@@ -79,10 +97,6 @@ class UserProfileUpdateBloc
           yield UserProfileUpdateInSuccess(message: userLogin.message);
           await Future.delayed(Duration(microseconds: 500));
           yield UserProfileUpdateSuccessAndGoToOtherScreen();
-        } else if (userLogin.status == ("failed")) {
-          yield UserProfileUpdateFailure(error: userLogin.message);
-        } else {
-          yield UserProfileUpdateFailure(error: "Something went wrong".tr().toString());
         }
       }
     }

@@ -4,3 +4,5 @@ abstract class CoinRecordEvent {
 }
 
 class GetCoinRecordEvent extends CoinRecordEvent {}
+
+class GetUserCoinRecordEvent extends CoinRecordEvent {}

@@ -71,6 +71,8 @@ dependencies:
   flushbar: ^1.5.0
   share_files_and_screenshot_widgets: ^1.0.3
   responsive_framework: ^0.1.0
+  syncfusion_flutter_pdf: ^19.1.56-beta
+  open_file: ^3.1.0
 
  
 
@@ -93,7 +95,7 @@ flutter_test:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: assets/images/splash.png
+  image_path: assets/images/icon.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -112,6 +114,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/splash.png
+    - assets/images/icon.png
     - assets/images/table.jpg
     - assets/images/labhub.png
     - assets/images/otp.png
@@ -119,6 +122,7 @@ flutter:
     - assets/images/feedback.png
     - assets/lang/en-US.json
     - assets/lang/pt-BR.json
+    - assets/fonts/Roboto-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

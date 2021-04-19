@@ -36,6 +36,25 @@ class CoinRecordBloc extends Bloc<CoinRecordEvent, CoinRecordState> {
       }
     }
 
+
+    
+if (event is GetUserCoinRecordEvent) {
+      try {
+        yield CoinRecordInProgressState();
+
+        final userCoinRecord = await coinRecordRepository.getUserCoinRecord();
+
+        if (userCoinRecord.response == "true") {
+          yield UserCoinRecordSuccessState(userCoinRecord: userCoinRecord);
+        } else {
+          yield CoinRecordFailureState(
+              errorMessage: "Something Went Wrong".tr().toString());
+        }
+      } catch (_) {
+        yield CoinRecordFailureState(
+            errorMessage: "Something Went Wrong".tr().toString());
+      }
+    }
     // bool _hasReachedMax(SalarySlipState state) =>
     //     state is SalarySlipSuccessState && state.hasReachedMax;
   }

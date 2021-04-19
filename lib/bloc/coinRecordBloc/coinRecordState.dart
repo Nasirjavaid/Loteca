@@ -1,5 +1,6 @@
 import 'package:locteca/model/agentsToBuyCoins.dart';
 import 'package:locteca/model/coinRecord.dart';
+import 'package:locteca/model/userCoinRecord.dart';
 
 
 abstract class CoinRecordState {
@@ -22,4 +23,10 @@ class CoinRecordSuccessState extends CoinRecordState {
   final CoinRecord coinRecord;
 
   const CoinRecordSuccessState({this.coinRecord});
+}
+
+class UserCoinRecordSuccessState extends CoinRecordState {
+  final UserCoinRecord userCoinRecord;
+
+  const UserCoinRecordSuccessState({this.userCoinRecord});
 }

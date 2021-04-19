@@ -33,6 +33,7 @@ class User {
   String createdAt;
   String updatedAt;
   String roles;
+  String phone;
   int coins;
   List<Contacts> contacts;
   List<Images> images;
@@ -47,7 +48,7 @@ class User {
       this.roles,
       this.coins,
       this.contacts,
-      this.images});
+      this.images,this.phone});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,6 +59,7 @@ class User {
     updatedAt = json['updated_at'];
     roles = json['roles'];
     coins = json['coins'];
+    phone = json['phone'];
     if (json['contacts'] != null) {
       contacts = new List<Contacts>();
       json['contacts'].forEach((v)
@@ -83,6 +85,7 @@ class User {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['roles'] = this.roles;
+    data['phone'] = this.phone;
     data['coins'] = this.coins;
     if (this.contacts != null) {
       data['contacts'] = this.contacts.map((v)
