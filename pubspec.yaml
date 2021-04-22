@@ -73,6 +73,10 @@ dependencies:
   responsive_framework: ^0.1.0
   syncfusion_flutter_pdf: ^19.1.56-beta
   open_file: ^3.1.0
+  printing: ^4.1.0
+  pdf: ^2.0.0
+  image: ^2.1.1
+  
 
  
 

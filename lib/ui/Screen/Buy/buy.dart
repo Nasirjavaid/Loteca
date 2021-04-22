@@ -280,7 +280,7 @@ class _BuyState extends State<Buy> {
       padding: const EdgeInsets.only(right:8.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blue[100],
+            color: Colors.orange[100],
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             )),
@@ -289,7 +289,7 @@ class _BuyState extends State<Buy> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(FontAwesomeIcons.userCheck, size: 11, color: Colors.blue),
+              Icon(FontAwesomeIcons.userCheck, size: 11, color: Colors.orange),
               // SizedBox(
               //   width: 8,
               // ),

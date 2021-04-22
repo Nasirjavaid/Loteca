@@ -3,38 +3,42 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/agentDashoardBloc/agentDashboardBloc.dart';
 import 'package:locteca/bloc/agentDashoardBloc/agentDashboardEvent.dart';
 import 'package:locteca/bloc/agentDashoardBloc/agentDashboardState.dart';
+import 'package:locteca/bloc/userDashboardBloc/userDashboardBloc.dart';
+import 'package:locteca/bloc/userDashboardBloc/userDashboardEvent.dart';
+import 'package:locteca/bloc/userDashboardBloc/userDashboardState.dart';
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/agentDashboardModel.dart';
+import 'package:locteca/model/userDashboard.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
-import 'package:locteca/ui/Screen/Buy/agentNavDrawer.dart';
+import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class AgentDetailScreenMain extends StatelessWidget {
+class UserDashboardScreenMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
         create: (context) {
-          return AgentDashboardBloc()..add(GetAgentDashboardDataEvent());
+          return UserDashboardBloc()..add(GetUserDashboardDataEvent());
         },
-        child: AgentDetailScreen(),
+        child: UserDashboardScreen(),
       ),
     );
   }
 }
 
-class AgentDetailScreen extends StatefulWidget {
+class UserDashboardScreen extends StatefulWidget {
   @override
-  _AgentDetailScreenState createState() => _AgentDetailScreenState();
+  _UserDashboardScreenState createState() => _UserDashboardScreenState();
 }
 
-class _AgentDetailScreenState extends State<AgentDetailScreen> {
+class _UserDashboardScreenState extends State<UserDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,32 +63,34 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
               ]),
           // body: _buildBody(context),
 
-          body: BlocListener<AgentDashboardBloc, AgentDashboardState>(
+          body: BlocListener<UserDashboardBloc, UserDashboardState>(
               listener: (BuildContext context, state) {
             print("Printing state from bloc lstener, and state is :  $state");
-          }, child: BlocBuilder<AgentDashboardBloc, AgentDashboardState>(
+          }, child: BlocBuilder<UserDashboardBloc, UserDashboardState>(
             builder: (BuildContext context, state) {
-              if (state is AgentDashboardFailureState) {
+              if (state is UserDashboardFailureState) {
                 //return Center(child: failedWidget(context));
                 return failedWidget(context);
               }
-              if (state is AgentDashboardSuccessState) {
-                return _buildBody(context, state.agentDashboardModel, state);
+              if (state is UserDashboardSuccessState) {
+                return _buildBody(context, state.userDashboard, state);
               }
 
-              if (state is AgentDashboardInProgressState) {
-                AgentDashboardModel agentDashboardModel = AgentDashboardModel();
+              if (state is UserDashboardInProgressState) {
+                UserDashboard userDashboard = UserDashboard();
                 return Stack(
                   children: [
-                    _buildBody(context, agentDashboardModel, state),
+                    _buildBody(context, userDashboard, state),
                     CommonWidgets.progressIndicatorCustom
                   ],
                 );
               }
-              return Container();
+              return Container(
+                child: Center(child: CommonWidgets.progressIndicatorCustom),
+              );
             },
           )),
-          drawer: AgentNavDrawerMain(),
+          drawer: MyNaveDrawerMain(),
         ),
       ),
     );
@@ -96,8 +102,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
         child: IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              BlocProvider.of<AgentDashboardBloc>(context)
-                  .add(GetAgentDashboardDataEvent());
+              BlocProvider.of<UserDashboardBloc>(context)
+                  .add(GetUserDashboardDataEvent());
             }));
   }
 
@@ -128,14 +134,13 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
         ),
       ),
       onPressed: () {
-        BlocProvider.of<AgentDashboardBloc>(context)
-            .add(GetAgentDashboardDataEvent());
+        BlocProvider.of<UserDashboardBloc>(context)
+            .add(GetUserDashboardDataEvent());
       },
     );
   }
 
-  Widget _buildBody(
-      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
+  Widget _buildBody(BuildContext context, UserDashboard userDashboard, state) {
     return Stack(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.25,
@@ -145,12 +150,12 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40))),
       ),
-      innerBodyOfStack(context, agentDashboardModel, state),
+      innerBodyOfStack(context, userDashboard, state),
     ]);
   }
 
   Widget innerBodyOfStack(
-      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
+      BuildContext context, UserDashboard userDashboard, state) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -177,12 +182,11 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                     child: RoundedCornerImageViewWithoutBorderDynamic(
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.16,
-                      imageLink: state is AgentDashboardInProgressState ||
-                              agentDashboardModel.data.user.images[0].url ==
-                                  null ||
-                              agentDashboardModel.data.user.images[0].url == ""
+                      imageLink: state is UserDashboardInProgressState ||
+                              userDashboard.data.user.images == null ||
+                              userDashboard.data.user.images == ""
                           ? APIConstants.userImagePlaceHolder
-                          : agentDashboardModel.data.user.images[0].url,
+                          : userDashboard.data.user.images,
                       cornerRadius: 10,
                       borderWidth: 1.0,
                     ),
@@ -196,11 +200,11 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          state is AgentDashboardInProgressState ||
-                                  agentDashboardModel.data.user.name == null ||
-                                  agentDashboardModel.data.user.name == ""
+                          state is UserDashboardInProgressState ||
+                                  userDashboard.data.user.name == null ||
+                                  userDashboard.data.user.name == ""
                               ? "N/A"
-                              : agentDashboardModel.data.user.name,
+                              : userDashboard.data.user.name,
                           style: Theme.of(context)
                               .textTheme
                               .headline6
@@ -220,11 +224,11 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                                   .copyWith(color: Colors.black87),
                             ),
                             Text(
-                              state is AgentDashboardInProgressState ||
-                                      agentDashboardModel.data.user.coins ==
+                              state is UserDashboardInProgressState ||
+                                      userDashboard.data.user.coinsAvailable ==
                                           null
                                   ? "0"
-                                  : agentDashboardModel.data.user.coins
+                                  : userDashboard.data.user.coinsAvailable
                                       .toString(),
                               style: Theme.of(context)
                                   .textTheme
@@ -238,7 +242,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                         ),
                         Text(
                           "Phone".tr().toString() +
-                              ":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].phone == null || agentDashboardModel.data.user.contacts[0].phone == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].phone}",
+                              ":      ${state is UserDashboardInProgressState || userDashboard.data.user.phone == null || userDashboard.data.user.phone == "" ? "N/A" : userDashboard.data.user.phone}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -249,7 +253,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                         ),
                         Text(
                           "WhatsApp".tr().toString() +
-                              ":      ${state is AgentDashboardInProgressState || agentDashboardModel.data.user.contacts[0].whatsapp == null || agentDashboardModel.data.user.contacts[0].whatsapp == "" ? "N/A" : agentDashboardModel.data.user.contacts[0].whatsapp}",
+                              ":      ${state is UserDashboardInProgressState || userDashboard.data.user.whatsapp == null || userDashboard.data.user.whatsapp == "" ? "N/A" : userDashboard.data.user.whatsapp}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -272,130 +276,120 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             SizedBox(
               height: 12,
             ),
-            sendCoinsButton(
+            placeMyBet(
               context,
             ),
             SizedBox(
               height: 12,
             ),
-            perDayAndWeeklySaleWidget(context, agentDashboardModel, state),
+            betRecordWidget(context, userDashboard, state),
             SizedBox(
               height: 12,
             ),
-            totalSaleAndCommissionWidget(context, agentDashboardModel, state),
+            pointsRecordWidget(context, userDashboard, state),
             SizedBox(
               height: 12,
             ),
-            availableForWithdrawWidget(context, agentDashboardModel, state)
+            coinsRecordWidget(context, userDashboard, state),
+            SizedBox(
+              height: 12,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget sendCoinsButton(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.of(context)
-                .push(
-                  new MaterialPageRoute(builder: (_) => MakeBetMain(1)),
-                )
-                .then((val) => val
-                    ? BlocProvider.of<AgentDashboardBloc>(context)
-                        .add(GetAgentDashboardDataEvent())
-                    : null);
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.062,
-            width: MediaQuery.of(context).size.width * 0.35,
-            decoration: BoxDecoration(
-                color: AppTheme.background2,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                )),
-            child: Center(
-                child: Text(
-              "Make Bet for others".tr().toString(),
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  color: AppTheme.appCardColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900),
-            )),
-          ),
-        ),
-        InkWell(
-          onTap: () {
+  Widget placeMyBet(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        NetworkConnectivity.check().then((internet) {
+          if (internet) {
             Navigator.of(context)
                 .push(
                   new MaterialPageRoute(builder: (_) => MakeBetMain(0)),
                 )
                 .then((val) => val
-                    ? BlocProvider.of<AgentDashboardBloc>(context)
-                        .add(GetAgentDashboardDataEvent())
+                    ? BlocProvider.of<UserDashboardBloc>(context)
+                        .add(GetUserDashboardDataEvent())
                     : null);
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.062,
-            width: MediaQuery.of(context).size.width * 0.35,
-            decoration: BoxDecoration(
-                color: AppTheme.background2,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                )),
-            child: Center(
-                child: Text(
-              "Make My Bet".tr().toString(),
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  color: AppTheme.appCardColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900),
+          } else {
+            //show network erro
+
+            Methods.showToast(context, "Check your network".tr().toString());
+          }
+        });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.062,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: AppTheme.background2,
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
             )),
-          ),
-        ),
-      ],
+        child: Center(
+            child: Text(
+          "Make Bet".tr().toString(),
+          style: Theme.of(context).textTheme.bodyText2.copyWith(
+              color: AppTheme.appCardColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w900),
+        )),
+      ),
     );
   }
 
-  Widget perDayAndWeeklySaleWidget(
-      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
+  Widget betRecordWidget(
+      BuildContext context, UserDashboard userDashboard, state) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.31,
+      height: MediaQuery.of(context).size.height * 0.32,
       decoration: BoxDecoration(
           color: AppTheme.background2,
           borderRadius: BorderRadius.all(
             Radius.circular(30),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Today Sale".tr().toString(),
-                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.sales == null || agentDashboardModel.data.dailyData.sales == "" ? "N/A" : agentDashboardModel.data.dailyData.sales}"),
-                saleInnerCard(context, "Today Commission".tr().toString(),
-                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.dailyData.comission == null || agentDashboardModel.data.dailyData.comission == "" ? "N/A" : agentDashboardModel.data.dailyData.comission}"),
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                saleInnerCard(context, "Weekly Sale".tr().toString(),
-                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.sales == null || agentDashboardModel.data.weeklyData.sales == "" ? "N/A" : agentDashboardModel.data.weeklyData.sales}"),
-                saleInnerCard(context, "Weekly Commission".tr().toString(),
-                    "${state is AgentDashboardInProgressState || agentDashboardModel.data.weeklyData.comission == null || agentDashboardModel.data.weeklyData.comission == "" ? "N/A" : agentDashboardModel.data.weeklyData.comission}"),
-              ]),
-
-              // Row(children:[]),
+              saleInnerCard(context, "Total ActiveBets Placed".tr().toString(),
+                  "${state is UserDashboardInProgressState || userDashboard.data.totalActiveBetsPlaced == null || userDashboard.data.totalActiveBetsPlaced == "" ? "N/A" : userDashboard.data.totalActiveBetsPlaced}"),
+              saleInnerCard(context, "Total Closed Bets Placed".tr().toString(),
+                  "${state is UserDashboardInProgressState || userDashboard.data.totalClosedBetsPlaced == null || userDashboard.data.totalClosedBetsPlaced == "" ? "N/A" : userDashboard.data.totalClosedBetsPlaced}"),
+              saleInnerCard(context, "Total Bets Placed".tr().toString(),
+                  "${state is UserDashboardInProgressState || userDashboard.data.totalBetsPlaced == null || userDashboard.data.totalBetsPlaced == "" ? "N/A" : userDashboard.data.totalBetsPlaced}"),
             ]),
       ),
     );
   }
 
-  Widget totalSaleAndCommissionWidget(
-      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
+  Widget pointsRecordWidget(
+      BuildContext context, UserDashboard userDashboard, state) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
+      height: MediaQuery.of(context).size.height * 0.12,
+      decoration: BoxDecoration(
+          color: AppTheme.background3,
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          totalSaleInnerCard(context, "Points Earned".tr().toString(),
+              "${state is UserDashboardInProgressState || userDashboard.data.pointsEarned == null || userDashboard.data.pointsEarned == "" ? "N/A" : userDashboard.data.pointsEarned}"),
+          totalSaleInnerCard(context, "Points Betted For".tr().toString(),
+              "${state is UserDashboardInProgressState || userDashboard.data.totalPointsBettedFor == null || userDashboard.data.totalPointsBettedFor == "" ? "N/A" : userDashboard.data.totalPointsBettedFor}"),
+        ]),
+      ),
+    );
+  }
+
+  Widget coinsRecordWidget(
+      BuildContext context, UserDashboard userDashboard, state) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.11,
       decoration: BoxDecoration(
           color: AppTheme.background2,
           borderRadius: BorderRadius.all(
@@ -404,31 +398,8 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          totalSaleInnerCard(context, "Total Sale".tr().toString(),
-              "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.sales == null || agentDashboardModel.data.monthlyData.sales == "" ? "N/A" : agentDashboardModel.data.monthlyData.sales}"),
-          totalSaleInnerCard(context, "Total Commission".tr().toString(),
-              "${state is AgentDashboardInProgressState || agentDashboardModel.data.monthlyData.comission == null || agentDashboardModel.data.monthlyData.comission == "" ? "N/A" : agentDashboardModel.data.monthlyData.comission}"),
-        ]),
-      ),
-    );
-  }
-
-  Widget availableForWithdrawWidget(
-      BuildContext context, AgentDashboardModel agentDashboardModel, state) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
-      decoration: BoxDecoration(
-          color: AppTheme.background2,
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
-          )),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          withdawInnerCardWidget(
-              context,
-              "Available for withdraw".tr().toString(),
-              "${state is AgentDashboardInProgressState || agentDashboardModel.data.availableForWithdraw == null || agentDashboardModel.data.availableForWithdraw == null ? "N/A" : agentDashboardModel.data.availableForWithdraw}"),
+          withdawInnerCardWidget(context, "Total Coins Won".tr().toString(),
+              "${state is UserDashboardInProgressState || userDashboard.data.totalCoinsWon == null || userDashboard.data.totalCoinsWon == null ? "N/A" : userDashboard.data.totalCoinsWon}"),
         ]),
       ),
     );
@@ -437,15 +408,15 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
   Widget saleInnerCard(
       BuildContext context, String heading, String subHeading) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.38,
-      height: MediaQuery.of(context).size.height * 0.128,
+      width: MediaQuery.of(context).size.width * 0.78,
+      height: MediaQuery.of(context).size.height * 0.09,
       decoration: BoxDecoration(
           color: AppTheme.background3,
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        padding: const EdgeInsets.only(top: 10.0, bottom: 0),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Text(
@@ -453,7 +424,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
-                .copyWith(color: Colors.black87),
+                .copyWith(color: Colors.black87, fontWeight: FontWeight.w900),
           ),
           // SizedBox(
           //   height: 18,
@@ -474,7 +445,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       BuildContext context, String heading, String subHeading) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.78,
-      height: MediaQuery.of(context).size.height * 0.128,
+      height: MediaQuery.of(context).size.height * 0.09,
       decoration: BoxDecoration(
           color: AppTheme.background3,
           borderRadius: BorderRadius.all(
@@ -489,7 +460,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             style: Theme.of(context)
                 .textTheme
                 .bodyText2
-                .copyWith(color: Colors.black87),
+                .copyWith(color: Colors.black87, fontWeight: FontWeight.w900),
           ),
           // SizedBox(
           //   height: 18,
@@ -510,9 +481,9 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
       BuildContext context, String heading, String subHeading) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.38,
-      height: MediaQuery.of(context).size.height * 0.128,
+      height: MediaQuery.of(context).size.height * 0.09,
       decoration: BoxDecoration(
-          color: AppTheme.background1,
+          color: AppTheme.background2,
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           )),
@@ -522,10 +493,10 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Text(
             heading,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .copyWith(color: Colors.black87, fontSize: 13),
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                color: Colors.black87,
+                fontSize: 13,
+                fontWeight: FontWeight.w900),
           ),
           // SizedBox(
           //   height: 18,

@@ -8,17 +8,17 @@ class AppTypoGraphy {
 class AppTheme {
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
-  static const Color background = Color(0xFFF2F3F8);
-  static const Color background1 = Color(0xFFF4F6FA);
-  static const Color background2 = Color(0xFFd7f0f5);
-  static const Color background3 = Color(0xFFb7e0e8);
+  static const Color background = Color(0xFFFAFAFA);
+  static const Color background1 = Color(0xFFECECEC);
+  static const Color background2 = Color(0xFFFFD3B7);
+  static const Color background3 = Color(0xFFFFC19A);
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
   static const Color nearlyGold = Color(0xFFE9AD03);
 
-  static const Color appDefaultColor = Color(0xFF3654DC);
-  static const Color appDefaultColor2 = Color(0xFF4563E7);
-  static const Color appDefaultColorForGradient = Color(0xFF2B49CF);
-  static const Color appCardColor = Color(0xFF405CDD);
+  static const Color appDefaultColor = Color(0xFFe6732d);
+  static const Color appDefaultColor2 = Color(0xFFEC8A4C);
+  static const Color appDefaultColorForGradient = Color(0xFFe6732d);
+  static const Color appCardColor = Color(0xFFe6732d);
   static const Color appDefaultButtonSplashColor = Colors.white12;
 
   static const Color nearlyRed = Color(0xFFE59007);
@@ -117,11 +117,11 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
       //cursorColor: Colors.blue[500],
      
-      accentColor: Colors.blue[100],
-      hintColor: Colors.blueAccent,
-      focusColor: Colors.blueAccent,
-      primaryColorLight: Colors.blueAccent,
-      highlightColor: Colors.blue[100],
+      accentColor: Colors.orange[100],
+      hintColor: Colors.orangeAccent,
+      focusColor: Colors.orangeAccent,
+      primaryColorLight: Colors.orangeAccent,
+      highlightColor: Colors.orange[100],
       scaffoldBackgroundColor: _lightPrimaryVariantColor,
       appBarTheme: AppBarTheme(
         color: _lightPrimaryVariantColor,
@@ -129,7 +129,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.blueAccent)),
+            borderSide: BorderSide(color: Colors.orangeAccent)),
       ),
       colorScheme: ColorScheme.light(
           primary: _lightPrimaryColor,

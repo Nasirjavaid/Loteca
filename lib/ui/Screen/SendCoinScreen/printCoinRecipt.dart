@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/model/sendCoin.dart';
 import 'package:pdf/pdf.dart' as newPdfForPrintingLibrary;
 import 'package:printing/printing.dart';
 
@@ -13,12 +14,12 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart' as open_file;
 
-class PrintRecipt {
-  final MainRound mainRound;
+class PrintCoinRecipt {
+  final SendCoin sendCoin;
 
    final df = new DateFormat('dd-MM-yyyy ', 'en');
   final tf = new DateFormat('hh:mm a', 'en');
-  PrintRecipt(this.mainRound);
+  PrintCoinRecipt(this.sendCoin);
   Future<void> generateInvoice() async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
@@ -41,7 +42,7 @@ class PrintRecipt {
     //Draw the header section by creating text element
     final PdfLayoutResult result = drawHeader(page, pageSize, grid);
     //Draw grid
-    drawGrid(page, grid, result);
+   // drawGrid(page, grid, result);
 
     //Add invoice footer
     drawFooter(page, pageSize);
@@ -82,7 +83,7 @@ class PrintRecipt {
         brush: PdfSolidBrush(PdfColor(66, 140, 214)));
 
 // Passing round package value
-    page.graphics.drawString('\$' + mainRound.round.selectedPackage.participationFee,
+    page.graphics.drawString(sendCoin.coinsTransferred.toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 18),
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
@@ -92,7 +93,7 @@ class PrintRecipt {
 
     final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
     //Draw string
-    page.graphics.drawString('Amount', contentFont,
+    page.graphics.drawString('Coins', contentFont,
         brush: PdfBrushes.white,
         bounds: Rect.fromLTWH(400, -30, pageSize.width - 400, 66),
         format: PdfStringFormat(
@@ -104,35 +105,35 @@ class PrintRecipt {
         format.format(DateTime.now());
     final Size contentSize = contentFont.measureString(invoiceNumber);
     String userStringData =
-        '''Bill To:\n\n${mainRound.user.name}\n${mainRound.user.phone}\n${mainRound.user.email}''';
+        '''Bill To:\n\n${sendCoin.user.name}\n${sendCoin.user.phone}\n${sendCoin.user.email}''';
 
-     String agentStringData = mainRound.agent !=null ?
-        '''Bill From: \n\n${mainRound.agent.name}\n${mainRound.agent.phone}\n${mainRound.agent.email}''' : "";
+     String agentStringData = 
+        '''Bill From: \n\n${sendCoin.agent.name}\n${sendCoin.agent.phone}\n${sendCoin.agent.email}''' ;
 
     /////////////
 
-    mainRound.agent !=null ? PdfTextElement(text: agentStringData, font: contentFont).draw(
+     PdfTextElement(text: agentStringData, font: contentFont).draw(
         page: page,
         bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 30), 120,
-            contentSize.width + 30, pageSize.height - 120)) :Container();
+            contentSize.width + 30, pageSize.height - 120)) ;
 
     PdfTextElement(
             text:
-                "${mainRound.round.name}\nBetting Date : ${df.format(DateTime.parse(mainRound.betDate))} ${tf.format(DateTime.parse(mainRound.betDate))}",
+                "Coins Transferred\nTransfer Date : ${df.format(DateTime.parse(sendCoin.coinsTransferDate))} ${tf.format(DateTime.parse(sendCoin.coinsTransferDate))}",
             font: contentFont)
         .draw(
             page: page,
             bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 328),
                 200, contentSize.width + 50, pageSize.height - 120));
 
-    PdfTextElement(
-            text:
-                "Starting Date : ${mainRound.round.startingDate}\nEnding Date : ${mainRound.round.endingDate}",
-            font: contentFont)
-        .draw(
-            page: page,
-            bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 30),
-                200, contentSize.width + 50, pageSize.height - 120));
+    // PdfTextElement(
+    //         text:
+    //             "Starting Date : ${mainRound.round.startingDate}\nEnding Date : ${mainRound.round.endingDate}",
+    //         font: contentFont)
+    //     .draw(
+    //         page: page,
+    //         bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 30),
+    //             200, contentSize.width + 50, pageSize.height - 120));
 
     return PdfTextElement(text: userStringData, font: contentFont).draw(
         page: page,
@@ -223,10 +224,10 @@ class PrintRecipt {
     // headerRow.cells[3].value = 'Quantity';
     // headerRow.cells[4].value = 'Total';
 
-    mainRound.userAnswers.forEach((element) {
-      addProducts(element.championShip, element.teamA, element.teamB,
-          element.winner, element.happeningDate, grid);
-    });
+    // mainRound.userAnswers.forEach((element) {
+    //   addProducts(element.championShip, element.teamA, element.teamB,
+    //       element.winner, element.happeningDate, grid);
+    // });
     // //Add rows
     // addProducts("Game name", 'CA-1098', 'AWC Logo Cap', "New answer",
     //     "20-02-2021", grid);

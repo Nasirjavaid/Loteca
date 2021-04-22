@@ -2,6 +2,7 @@ import 'package:contactus/contactus.dart';
 import 'package:flutter/material.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/Screen/ContactUsScreen/contactFileWidget.dart';
 
 class ContactUsScreen extends StatefulWidget {
   @override
@@ -22,27 +23,28 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),),
-        bottomNavigationBar: ContactUsBottomAppBar(
+        bottomNavigationBar: ContactUsBottomAppBarWidget(
           companyName: 'Brixton Inc.',
           textColor: Colors.white,
           backgroundColor: AppTheme.appDefaultColor,
           email: 'nasirjavaid73@gmail.com',
         ),
         backgroundColor: AppTheme.appDefaultColor,
-        body: ContactUs(
+        body: ContactUsWidget(
           companyFontSize:35,
-          cardColor: Colors.blue[100],
+          cardColor: Colors.white,
           textColor: Colors.teal.shade900,
           logo: AssetImage('assets/images/icon.png'),
+          
           email: 'nasirjavaid73@gmail.com',
           companyName: 'Loteca 2.0',
-          companyColor: Colors.teal.shade100,
+          companyColor: Colors.white,
           phoneNumber: '+923215198085',
           website: 'https://www.google.com/',
        
           linkedinURL: 'https://www.google.com/',
           tagLine: 'Brixton Inc.',
-          taglineColor: Colors.teal.shade100,
+          taglineColor: Colors.white,
           twitterHandle: 'https://www.google.com/',
           instagram: 'https://www.google.com/',
         ),

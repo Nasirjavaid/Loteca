@@ -10,6 +10,7 @@ import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/closedLeague.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -297,10 +298,10 @@ class _ClosedLeagueScreenState extends State<ClosedLeagueScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(children: [
-                Icon(
-                  Icons.gamepad,
-                  size: 50,
-                ),
+                CirculerStaticImageView(
+                      height: 60,
+                      width: 60,
+                      imageUrl: 'assets/images/icon.png'),
                 SizedBox(width: 8),
                 Text(
                   closedLeague.round.name == null ||

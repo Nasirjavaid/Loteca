@@ -173,8 +173,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 decoration: BoxDecoration(
                                   gradient: new LinearGradient(
                                       colors: [
-                                        Colors.purpleAccent,
-                                        AppTheme.drawerBackgroundColor1
+                                         Colors.orange,
+                                        AppTheme.nearlyRed
                                       ],
                                       begin: Alignment(1.0, 0.0),
                                       end: Alignment(0.0, 1.0),
@@ -193,8 +193,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 decoration: BoxDecoration(
                                   gradient: new LinearGradient(
                                       colors: [
-                                        Colors.purpleAccent,
-                                        AppTheme.drawerBackgroundColor1
+                                        Colors.orange,
+                                        AppTheme.nearlyRed
                                       ],
                                       begin: Alignment(1.0, 0.0),
                                       end: Alignment(0.0, 1.0),
@@ -486,7 +486,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: OvalTopBorderClipper(),
         child: Container(
           height: MediaQuery.of(context).size.height*0.06,
-          color: Colors.blue[100].withOpacity(0.5),
+          color: Colors.orange[100].withOpacity(0.5),
           child: Center(child: Text("")),
         ),
       ),
@@ -494,7 +494,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: WaveClipperTwo(reverse: true),
         child: Container(
           height: MediaQuery.of(context).size.height*0.06,
-          color: Colors.blue[900].withOpacity(0.1),
+          color: Colors.orange[900].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),
@@ -502,7 +502,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: WaveClipperOne(reverse: true),
         child: Container(
           height: MediaQuery.of(context).size.height*0.06,
-          color: Colors.blue[600].withOpacity(0.1),
+          color: Colors.orange[600].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),
@@ -516,7 +516,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: OvalBottomBorderClipper(),
         child: Container(
           height: MediaQuery.of(context).size.height*0.11,
-          color: Colors.blue[100].withOpacity(0.7),
+          color: Colors.orange[100].withOpacity(0.7),
           child: Center(child: Text("")),
         ),
       ),
@@ -524,7 +524,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: WaveClipperTwo(reverse: false),
         child: Container(
           height:MediaQuery.of(context).size.height*0.08,
-          color: Colors.blue[900].withOpacity(0.1),
+          color: Colors.orange[900].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),
@@ -532,7 +532,7 @@ cursorColor: AppTheme.appCardColor,
         clipper: WaveClipperOne(reverse: false),
         child: Container(
           height: MediaQuery.of(context).size.height*0.05,
-          color: Colors.blue[600].withOpacity(0.1),
+          color: Colors.orange[600].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),

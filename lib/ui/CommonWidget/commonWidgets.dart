@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:locteca/config/appTheme.dart';
+
 
 class CommonWidgets {
   static final progressIndicator =  Column(
@@ -14,7 +14,7 @@ class CommonWidgets {
               margin: EdgeInsets.all(5),
               child: CircularProgressIndicator(
                 strokeWidth: 2.5,
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.orange,
               ),
             ),
           ),
@@ -30,7 +30,7 @@ class CommonWidgets {
         children: <Widget>[
           Center(
               child: SpinKitFadingCircle(
-            color: AppTheme.appCardColor,
+            color: Colors.orange,
             size: 50.0,
               )
           ),

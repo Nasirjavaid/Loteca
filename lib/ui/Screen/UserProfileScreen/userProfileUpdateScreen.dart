@@ -401,7 +401,7 @@ if(image !=null)
         clipper: WaveClipperTwo(reverse: false),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.37,
-          color: Colors.blue[900].withOpacity(0.1),
+          color: Colors.orange[900].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),
@@ -409,7 +409,7 @@ if(image !=null)
         clipper: WaveClipperOne(reverse: false),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.90,
-          color: Colors.blue[600].withOpacity(0.1),
+          color: Colors.orange[600].withOpacity(0.1),
           child: Center(child: Text("")),
         ),
       ),

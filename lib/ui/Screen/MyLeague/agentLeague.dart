@@ -6,6 +6,7 @@ import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/participatedLeagues.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -287,7 +288,7 @@ class _AgentLeagueState extends State<AgentLeague> with WidgetsBindingObserver {
         decoration: BoxDecoration(
             color: AppTheme.background,
             borderRadius: BorderRadius.all(
-              Radius.circular(5),
+              Radius.circular(15),
             )),
         margin: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
         child: Padding(
@@ -297,11 +298,10 @@ class _AgentLeagueState extends State<AgentLeague> with WidgetsBindingObserver {
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Icon(
-                  Icons.gamepad,
-                  size: 50,
-                  color: Colors.blue,
-                ),
+                child: CirculerStaticImageView(
+                      height: 60,
+                      width: 60,
+                      imageUrl: 'assets/images/icon.png')
               ),
               SizedBox(
                 width: 7,

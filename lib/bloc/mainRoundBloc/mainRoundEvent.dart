@@ -19,9 +19,12 @@ class OnBetPriceChangeMainRoundEvent extends MainRoundEvent {
 }
 
 class SubmitBetButtonClickedEvent extends MainRoundEvent {
+  String name;
+  String email;
+  String phone;
   final MainRound mainRound;
 
-  SubmitBetButtonClickedEvent({this.mainRound});
+  SubmitBetButtonClickedEvent({this.mainRound,this.name,this.email,this.phone});
 }
 
 class GetActiveOrInvitedLeagueDetailEvent extends MainRoundEvent {

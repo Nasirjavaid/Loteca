@@ -7,6 +7,7 @@ import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/ui/Screen/MakeBet/printRecipt.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
@@ -16,9 +17,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 class UserBetRecipt extends StatefulWidget {
   final MainRound mainRound;
-  final ValidateUser validateUser;
 
-  UserBetRecipt({this.mainRound, this.validateUser});
+
+  UserBetRecipt({this.mainRound,});
 
   @override
   _UserBetReciptState createState() => _UserBetReciptState();
@@ -55,7 +56,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
         child: Stack(
           children: [
             Container(
-              height: widget.validateUser == null
+              height: widget.mainRound.agent == null
                   ? MediaQuery.of(context).size.height * 0.90
                   : MediaQuery.of(context).size.height * 0.95,
               decoration: BoxDecoration(
@@ -154,7 +155,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          widget.validateUser == null
+                         widget.mainRound.agent == null
                               ? userInformationWidget(
                                   widget.mainRound, widget.mainRound.user)
                               : userInformationWidget(
@@ -162,14 +163,14 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                           SizedBox(
                             height: 5,
                           ),
-                          widget.validateUser == null
+                          widget.mainRound.agent == null
                               ? Container()
                               : Column(
                                   children: [
-                                    widget.validateUser.user.id !=
-                                            widget.mainRound.agent.id
+                                    widget.mainRound.agent.id !=
+                                            widget.mainRound.user.id
                                         ? validatedUserInformationWidget(
-                                            widget.validateUser,
+                                            widget.mainRound.user,
                                             widget.mainRound)
                                         : Container(),
                                     SizedBox(
@@ -324,7 +325,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              widget.validateUser == null
+              widget.mainRound.agent == null
                   ? "User's Bet Information".tr().toString()
                   : "Bet Submitted By".tr().toString(),
               style: Theme.of(context).textTheme.bodyText2,
@@ -450,7 +451,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
   }
 
   Widget validatedUserInformationWidget(
-      ValidateUser validateUser, MainRound mainRound) {
+      dynamic agent, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.background2,
@@ -483,7 +484,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       .copyWith(fontSize: 10),
                 ),
                 Text(
-                  validateUser.user.name,
+                  agent.name,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
@@ -504,10 +505,10 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       .bodyText1
                       .copyWith(fontSize: 10),
                 ),
-                validateUser.user.email == ""
+               agent.email == ""
                     ? Text("0")
                     : Text(
-                        validateUser.user.email,
+                       agent.email,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
@@ -526,10 +527,10 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                     .bodyText1
                     .copyWith(fontSize: 10),
               ),
-              validateUser.user.phone == null
+              agent.phone == null
                   ? Text("N/A")
                   : Text(
-                      validateUser.user.phone,
+                     agent.phone,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
@@ -613,7 +614,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             ),
             child: ListView.builder(
               itemCount: mainRound.userAnswers.length,
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(vertical:5.0),
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return listWiewItemCard(
@@ -683,15 +684,15 @@ class _UserBetReciptState extends State<UserBetRecipt> {
 
   Widget listWiewItemCard(BuildContext context, UserAnswers answers) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0),
+      padding: const EdgeInsets.symmetric(vertical: 1.0),
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
-              Radius.circular(3),
+              Radius.circular(10),
             )),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -724,7 +725,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                   "${answers.winner != null || answers.winner != "" ? answers.winner : "--"}",
                   9.0,
                   FontWeight.w600,
-                  Colors.cyan),
+                  AppTheme.appCardColor),
               // Row(
               //   children: [
               //     Text(
@@ -937,17 +938,19 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                     color: AppTheme.nearlyGold,
                   )),
               onPressed: () async {
-                PrintRecipt printRecipt = PrintRecipt(widget.mainRound);
-                await printRecipt.generateInvoice();
+              
+                  PrintRecipt printRecipt = PrintRecipt(widget.mainRound);
+                  await printRecipt.generateInvoice();
+               
               },
               color: AppTheme.nearlyGold,
               textColor: Colors.white,
-              child: Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
+              child:
+                  Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
             ),
           ],
         ),
         RaisedButton(
-          
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
               side: BorderSide(
@@ -959,8 +962,10 @@ class _UserBetReciptState extends State<UserBetRecipt> {
           color: AppTheme.nearlyRed,
           textColor: Colors.white,
           child: Container(
-            width: MediaQuery.of(context).size.width*0.69,
-            child: Center(child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)))),
+              width: MediaQuery.of(context).size.width * 0.69,
+              child: Center(
+                  child: Text("Close".tr().toString(),
+                      style: TextStyle(fontSize: 14)))),
         ),
       ],
     );

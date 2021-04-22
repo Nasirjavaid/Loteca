@@ -50,6 +50,7 @@ class Agent {
   String createdAt;
   String updatedAt;
   String roles;
+  String phone;
   int coins;
 
   Agent(
@@ -60,7 +61,7 @@ class Agent {
       this.createdAt,
       this.updatedAt,
       this.roles,
-      this.coins});
+      this.coins,this.phone});
 
   Agent.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,6 +72,7 @@ class Agent {
     updatedAt = json['updated_at'];
     roles = json['roles'];
     coins = json['coins'];
+    phone = json['phone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +85,7 @@ class Agent {
     data['updated_at'] = this.updatedAt;
     data['roles'] = this.roles;
     data['coins'] = this.coins;
+    data['phone'] = this.phone;
     return data;
   }
 }

@@ -105,7 +105,7 @@ class User {
   int id;
   String name;
   String email;
-  Null emailVerifiedAt;
+  String emailVerifiedAt;
   String createdAt;
   String updatedAt;
   String roles;

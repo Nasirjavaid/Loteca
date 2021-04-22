@@ -31,7 +31,9 @@ class MainRoundRepository {
     return mainRound;
   }
 
-  Future<MainRound> submitBetOfMainRound(MainRound mainRound) async {
+  Future<MainRound> submitBetOfMainRound(MainRound mainRound,String name,
+  String email,
+  String phone) async {
 //custom delay
     // await Future.delayed(Duration(seconds: 1));
 
@@ -63,7 +65,7 @@ class MainRoundRepository {
         mainRound.round.id,
         slectedAnswers.toString(),
         removedBracketsFromGameIds,
-        selectedPackageId);
+        selectedPackageId,name,email,phone,);
 
     // if (mainRoundInner != null) {
      

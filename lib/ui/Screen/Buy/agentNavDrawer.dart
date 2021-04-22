@@ -26,7 +26,9 @@ import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
+import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/MyLeague/agentLeague.dart';
+import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
 import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart'
     as Userprofile;
@@ -145,22 +147,22 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           ),
                         ),
                       }),
-              Divider(),
-              new MyDrawerItems(context).drawerItem(
-                  icon: FontAwesomeIcons.battleNet,
-                  colorData: Colors.blue[900],
-                  text: 'Bet For Special User'.tr().toString(),
-                  onTap: () => {
-                        //clossing the nav drawer after click
-                        Navigator.pop(context),
+              // Divider(),
+              // new MyDrawerItems(context).drawerItem(
+              //     icon: FontAwesomeIcons.battleNet,
+              //     colorData: Colors.blue[900],
+              //     text: 'Bet For Special User'.tr().toString(),
+              //     onTap: () => {
+              //           //clossing the nav drawer after click
+              //           Navigator.pop(context),
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BetOnBehalfOfUserScreenMain(),
-                          ),
-                        ),
-                      }),
+              //             Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => MakeBetMain(1),
+              //             ),
+              //           ),
+              //         }),
               Divider(),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.userEdit,
@@ -188,29 +190,25 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               Divider(),
 
               new MyDrawerItems(context).drawerItem(
-                  icon: FontAwesomeIcons.odnoklassniki,
-                  colorData: Colors.black54,
-                  text: 'Make my Bet'.tr().toString(),
+                  icon: FontAwesomeIcons.coins,
+                  colorData: AppTheme.nearlyGold,
+                  text: 'Send Coins'.tr().toString(),
                   onTap: () => {
+                        //clossing the nav drawer after click
                         Navigator.pop(context),
-                        NetworkConnectivity.check().then((internet) {
-                          if (internet) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AgentBetScreenMain(
-                                      validateUser: validateUser,bottomSheetcontextFlag:1)),
-                            );
-                          } else {
-                            //show network erro
+                         Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SendCoinScreenMain(),
+              ),
+            ),
 
-                            Methods.showToast(
-                              context,
-                              "Check your network".tr().toString(),
-                            );
-                          }
-                        }),
+                       
                       }),
+
+              SizedBox(
+                height: 0,
+              ),
               Divider(),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.coins,

@@ -22,6 +22,13 @@ class Methods {
       message: message,
     ).show(context);
   }
+   static void showErrorFlushbarHelper(
+      BuildContext context, String title, String message) {
+    FlushbarHelper.createError(
+      title: title,
+      message: message,
+    ).show(context);
+  }
   //Url Launcher
   // static launchURL() async {
   //   const url = 'https://www.visionplus.com.pk/';
@@ -199,7 +206,7 @@ class Methods {
   }
 
   static void showDialogueForUserBetDetail(
-      BuildContext context, MainRound mainRound, ValidateUser validateUser) {
+      BuildContext context, MainRound mainRound,) {
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.25),
       transitionDuration: Duration(milliseconds: 400),
@@ -207,7 +214,7 @@ class Methods {
       barrierLabel: '',
       context: context,
       pageBuilder: (_, __, ___) {
-        return UserBetRecipt(mainRound: mainRound, validateUser: validateUser);
+        return UserBetRecipt(mainRound: mainRound,);
       },
 
       // transitionBuilder: (context, animation, anotherAnimation, child) {

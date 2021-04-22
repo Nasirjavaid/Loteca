@@ -216,7 +216,7 @@ Widget topClipper(BuildContext context) {
       clipper: WaveClipperTwo(reverse: false),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.37,
-        color: Colors.blue[900].withOpacity(0.1),
+        color: Colors.orange[900].withOpacity(0.1),
         child: Center(child: Text("")),
       ),
     ),
@@ -224,7 +224,7 @@ Widget topClipper(BuildContext context) {
       clipper: WaveClipperOne(reverse: false),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.92,
-        color: Colors.blue[600].withOpacity(0.1),
+        color: Colors.orange[600].withOpacity(0.1),
         child: Center(child: Text("")),
       ),
     ),
@@ -331,7 +331,7 @@ class UserInfo extends StatelessWidget {
                             height: 50,
                             width: 50,
                             decoration: new BoxDecoration(
-                              color: AppTheme.appBackgroundColorforCard2,
+                              color: AppTheme.appDefaultColor,
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(0.0),
                                 topRight: Radius.circular(4.0),

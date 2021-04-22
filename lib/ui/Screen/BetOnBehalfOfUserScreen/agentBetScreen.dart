@@ -243,7 +243,7 @@ class _AgentBetScreenState extends State<AgentBetScreen> {
           widegtSwitch2 = false;
           selectedPackageId = 0;
           Methods.showDialogueForUserBetDetail(
-              context, state.mainRound, widget.validateUser);
+              context, state.mainRound,);
         }
       }
     }, child:

@@ -10,6 +10,7 @@ import 'package:locteca/ui/Screen/MyLeague/myLeague.dart';
 import 'package:locteca/ui/Screen/Result/result.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/Screen/UserDashboardScreen/userDashboardScreen.dart';
 
 // class HomeCintainer extends StatelessWidget {
 //   @override
@@ -33,7 +34,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
   int _currentIndex = 0;
 
   final allScreenDestiNations = [
-    MakeBetMain(),
+    UserDashboardScreenMain(),
     MyLeagueMain(),
     ResultMain(),
     GeneralRankingMain(),

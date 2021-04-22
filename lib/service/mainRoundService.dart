@@ -34,7 +34,7 @@ class MainRoundService {
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {
-    print("response body  in main round service : : ${response.body}");
+      print("response body  in main round service : : ${response.body}");
 
       var json = jsonDecode(response.body);
 
@@ -44,7 +44,6 @@ class MainRoundService {
     } else if (response.statusCode == 404) {
       var json = jsonDecode(response.body);
 
-    
       mainRound = MainRound.fromJson(json);
     } else {
       throw Exception("Main Round Service: Failed to get Main Round");
@@ -52,7 +51,6 @@ class MainRoundService {
 
     return mainRound;
   }
-
 
   Future<MainRound> getMainRoundForAgent(int userId) async {
     MainRound mainRound;
@@ -65,11 +63,13 @@ class MainRoundService {
       'user_id': userId,
     };
     final http.Response response = await httpService.postRequestWithToken(
-        endPoint: APIConstants.mainRoundForAgentEndPoint, header: _getRequestHeaders(),data: requestBody);
+        endPoint: APIConstants.mainRoundForAgentEndPoint,
+        header: _getRequestHeaders(),
+        data: requestBody);
     print("status code ${response.statusCode}");
 
     if (response.statusCode == 200) {
-    print("response body  getMainRoundForAgent: : ${response.body}");
+      print("response body  getMainRoundForAgent: : ${response.body}");
 
       var json = jsonDecode(response.body);
 
@@ -79,7 +79,6 @@ class MainRoundService {
     } else if (response.statusCode == 404) {
       var json = jsonDecode(response.body);
 
-    
       mainRound = MainRound.fromJson(json);
     } else {
       throw Exception("Main Round Service: Failed to getMainRoundForAgent");
@@ -88,8 +87,14 @@ class MainRoundService {
     return mainRound;
   }
 
-  Future<MainRound> subMitBetOfMainRound(int roundId, String slectedAnswers,
-      String slectedGamesId, int selectedPackageId) async {
+  Future<MainRound> subMitBetOfMainRound(
+      int roundId,
+      String slectedAnswers,
+      String slectedGamesId,
+      int selectedPackageId,
+      String name,
+      String email,
+      String phone) async {
     MainRound mainRound;
 
     UserAuthRepository userAuthRepository = UserAuthRepository();
@@ -101,12 +106,15 @@ class MainRoundService {
       'round_id': roundId,
       'package_id': selectedPackageId,
       'game_ids': slectedGamesId,
+      'name': name,
+      'email': email,
+      'phone': phone,
     };
     final http.Response response = await httpService.postRequestWithToken(
-        endPoint: APIConstants.submitMainRoundEndPoint,
+        endPoint: APIConstants.submitbetEndPoint,
         header: _getRequestHeaders(),
         data: requestBody);
-    print("status code ${response.statusCode}");
+    print("status code ${response.statusCode}  ${APIConstants.submitbetEndPoint},");
 
     if (response.statusCode == 201) {
       print("response body  in Submit main round service : : ${response.body}");
@@ -128,10 +136,12 @@ class MainRoundService {
     return mainRound;
   }
 
-
-
-   Future<MainRound> subMitBetOfMainRoundByAgent(int roundId, String slectedAnswers,
-      String slectedGamesId, int selectedPackageId,int userId) async {
+  Future<MainRound> subMitBetOfMainRoundByAgent(
+      int roundId,
+      String slectedAnswers,
+      String slectedGamesId,
+      int selectedPackageId,
+      int userId) async {
     MainRound mainRound;
 
     UserAuthRepository userAuthRepository = UserAuthRepository();

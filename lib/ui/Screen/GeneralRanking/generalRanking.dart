@@ -128,7 +128,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
                   width: 5,
                 ),
                 Text(
-                  "Each correct answer will give you 10 points for Leaderboard."
+                  "Each correct answer will give you 1 point(s) for Leaderboard."
                       .tr()
                       .toString(),
                   maxLines: 2,
@@ -362,6 +362,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
   Widget creditWidgetForListItemCard(
       BuildContext context, Color backgroundColor, var coins) {
     return Container(
+      width: MediaQuery.of(context).size.width*0.20,
       decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.all(
@@ -377,7 +378,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
               height: 10,
               width: 10,
               decoration: BoxDecoration(
-                  color: AppTheme.nearlyGold,
+                  color: Colors.orange,
                   borderRadius: BorderRadius.all(
                     Radius.circular(50),
                   )),
@@ -385,11 +386,13 @@ class _GeneralRankingState extends State<GeneralRanking> {
             SizedBox(
               width: 8,
             ),
-            Text(coins == null || coins == "" ? "N/A" : "$coins",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appDefaultColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900)),
+            Expanded(
+                          child: Text(coins == null || coins == "" ? "N/A" : "$coins",textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: AppTheme.appDefaultColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900)),
+            ),
           ],
         ),
       ),

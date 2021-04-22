@@ -57,7 +57,7 @@ class MainRoundBloc extends Bloc<MainRoundEvent, MainRoundState> {
         // await Future.delayed(Duration(milliseconds: 500));
 
         mainRound =
-            await mainRoundRepository.submitBetOfMainRound(event.mainRound);
+            await mainRoundRepository.submitBetOfMainRound(event.mainRound,event.name,event.email,event.phone);
         if (mainRound.response == "true") {
 
       

@@ -22,6 +22,7 @@ import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
+import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -146,6 +147,26 @@ class _MyNavDrawerState extends State<MyNavDrawer> {
                           ),
                         ),
                       }),
+              // Divider(),
+              // SizedBox(
+              //   height: 0,
+              // ),
+              //  Divider(),
+              // new MyDrawerItems(context).drawerItem(
+              //     icon: FontAwesomeIcons.coins,
+              //     colorData: AppTheme.nearlyGold,
+              //     text: 'Make Bet'.tr().toString(),
+              //     onTap: () => {
+              //           //clossing the nav drawer after click
+              //           Navigator.pop(context),
+
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => MakeBetMain(0),
+              //             ),
+              //           ),
+              //         }),
               Divider(),
               SizedBox(
                 height: 0,

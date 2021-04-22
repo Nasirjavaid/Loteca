@@ -6,7 +6,7 @@ class APIConstants {
   static final String userSignUpEndPoint = baseUrl + "/register";
   static final String mainRoundEndPoint = baseUrl + "/mainRound";
   static final String mainRoundForAgentEndPoint = baseUrl + "/mainRoundForAgent";
-  static final String submitMainRoundEndPoint = baseUrl + "/submitResult";
+  static final String submitbetEndPoint = baseUrl + "/submitBet";
   static final String submitMainRoundByAgentEndPoint = baseUrl + "/submitResultByAgent";
   static final String lastRoundResultEndPoint = baseUrl + "/lastRoundResult";
   static final String leaderBoardEndPoint = baseUrl + "/leaderBoard";
@@ -28,6 +28,7 @@ class APIConstants {
   static final String updatePasswordCodeEndPoint = baseUrl + "/updatePassword";
   static final String coinsRecordEndPoint = baseUrl + "/coins_record";
   static final String userCoinsRecordEndPoint = baseUrl + "/user_coins_record";
+  static final String userDashboardEndPoint = baseUrl + "/userDashBoard";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

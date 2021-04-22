@@ -11,6 +11,7 @@ import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
+import 'package:locteca/ui/Screen/SendCoinScreen/printCoinRecipt.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
@@ -59,7 +60,7 @@ class _CoinReciptState extends State<CoinRecipt> {
         child: Stack(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.50,
+              height: MediaQuery.of(context).size.height * 0.55,
               decoration: BoxDecoration(
                 color: AppTheme.nearlyGold,
                 borderRadius: BorderRadius.circular(20.0),
@@ -178,7 +179,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 55,
+                  height: 105,
                   child: Column(
                     children: [
                       saveAndShareButton(context),
@@ -315,14 +316,14 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total available coins".tr().toString(),
+                  "Phone".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
                       .copyWith(fontSize: 10),
                 ),
                 Text(
-                  user.coins.toString(),
+                  user.phone.toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
@@ -562,56 +563,79 @@ class _CoinReciptState extends State<CoinRecipt> {
   Widget saveAndShareButton(
     BuildContext context,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
       children: [
-        RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(
-                  color: AppTheme.nearlyGold,
-                )),
-            onPressed: () async {
-              dynamicFunctionForImageSaveAndShare(2);
-            },
-            color: AppTheme.nearlyGold,
-            textColor: Colors.white,
-            child: Icon(Icons.share_outlined, size: 18)),
-        RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(
-                  color: AppTheme.nearlyGold,
-                )),
-            onPressed: () async {
-              dynamicFunctionForImageSaveAndShare(1);
-            },
-            color: AppTheme.nearlyGold,
-            textColor: Colors.white,
-            child: Icon(Icons.save, size: 18)),
-        RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(
-                color: AppTheme.nearlyGold,
-              )),
-          onPressed: () {
-           SchedulerBinding.instance.addPostFrameCallback((_) {
-          // add your code here.
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => App(
-                      userRepository: userRepository,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyGold,
                     )),
-          );
-        });
-          },
-          color: AppTheme.nearlyGold,
-          textColor: Colors.white,
-          child: Text("Close".tr().toString(), style: TextStyle(fontSize: 14)),
+                onPressed: () async {
+                  dynamicFunctionForImageSaveAndShare(2);
+                },
+                color: AppTheme.nearlyGold,
+                textColor: Colors.white,
+                child: Icon(Icons.share_outlined, size: 18)),
+            RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyGold,
+                    )),
+                onPressed: () async {
+                  dynamicFunctionForImageSaveAndShare(1);
+                },
+                color: AppTheme.nearlyGold,
+                textColor: Colors.white,
+                child: Icon(Icons.save, size: 18)),
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(
+                    color: AppTheme.nearlyGold,
+                  )),
+              onPressed: () async {
+               PrintCoinRecipt printRecipt = PrintCoinRecipt(widget.sendCoin);
+                  await printRecipt.generateInvoice();
+              },
+              color: AppTheme.nearlyGold,
+              textColor: Colors.white,
+              child: Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
+            ),
+          ],
         ),
+
+        RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(
+                    color: AppTheme.nearlyGold,
+                  )),
+              onPressed: () {
+               SchedulerBinding.instance.addPostFrameCallback((_) {
+              // add your code here.
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => App(
+                          userRepository: userRepository,
+                        )),
+              );
+            });
+              },
+              color: AppTheme.nearlyRed,
+              textColor: Colors.white,
+              child: Container(
+              width: MediaQuery.of(context).size.width * 0.69,
+              child: Center(
+                  child: Text("Close".tr().toString(),
+                      style: TextStyle(fontSize: 14)))),
+            ),
       ],
     );
   }

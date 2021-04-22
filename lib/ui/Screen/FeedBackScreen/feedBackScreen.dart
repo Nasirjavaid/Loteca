@@ -52,11 +52,11 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
   Widget _buildAssetHeader() {
     return Container(
       width: double.maxFinite,
-      height: 230.0,
+      height: 250.0,
       child: Container(),
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/feedback.png"),
+              image: AssetImage("assets/images/splash.png"),
               fit: BoxFit.cover)),
     );
   }
@@ -207,6 +207,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
       child: TextFormField(
              cursorColor: AppTheme.appDefaultColor,
         controller: _messageController,
+        
         keyboardType: TextInputType.text,
         maxLines: 2,
         decoration: InputDecoration(
@@ -289,10 +290,16 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
   Widget _buidBody(BuildContext context, state) {
     return ListView(
       children: <Widget>[
+         SizedBox(
+          height: minValue * 3,
+        ),
         _buildAssetHeader(),
+        SizedBox(
+          height: minValue * 3,
+        ),
         _buildCategory(),
         SizedBox(
-          height: minValue,
+          height: minValue * 3,
         ),
         _buildName(),
         SizedBox(

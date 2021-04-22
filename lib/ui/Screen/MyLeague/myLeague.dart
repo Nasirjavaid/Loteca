@@ -6,6 +6,8 @@ import 'package:locteca/bloc/leaguesBloc/leaguesState.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/participatedLeagues.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,11 +33,7 @@ class MyLeague extends StatefulWidget {
 }
 
 class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
-
-
-    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -93,7 +91,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
     return Scaffold(
       //  extendBodyBehindAppBar: true,
       //backgroundColor: AppTheme.background,
-      key:_scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white38),
 
@@ -115,11 +113,9 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
 
       body: BlocListener<LeaguesBloc, LeaguesState>(
           listener: (BuildContext context, state) {
-
-            if(state is LeaguesFailureState)
-            {
-              showMessageError("${state.errorMessage}");
-            }
+        if (state is LeaguesFailureState) {
+          showMessageError("${state.errorMessage}");
+        }
         print("Printing state from bloc lstener, and state is :  $state");
       }, child: BlocBuilder<LeaguesBloc, LeaguesState>(
         builder: (BuildContext context, state) {
@@ -282,7 +278,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
         decoration: BoxDecoration(
             color: AppTheme.background,
             borderRadius: BorderRadius.all(
-              Radius.circular(5),
+              Radius.circular(15),
             )),
         margin: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
         child: Padding(
@@ -292,12 +288,10 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Icon(
-                  Icons.gamepad,
-                  size: 50,
-                  color: Colors.blue,
-                ),
-              ),
+                  child: CirculerStaticImageView(
+                      height: 60,
+                      width: 60,
+                      imageUrl: 'assets/images/icon.png')),
               SizedBox(
                 width: 7,
               ),
@@ -327,7 +321,8 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                                 Radius.circular(2),
                               )),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 1),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 1),
                             child: Text(
                               leaguesItem.status.contains("1")
                                   ? "Live Leagues".tr().toString()

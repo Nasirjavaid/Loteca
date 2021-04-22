@@ -20,6 +20,8 @@ import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class MakeBetMain extends StatelessWidget {
+  final int betCheck;
+  MakeBetMain(this.betCheck);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,13 +32,15 @@ class MakeBetMain extends StatelessWidget {
               mainRoundCallDirection: 1,
             ));
         },
-        child: MakeBet(),
+        child: MakeBet(betCheck),
       ),
     );
   }
 }
 
 class MakeBet extends StatefulWidget {
+  final int betCheck;
+  MakeBet(this.betCheck);
   @override
   _MakeBetState createState() => _MakeBetState();
 }
@@ -56,6 +60,10 @@ class _MakeBetState extends State<MakeBet> {
   int globalUserCoinsValue = 0;
   String selectedPackageAccumulativePrice;
   MainRound mainRoundGlobal;
+
+  TextEditingController etName = TextEditingController();
+  TextEditingController etEmail = TextEditingController();
+  TextEditingController etMobile = TextEditingController();
 
   void showMessageError(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -141,7 +149,7 @@ class _MakeBetState extends State<MakeBet> {
           //   mainRound: mainRound,
           // ));
 
-          betConfirmationAlertBoWidget(mainRound,context);
+          betConfirmationAlertBoWidget(mainRound, context);
         }
       }
     }
@@ -171,29 +179,34 @@ class _MakeBetState extends State<MakeBet> {
       color: AppTheme.appDefaultColor,
       child: SafeArea(
         maintainBottomViewPadding: true,
-        child: Scaffold(
-          key: _scaffoldKey,
-          extendBodyBehindAppBar: true,
-          // appBar: AppBar(
-          //   iconTheme: IconThemeData(color: Colors.white38),
+        child: WillPopScope(
+                  onWillPop: () { 
+                    Navigator.pop(context,true);
+                   },
+                  child: Scaffold(
+            key: _scaffoldKey,
+            extendBodyBehindAppBar: true,
+            // appBar: AppBar(
+            //   iconTheme: IconThemeData(color: Colors.white38),
 
-          //   elevation: 0.0,
-          //   actions: [
-          //     actionWidget(context),
-          //   ],
-          //   // toolbarHeight: 50,
-          //   centerTitle: true,
-          //   // backgroundColor: AppTheme.appDefaultColor,
-          //   backgroundColor: Colors.transparent,
-          //   // title: Text(
-          //   //   "Loteca",
-          //   //   style:
-          //   //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
-          //   // ),
-          // ),
-          backgroundColor: AppTheme.appDefaultColor,
-          body: _buildBody(context),
-          drawer: MyNaveDrawerMain(),
+            //   elevation: 0.0,
+            //   actions: [
+            //     actionWidget(context),
+            //   ],
+            //   // toolbarHeight: 50,
+            //   centerTitle: true,
+            //   // backgroundColor: AppTheme.appDefaultColor,
+            //   backgroundColor: Colors.transparent,
+            //   // title: Text(
+            //   //   "Loteca",
+            //   //   style:
+            //   //       Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+            //   // ),
+            // ),
+            backgroundColor: AppTheme.appDefaultColor,
+            body: _buildBody(context),
+            //drawer: MyNaveDrawerMain(),
+          ),
         ),
       ),
     );
@@ -230,7 +243,7 @@ class _MakeBetState extends State<MakeBet> {
           widegtSwitch1 = false;
           widegtSwitch2 = false;
           selectedPackageId = 0;
-          Methods.showDialogueForUserBetDetail(context, state.mainRound, null);
+          Methods.showDialogueForUserBetDetail(context, state.mainRound,);
         }
       }
     }, child:
@@ -398,7 +411,7 @@ class _MakeBetState extends State<MakeBet> {
           ));
         },
       ),
-      drawer: MyNaveDrawerMain(),
+      // drawer: MyNaveDrawerMain(),
     );
   }
 
@@ -430,7 +443,7 @@ class _MakeBetState extends State<MakeBet> {
           ));
         },
       ),
-      drawer: MyNaveDrawerMain(),
+      // drawer: MyNaveDrawerMain(),
     );
   }
 
@@ -528,7 +541,7 @@ class _MakeBetState extends State<MakeBet> {
         ),
         Row(
           children: [
-            Icon(Icons.circle, size: 10, color: Colors.red[300]),
+            Icon(Icons.circle, size: 10, color: Colors.red[700]),
             SizedBox(
               width: 5,
             ),
@@ -1493,7 +1506,8 @@ class _MakeBetState extends State<MakeBet> {
             ));
   }
 
-  void betConfirmationAlertBoWidget(MainRound mainRound,BuildContext contextA) {
+  void betConfirmationAlertBoWidget(
+      MainRound mainRound, BuildContext contextA) {
     showDialog(
       barrierColor: Colors.black.withOpacity(0.25),
 
@@ -1511,38 +1525,21 @@ class _MakeBetState extends State<MakeBet> {
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.99,
                       decoration: BoxDecoration(
-                          color: Colors.white60,
+                          color: Colors.white,
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           )),
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      height: widget.betCheck == 1
+                          ? MediaQuery.of(context).size.height * 0.36
+                          : MediaQuery.of(context).size.height * 0.25,
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.050,
-                                decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(25),
-                                    )),
-                                child: Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("Are You Sure ?".tr().toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black54)),
-                                ))),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            widget.betCheck == 1
+                                ? strangeUserDetail(context)
+                                : confirmationWidget(context),
+                            Spacer(),
                             SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.050,
@@ -1552,6 +1549,7 @@ class _MakeBetState extends State<MakeBet> {
                                 child: Container(
                                   // margin: EdgeInsets.only(top: 0.0),
                                   decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.green),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(25.0)),
                                     color: Colors.white,
@@ -1591,20 +1589,67 @@ class _MakeBetState extends State<MakeBet> {
                                         NetworkConnectivity.check()
                                             .then((internet) {
                                           if (internet) {
-                                            Navigator.pop(context);
+                                            if (widget.betCheck == 1) {
+                                              if (etName.text.isEmpty) {
+                                                Methods.showErrorFlushbarHelper(
+                                                    context,
+                                                    "Alert",
+                                                    "Please enter name");
+                                              } else if (etEmail.text.isEmpty) {
+                                                Methods.showErrorFlushbarHelper(
+                                                    context,
+                                                    "Alert",
+                                                    "Please enter email");
+                                              } else if (!etEmail.text
+                                                  .contains("@")) {
+                                                Methods.showErrorFlushbarHelper(
+                                                    context,
+                                                    "Alert",
+                                                    "Please valid enter email");
+                                              } else if (etMobile
+                                                  .text.isEmpty) {
+                                                Methods.showErrorFlushbarHelper(
+                                                    context,
+                                                    "Alert",
+                                                    "Please enter phone");
+                                              } else {
+                                                Navigator.pop(context);
 
-                                            mainRound.round.selectedPackageId =
-                                                0;
-                                            mainRound.round.selectedPackageId =
-                                                selectedPackageId;
-                                            print(
-                                                "Bet Submitted... Successfully");
-                                            BlocProvider.of<MainRoundBloc>(
-                                                    contextA)
-                                                .add(
-                                                    SubmitBetButtonClickedEvent(
-                                              mainRound: mainRound,
-                                            ));
+                                                mainRound.round
+                                                    .selectedPackageId = 0;
+                                                mainRound.round
+                                                        .selectedPackageId =
+                                                    selectedPackageId;
+                                                print(
+                                                    "Bet Submitted... Successfully");
+                                                BlocProvider.of<MainRoundBloc>(
+                                                        contextA)
+                                                    .add(
+                                                        SubmitBetButtonClickedEvent(
+                                                  mainRound: mainRound,
+                                                  name:etName.text,
+                                                  email:etEmail.text,
+                                                  phone:etMobile.text,
+                                                  
+                                                ));
+                                              }
+                                            } else {
+                                              Navigator.pop(context);
+
+                                              mainRound
+                                                  .round.selectedPackageId = 0;
+                                              mainRound
+                                                      .round.selectedPackageId =
+                                                  selectedPackageId;
+                                              print(
+                                                  "Bet Submitted... Successfully");
+                                              BlocProvider.of<MainRoundBloc>(
+                                                      contextA)
+                                                  .add(
+                                                      SubmitBetButtonClickedEvent(
+                                                mainRound: mainRound,
+                                              ));
+                                            }
                                           } else {
                                             print("No internet ..............");
                                             Methods.showToast(
@@ -1631,6 +1676,7 @@ class _MakeBetState extends State<MakeBet> {
                                 child: Container(
                                   // margin: EdgeInsets.only(top: 0.0),
                                   decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.red),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(25.0)),
                                     color: Colors.white,
@@ -1672,6 +1718,9 @@ class _MakeBetState extends State<MakeBet> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 15,
+                            ),
                           ]))),
             ),
           ),
@@ -1691,6 +1740,220 @@ class _MakeBetState extends State<MakeBet> {
       //     child: child,
       //   );
       // },
+    );
+  }
+
+  Widget strangeUserDetail(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(children: [
+        nameInputField(context),
+        emailInputField(context),
+        phoneInputField(context),
+      ]),
+    );
+  }
+
+  Widget nameInputField(BuildContext context) {
+    return TextFormField(
+      controller: etName,
+      keyboardType: TextInputType.text,
+      // textCapitalization: TextCapitalization.words,
+      autocorrect: false,
+      cursorColor: AppTheme.appCardColor,
+      //controller: firstNameTextController,
+      //validator: _validateFirstName,
+      maxLength: 128,
+      style: TextStyle(
+        color: Colors.black54,
+        //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+      ),
+      decoration: InputDecoration(
+          counterText: "",
+          // prefixIcon: Icon(
+          //   Icons.person,
+          //   size: 22,
+          //   color: Color(0xFF72868a),
+          // ),
+          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          // border: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // enabledBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // focusedBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // errorBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          labelText: "Name".tr().toString(),
+          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+
+          // errorStyle: AppTypoGraphy.errorHintStyle
+          ),
+
+      validator: (String firstName) {
+        if (firstName.isEmpty) {
+          return "Name";
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget confirmationWidget(BuildContext contex) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Container(
+          width: MediaQuery.of(context).size.width * 0.90,
+          height: MediaQuery.of(context).size.height * 0.050,
+          decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              )),
+          child: Center(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Are You Sure ?".tr().toString(),
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    fontWeight: FontWeight.w600, color: Colors.black54)),
+          ))),
+    );
+  }
+
+  Widget emailInputField(BuildContext context) {
+    return TextFormField(
+      controller: etEmail,
+      cursorColor: AppTheme.appCardColor,
+      keyboardType: TextInputType.emailAddress,
+      //textCapitalization: TextCapitalization.words,
+      autocorrect: false,
+
+      //controller: firstNameTextController,
+      //validator: _validateFirstName,
+      maxLength: 128,
+      style: TextStyle(
+        color: Colors.black54,
+        //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+      ),
+      decoration: InputDecoration(
+          counterText: "",
+          // prefixIcon: Icon(
+          //   Icons.person,
+          //   size: 22,
+          //   color: Color(0xFF72868a),
+          // ),
+          // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          // border: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // enabledBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // focusedBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          // errorBorder: const OutlineInputBorder(
+          //     borderSide: const BorderSide(
+          //         // color: Color.fromARGB(255, 232, 232, 232),
+          //         color: Colors.white,
+          //         width: 1.0),
+          //     borderRadius: BorderRadius.all(Radius.circular(25))),
+          labelText: "Email".tr().toString(),
+          labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14)
+
+          // errorStyle: AppTypoGraphy.errorHintStyle
+          ),
+
+      validator: (String userName) {
+        if (userName.isEmpty) {
+          return "Email";
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget phoneInputField(BuildContext context) {
+    return TextField(
+      controller: etMobile,
+      keyboardType: TextInputType.phone,
+      //textCapitalization: TextCapitalization.words,
+      autocorrect: false,
+      cursorColor: AppTheme.appCardColor,
+      //controller: firstNameTextController,
+      //validator: _validateFirstName,
+      maxLength: 128,
+      style: TextStyle(
+        color: Colors.black54,
+        //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+      ),
+      decoration: InputDecoration(
+        counterText: "",
+        // prefixIcon: Icon(
+        //   Icons.person,
+        //   size: 22,
+        //   color: Color(0xFF72868a),
+        // ),
+        // contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        // border: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // enabledBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // focusedBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        // errorBorder: const OutlineInputBorder(
+        //     borderSide: const BorderSide(
+        //         // color: Color.fromARGB(255, 232, 232, 232),
+        //         color: Colors.white,
+        //         width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
+        labelText: "Phone Number".tr().toString(),
+        labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+            fontWeight: FontWeight.w600, color: Colors.black38, fontSize: 14),
+
+        // errorStyle: AppTypoGraphy.errorHintStyle
+      ),
     );
   }
 }
