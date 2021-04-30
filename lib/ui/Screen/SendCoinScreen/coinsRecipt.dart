@@ -21,8 +21,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 class CoinRecipt extends StatefulWidget {
   final SendCoin sendCoin;
+  final int apiDirectionalCall;
 
-  CoinRecipt({this.sendCoin});
+  CoinRecipt({this.sendCoin, this.apiDirectionalCall});
 
   @override
   _CoinReciptState createState() => _CoinReciptState();
@@ -162,12 +163,16 @@ class _CoinReciptState extends State<CoinRecipt> {
                             height: 5,
                           ),
                           userInformationWidget(
-                              widget.sendCoin.user, "Coins sent to".tr().toString(),),
+                            widget.sendCoin.user,
+                            "Coins sent to".tr().toString(),
+                          ),
                           SizedBox(
                             height: 5,
                           ),
                           userInformationWidget(
-                              widget.sendCoin.agent, "Coins sent by".tr().toString(),),
+                            widget.sendCoin.agent,
+                            "Coins sent by".tr().toString(),
+                          ),
                         ],
                       ),
                     ),
@@ -179,7 +184,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 105,
+                  height: widget.apiDirectionalCall ==1 ||  widget.apiDirectionalCall==2 ? 55 : 110,
                   child: Column(
                     children: [
                       saveAndShareButton(context),
@@ -225,7 +230,7 @@ class _CoinReciptState extends State<CoinRecipt> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .copyWith(fontSize: 14,fontWeight: FontWeight.w900),
+                      .copyWith(fontSize: 14, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(
                   width: 4,
@@ -599,43 +604,45 @@ class _CoinReciptState extends State<CoinRecipt> {
                     color: AppTheme.nearlyGold,
                   )),
               onPressed: () async {
-               PrintCoinRecipt printRecipt = PrintCoinRecipt(widget.sendCoin);
-                  await printRecipt.generateInvoice();
+                PrintCoinRecipt printRecipt = PrintCoinRecipt(widget.sendCoin);
+                await printRecipt.generateInvoice();
               },
               color: AppTheme.nearlyGold,
               textColor: Colors.white,
-              child: Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
+              child:
+                  Text("Print".tr().toString(), style: TextStyle(fontSize: 14)),
             ),
           ],
         ),
+        widget.apiDirectionalCall == 1 || widget.apiDirectionalCall == 2
+            ? Container()
+            : RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyGold,
+                    )),
+                onPressed: () {
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    // add your code here.
 
-        RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(
-                    color: AppTheme.nearlyGold,
-                  )),
-              onPressed: () {
-               SchedulerBinding.instance.addPostFrameCallback((_) {
-              // add your code here.
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => App(
-                          userRepository: userRepository,
-                        )),
-              );
-            });
-              },
-              color: AppTheme.nearlyRed,
-              textColor: Colors.white,
-              child: Container(
-              width: MediaQuery.of(context).size.width * 0.69,
-              child: Center(
-                  child: Text("Close".tr().toString(),
-                      style: TextStyle(fontSize: 14)))),
-            ),
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => App(
+                                userRepository: userRepository,
+                              )),
+                    );
+                  });
+                },
+                color: AppTheme.nearlyRed,
+                textColor: Colors.white,
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.69,
+                    child: Center(
+                        child: Text("Close".tr().toString(),
+                            style: TextStyle(fontSize: 14)))),
+              ),
       ],
     );
   }
@@ -685,7 +692,10 @@ class _CoinReciptState extends State<CoinRecipt> {
             quality: 100);
         print("File Saved to Gallery $result");
         Methods.showInfoFlushbarHelper(
-            context, "Recipt".tr().toString(), "Recipt successfully saved".tr().toString(),);
+          context,
+          "Recipt".tr().toString(),
+          "Recipt successfully saved".tr().toString(),
+        );
       }).catchError((onError) {
         print(onError);
       });
@@ -693,9 +703,14 @@ class _CoinReciptState extends State<CoinRecipt> {
       // print("Image file here ${result}");
     } else if (requestCode == 2) {
       // share(result);
-      ShareFilesAndScreenshotWidgets().shareScreenshot(previewContainer,
-          originalSize, "Loteca 2.0 Bet Recipt", "MyRecipt.png", "image/png",
-          text: "My Recipt".tr().toString(),);
+      ShareFilesAndScreenshotWidgets().shareScreenshot(
+        previewContainer,
+        originalSize,
+        "Loteca 2.0 Bet Recipt",
+        "MyRecipt.png",
+        "image/png",
+        text: "My Recipt".tr().toString(),
+      );
     }
   }
 }

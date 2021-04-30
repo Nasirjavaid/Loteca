@@ -5,4 +5,7 @@ abstract class LastRoundResultEvent {
 
 class GetLastRoundResultEvent extends LastRoundResultEvent {}
 
-
+class GetRoundDetailEvent extends LastRoundResultEvent {
+  final int roundId;
+  GetRoundDetailEvent({this.roundId});
+}

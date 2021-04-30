@@ -12,7 +12,10 @@ import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
-import 'package:responsive_framework/utils/scroll_behavior.dart';
+
+import '../../../model/userLogin.dart';
+import '../../../model/userLogin.dart';
+import '../../../model/userLogin.dart';
 
 class GeneralRankingMain extends StatelessWidget {
   @override
@@ -34,8 +37,8 @@ class GeneralRanking extends StatefulWidget {
 }
 
 class _GeneralRankingState extends State<GeneralRanking> {
-  Widget _buildBodyForThisMonth(
-      BuildContext context, List<LeaderBoardMonthly> leaderBoardMonthly) {
+  Widget _buildBodyForThisMonth(BuildContext context,
+      List<LeaderBoardMonthly> leaderBoardMonthly, UserLogin userLogin) {
     List<LeaderBoardMonthly> leaderBoardMonthlyTopThree =
         List<LeaderBoardMonthly>();
     if (leaderBoardMonthly.length > 3) {
@@ -56,15 +59,17 @@ class _GeneralRankingState extends State<GeneralRanking> {
 
         SliverToBoxAdapter(
           child: leaderBoardMonthly.length > 3
-              ? postionedBaseUserCards(leaderBoardMonthlyTopThree)
-              : listofTeams(context, leaderBoardMonthly),
+              ? postionedBaseUserCards(
+                  leaderBoardMonthlyTopThree,
+                )
+              : listofTeams(context, leaderBoardMonthly, userLogin),
         ),
 
         SliverToBoxAdapter(
             child:
                 //CommonWidgets.mycustomDivider(context),
                 leaderBoardMonthly.length > 3
-                    ? listofTeams(context, leaderBoardMonthly)
+                    ? listofTeams(context, leaderBoardMonthly, userLogin)
                     : Container()),
         // listofTeams(context, leaderBoardMonthly)
       ],
@@ -362,7 +367,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
   Widget creditWidgetForListItemCard(
       BuildContext context, Color backgroundColor, var coins) {
     return Container(
-      width: MediaQuery.of(context).size.width*0.20,
+      width: MediaQuery.of(context).size.width * 0.20,
       decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.all(
@@ -387,7 +392,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
               width: 8,
             ),
             Expanded(
-                          child: Text(coins == null || coins == "" ? "N/A" : "$coins",textAlign: TextAlign.center,
+              child: Text(coins == null || coins == "" ? "N/A" : "$coins",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
                       color: AppTheme.appDefaultColor,
                       fontSize: 12,
@@ -399,7 +405,8 @@ class _GeneralRankingState extends State<GeneralRanking> {
     );
   }
 
-  Widget listofTeams(BuildContext context, List leaderBoardGenericList) {
+  Widget listofTeams(
+      BuildContext context, List leaderBoardGenericList, UserLogin userLogin) {
     return Padding(
       padding: const EdgeInsets.only(top: 0.0),
       child: Container(
@@ -410,33 +417,34 @@ class _GeneralRankingState extends State<GeneralRanking> {
             borderRadius: BorderRadius.all(
               Radius.circular(0),
             )),
-       
-          child: ListView.builder(
-              padding: EdgeInsets.only(top:2,bottom: 100),
-              itemCount: leaderBoardGenericList.length == 0
-                  ? 1
-                  : leaderBoardGenericList.length,
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return leaderBoardGenericList.length == 0
-                    ? Center(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 25.0),
-                            child: Text(
-                              "No Items".tr().toString(),
-                            )))
-                    : listWiewItemCard(
-                        context, index, leaderBoardGenericList[index]);
-              }),
-        
+        child: ListView.builder(
+            padding: EdgeInsets.only(top: 2, bottom: 100),
+            itemCount: leaderBoardGenericList.length == 0
+                ? 1
+                : leaderBoardGenericList.length,
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return leaderBoardGenericList.length == 0
+                  ? Center(
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: Text(
+                            "No Items".tr().toString(),
+                          )))
+                  : listWiewItemCard(
+                      context, index, leaderBoardGenericList[index], userLogin);
+            }),
       ),
     );
   }
 
-  Widget listWiewItemCard(
-      BuildContext context, int index, var leaderBordGenericItem) {
+  Widget listWiewItemCard(BuildContext context, int index,
+      var leaderBordGenericItem, UserLogin userLogin) {
     return Card(
+      color: userLogin.data.user.id == leaderBordGenericItem.id
+          ? AppTheme.background2
+          : Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Row(
@@ -592,9 +600,13 @@ class _GeneralRankingState extends State<GeneralRanking> {
               return TabBarView(
                 children: [
                   _buildBodyForThisMonth(
-                      context, state.leaderBoardModel.leaderBoardMonthly),
+                      context,
+                      state.leaderBoardModel.leaderBoardMonthly,
+                      state.userLogin),
                   listofTeams(
-                      context, state.leaderBoardModel.leaderBoardAllTime),
+                      context,
+                      state.leaderBoardModel.leaderBoardAllTime,
+                      state.userLogin),
                 ],
               );
             }

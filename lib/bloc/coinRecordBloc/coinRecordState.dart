@@ -1,5 +1,7 @@
-import 'package:locteca/model/agentsToBuyCoins.dart';
+
 import 'package:locteca/model/coinRecord.dart';
+import 'package:locteca/model/mainRound.dart';
+import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/userCoinRecord.dart';
 
 
@@ -29,4 +31,31 @@ class UserCoinRecordSuccessState extends CoinRecordState {
   final UserCoinRecord userCoinRecord;
 
   const UserCoinRecordSuccessState({this.userCoinRecord});
+}
+
+
+
+
+
+class UserCoinRecordReciptSuccessState extends CoinRecordState {
+  final SendCoin sendCoin;
+
+  const UserCoinRecordReciptSuccessState({this.sendCoin});
+}
+class UserCoinRecordReciptInProgressState extends CoinRecordState {
+  
+
+  const UserCoinRecordReciptInProgressState();
+}
+
+class UserBetRecordReciptSuccessState extends CoinRecordState {
+
+  final MainRound mainRound;
+
+  const UserBetRecordReciptSuccessState({this.mainRound});
+}
+class UserBetRecordReciptInProgressState extends CoinRecordState {
+  
+
+  const UserBetRecordReciptInProgressState();
 }

@@ -12,12 +12,10 @@ class MainRoundRepository {
 
     mainRound = await mainRoundService.getMainRound();
 
-
     return mainRound;
   }
 
-
-   Future<MainRound> getMainRoundForAgent(int userId) async {
+  Future<MainRound> getMainRoundForAgent(int userId) async {
 //custom delay
     // await Future.delayed(Duration(seconds: 1));
 
@@ -27,13 +25,11 @@ class MainRoundRepository {
 
     mainRound = await mainRoundService.getMainRoundForAgent(userId);
 
-
     return mainRound;
   }
 
-  Future<MainRound> submitBetOfMainRound(MainRound mainRound,String name,
-  String email,
-  String phone) async {
+  Future<MainRound> submitBetOfMainRound(
+      MainRound mainRound, String name, String email, String phone) async {
 //custom delay
     // await Future.delayed(Duration(seconds: 1));
 
@@ -62,21 +58,24 @@ class MainRoundRepository {
     // print(joined);
 
     mainRoundInner = await mainRoundService.subMitBetOfMainRound(
-        mainRound.round.id,
-        slectedAnswers.toString(),
-        removedBracketsFromGameIds,
-        selectedPackageId,name,email,phone,);
+      mainRound.round.id,
+      slectedAnswers.toString(),
+      removedBracketsFromGameIds,
+      selectedPackageId,
+      name,
+      email,
+      phone,
+    );
 
     // if (mainRoundInner != null) {
-     
 
     //   return mainRoundInner;
     // }
     return mainRoundInner;
   }
 
-
-   Future<MainRound> submitBetOfMainRoundByAgent(MainRound mainRound,int userId) async {
+  Future<MainRound> submitBetOfMainRoundByAgent(
+      MainRound mainRound, int userId) async {
 //custom delay
     // await Future.delayed(Duration(seconds: 1));
 
@@ -108,13 +107,24 @@ class MainRoundRepository {
         mainRound.round.id,
         slectedAnswers.toString(),
         removedBracketsFromGameIds,
-        selectedPackageId,userId);
+        selectedPackageId,
+        userId);
 
     // if (mainRoundInner != null) {
-     
 
     //   return mainRoundInner;
     // }
     return mainRoundInner;
+  }
+
+  Future<MainRound> getUserBetReciptRcord(int id) async {
+//custom delay
+    // await Future.delayed(Duration(seconds: 1));
+
+    MainRound mainRound = MainRound();
+    MainRoundService mainRoundService = MainRoundService();
+    mainRound = await mainRoundService.getUserBetReciptRcord(id);
+
+    return mainRound;
   }
 }

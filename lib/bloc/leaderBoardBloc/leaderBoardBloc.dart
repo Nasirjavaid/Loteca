@@ -3,8 +3,14 @@ import 'package:locteca/bloc/leaderBoardBloc/leaderBoardEvent.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardState.dart';
 import 'package:locteca/repository/leaderBoardRepository.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '../../model/userLogin.dart';
+import '../../model/userLogin.dart';
+import '../../repository/userAuthRepository.dart';
 class LeaderBoardBloc extends Bloc<LeaderBoardEvent, LeaderBoardState> {
   LeaderBoardRepository leaderBoardRepository = LeaderBoardRepository();
+   UserAuthRepository userAuthRepository = UserAuthRepository();
+   UserLogin userLogin = UserLogin();
 
   LeaderBoardBloc();
 
@@ -19,10 +25,14 @@ class LeaderBoardBloc extends Bloc<LeaderBoardEvent, LeaderBoardState> {
       try {
         yield LeaderBoardInProgressState();
 
+       
+
+    userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
+
         final leaderboard = await leaderBoardRepository.getLeaderBoard();
 
         if (leaderboard.response == "true") {
-          yield LeaderBoardSuccessState(leaderBoardModel: leaderboard);
+          yield LeaderBoardSuccessState(leaderBoardModel: leaderboard,userLogin:userLogin);
         } else {
           yield LeaderBoardFailureState(errorMessage: "Something Went Wrong".tr().toString());
         }

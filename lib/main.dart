@@ -20,6 +20,7 @@ import 'package:locteca/ui/Screen/LoginScreen/loginScreen.dart';
 import 'package:locteca/ui/Screen/NetworkFailureScreen/networkFailureScreen.dart';
 import 'package:locteca/ui/Screen/SplashScreen/spalshScreen.dart';
 import 'bloc/agentsBloc/agentsBloc.dart';
+import 'bloc/lastRoundResultBloc/lastRoundResultBloc.dart';
 import 'bloc/leaderBoardBloc/leaderBoardBloc.dart';
 import 'bloc/leaguesBloc/leaguesBloc.dart';
 import 'bloc/userAuthBloc/userAuthBloc.dart';
@@ -83,6 +84,9 @@ void main() async {
        
             BlocProvider<FeedbackBloc>(
               create: (context) => FeedbackBloc(),
+            ),
+            BlocProvider<LastRoundResulBloc>(
+              create: (context) => LastRoundResulBloc(),
             ),
           ],
           child: EasyLocalization(

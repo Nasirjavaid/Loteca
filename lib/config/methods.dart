@@ -6,7 +6,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/model/sendCoin.dart';
 import 'package:locteca/model/userLogin.dart';
-import 'package:locteca/model/validateUser.dart';
+
 import 'package:locteca/ui/Screen/Buy/agentDetailDialogue.dart';
 import 'package:locteca/ui/Screen/MakeBet/emailNotVerifiedDialogue.dart';
 import 'package:locteca/ui/Screen/MakeBet/userBetRecipt.dart';

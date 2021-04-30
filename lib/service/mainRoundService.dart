@@ -114,7 +114,8 @@ class MainRoundService {
         endPoint: APIConstants.submitbetEndPoint,
         header: _getRequestHeaders(),
         data: requestBody);
-    print("status code ${response.statusCode}  ${APIConstants.submitbetEndPoint},");
+    print(
+        "status code ${response.statusCode}  ${APIConstants.submitbetEndPoint},");
 
     if (response.statusCode == 201) {
       print("response body  in Submit main round service : : ${response.body}");
@@ -176,6 +177,44 @@ class MainRoundService {
       mainRound = MainRound.fromJson(json);
     } else {
       throw Exception("Submit Main Round Service: Failed to get Main Round");
+    }
+
+    return mainRound;
+  }
+
+  Future<MainRound> getUserBetReciptRcord(
+    int id,
+  ) async {
+    MainRound mainRound;
+
+    UserAuthRepository userAuthRepository = UserAuthRepository();
+
+    userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
+
+    Map<String, dynamic> requestBody = <String, dynamic>{
+      'record_id': id,
+    };
+    final http.Response response = await httpService.postRequestWithToken(
+        endPoint: APIConstants.betTicketDetailEndPoint,
+        header: _getRequestHeaders(),
+        data: requestBody);
+    print("status code ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print("response body getUserBetReciptRcord main round service : : ${response.body}");
+
+      var json = jsonDecode(response.body);
+
+      mainRound = MainRound.fromJson(json);
+
+      print(
+          "response body  getUserBetReciptRcord Main round service : ${mainRound.message}");
+    } else if (response.statusCode >= 400) {
+      var json = jsonDecode(response.body);
+
+      mainRound = MainRound.fromJson(json);
+    } else {
+      throw Exception("getUserBetReciptRcord Main Round Service: Failed to getUserBetReciptRcord");
     }
 
     return mainRound;

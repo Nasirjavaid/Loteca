@@ -1,4 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +12,6 @@ import 'package:locteca/model/closedLeague.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
-import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ClosedLeagueScreenMain extends StatelessWidget {

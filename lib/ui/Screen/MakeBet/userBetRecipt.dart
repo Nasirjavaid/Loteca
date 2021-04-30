@@ -5,7 +5,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/model/mainRound.dart';
-import 'package:locteca/model/validateUser.dart';
+
 import 'package:locteca/ui/Screen/MakeBet/printRecipt.dart';
 
 import 'package:permission_handler/permission_handler.dart';
@@ -18,8 +18,9 @@ import 'package:easy_localization/easy_localization.dart';
 class UserBetRecipt extends StatefulWidget {
   final MainRound mainRound;
 
+  final int apiDirectionalCall;
 
-  UserBetRecipt({this.mainRound,});
+  UserBetRecipt({this.mainRound, this.apiDirectionalCall});
 
   @override
   _UserBetReciptState createState() => _UserBetReciptState();
@@ -155,7 +156,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                         widget.mainRound.agent == null
+                          widget.mainRound.agent == null
                               ? userInformationWidget(
                                   widget.mainRound, widget.mainRound.user)
                               : userInformationWidget(
@@ -198,7 +199,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 110,
+                  height: widget.apiDirectionalCall ==1 ||  widget.apiDirectionalCall==2 ? 55 : 110,
                   child: Column(
                     children: [
                       saveAndShareButton(context),
@@ -450,8 +451,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
     );
   }
 
-  Widget validatedUserInformationWidget(
-      dynamic agent, MainRound mainRound) {
+  Widget validatedUserInformationWidget(dynamic agent, MainRound mainRound) {
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.background2,
@@ -505,10 +505,10 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                       .bodyText1
                       .copyWith(fontSize: 10),
                 ),
-               agent.email == ""
+                agent.email == ""
                     ? Text("0")
                     : Text(
-                       agent.email,
+                        agent.email,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
@@ -530,7 +530,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               agent.phone == null
                   ? Text("N/A")
                   : Text(
-                     agent.phone,
+                      agent.phone,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
@@ -614,7 +614,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             ),
             child: ListView.builder(
               itemCount: mainRound.userAnswers.length,
-              padding: EdgeInsets.symmetric(vertical:5.0),
+              padding: EdgeInsets.symmetric(vertical: 5.0),
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return listWiewItemCard(
@@ -938,10 +938,8 @@ class _UserBetReciptState extends State<UserBetRecipt> {
                     color: AppTheme.nearlyGold,
                   )),
               onPressed: () async {
-              
-                  PrintRecipt printRecipt = PrintRecipt(widget.mainRound);
-                  await printRecipt.generateInvoice();
-               
+                PrintRecipt printRecipt = PrintRecipt(widget.mainRound);
+                await printRecipt.generateInvoice();
               },
               color: AppTheme.nearlyGold,
               textColor: Colors.white,
@@ -950,23 +948,25 @@ class _UserBetReciptState extends State<UserBetRecipt> {
             ),
           ],
         ),
-        RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(
+        widget.apiDirectionalCall == 1 || widget.apiDirectionalCall == 2
+            ? Container()
+            : RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: AppTheme.nearlyRed,
+                    )),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 color: AppTheme.nearlyRed,
-              )),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: AppTheme.nearlyRed,
-          textColor: Colors.white,
-          child: Container(
-              width: MediaQuery.of(context).size.width * 0.69,
-              child: Center(
-                  child: Text("Close".tr().toString(),
-                      style: TextStyle(fontSize: 14)))),
-        ),
+                textColor: Colors.white,
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.69,
+                    child: Center(
+                        child: Text("Close".tr().toString(),
+                            style: TextStyle(fontSize: 14)))),
+              ),
       ],
     );
   }

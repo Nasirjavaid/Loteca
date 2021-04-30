@@ -286,7 +286,10 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
             SizedBox(
               height: 12,
             ),
-            availableForWithdrawWidget(context, agentDashboardModel, state)
+            availableForWithdrawWidget(context, agentDashboardModel, state),
+            SizedBox(
+              height: 12,
+            ),
           ],
         ),
       ),

@@ -8,7 +8,7 @@ class APIConstants {
   static final String mainRoundForAgentEndPoint = baseUrl + "/mainRoundForAgent";
   static final String submitbetEndPoint = baseUrl + "/submitBet";
   static final String submitMainRoundByAgentEndPoint = baseUrl + "/submitResultByAgent";
-  static final String lastRoundResultEndPoint = baseUrl + "/lastRoundResult";
+  static final String lastRoundResultEndPoint = baseUrl + "/lastResultsList";
   static final String leaderBoardEndPoint = baseUrl + "/leaderBoard";
   static final String leaguesEndPoint = baseUrl + "/leagues";
   static final String agentsEndPoint = baseUrl + "/agents";
@@ -29,6 +29,10 @@ class APIConstants {
   static final String coinsRecordEndPoint = baseUrl + "/coins_record";
   static final String userCoinsRecordEndPoint = baseUrl + "/user_coins_record";
   static final String userDashboardEndPoint = baseUrl + "/userDashBoard";
+  static final String roundDetailEndPoint = baseUrl + "/resultScreenDetails";
+  static final String userBetsRecordEndPoint = baseUrl + "/user_bets_record";
+  static final String coinSentTicketDetailEndPoint = baseUrl + "/coin_sent_ticket_detail";
+  static final String betTicketDetailEndPoint = baseUrl + "/bet_ticket_detail";
 
 // base url to load Game flags
   static final String baseUrlToloadGameFlags=

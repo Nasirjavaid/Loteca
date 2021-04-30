@@ -1,4 +1,7 @@
 import 'package:locteca/model/lastRoundResult.dart';
+import 'package:locteca/model/roundDetail.dart';
+
+import '../../model/userLogin.dart';
 
 
 abstract class LastRoundResultState {
@@ -21,4 +24,12 @@ class LastRoundResultSuccessState extends LastRoundResultState {
   final LastRoundResult lastRoundResult;
 
   const LastRoundResultSuccessState({this.lastRoundResult});
+}
+
+
+class RoundDetailSuccessState extends LastRoundResultState {
+  final RoundDetail roundDetail;
+  final UserLogin userLogin;
+
+  const RoundDetailSuccessState({this.roundDetail,this.userLogin});
 }

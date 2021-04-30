@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:locteca/ui/Screen/Buy/buy.dart';
-
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
-import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/MyLeague/myLeague.dart';
 import 'package:locteca/ui/Screen/Result/result.dart';
 import 'package:locteca/config/appTheme.dart';
@@ -36,7 +33,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
   final allScreenDestiNations = [
     UserDashboardScreenMain(),
     MyLeagueMain(),
-    ResultMain(),
+    ResultMain(1),
     GeneralRankingMain(),
     BuyMain()
   ];
@@ -135,7 +132,7 @@ class _MainHomeContainerState extends State<MainHomeContainer>
             title: Padding(
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                'Make Bet'.tr().toString(),
+                'Home'.tr().toString(),
                 style: GoogleFonts.lato(
                     textStyle:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),

@@ -4,45 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardBloc.dart';
 import 'package:locteca/bloc/leaderBoardBloc/leaderBoardEvent.dart';
-import 'package:locteca/bloc/leaderBoardBloc/leaderBoardState.dart';
+
 import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
-import 'package:locteca/model/leaderBoard.dart';
+
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
-import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../config/appTheme.dart';
+import '../../../model/roundDetail.dart';
 import '../../../model/userLogin.dart';
 import '../../../model/userLogin.dart';
 import '../../../model/userLogin.dart';
 
+class Ranking extends StatefulWidget {
+  final List<LeaderBoard> leaderBoard;
+  final UserLogin userLogin;
 
+  Ranking({this.leaderBoard,this.userLogin});
 
-class AgentSideGeneralRankingMain extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: BlocProvider(
-        create: (context) {
-          return LeaderBoardBloc()..add(GetLeaderBoardListEvent());
-        },
-        child: AgentSideGeneralRanking(),
-      ),
-    );
-  }
+  _RankingState createState() => _RankingState();
 }
 
-class AgentSideGeneralRanking extends StatefulWidget {
-  @override
-  _AgentSideGeneralRankingState createState() => _AgentSideGeneralRankingState();
-}
-
-class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
+class _RankingState extends State<Ranking> {
   Widget _buildBodyForThisMonth(
-      BuildContext context, List<LeaderBoardMonthly> leaderBoardMonthly,UserLogin userLogin) {
-    List<LeaderBoardMonthly> leaderBoardMonthlyTopThree =
-        List<LeaderBoardMonthly>();
+      BuildContext context, List<LeaderBoard> leaderBoardMonthly) {
+    List<LeaderBoard> leaderBoardMonthlyTopThree = List<LeaderBoard>();
     if (leaderBoardMonthly.length > 3) {
       for (int i = 0; i < 3; i++) {
         leaderBoardMonthlyTopThree.add(leaderBoardMonthly[i]);
@@ -62,88 +51,59 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
         SliverToBoxAdapter(
           child: leaderBoardMonthly.length > 3
               ? postionedBaseUserCards(leaderBoardMonthlyTopThree)
-              : listofTeams(context, leaderBoardMonthly,userLogin),
+              : listofTeams(context, leaderBoardMonthly,widget.userLogin),
         ),
 
         SliverToBoxAdapter(
             child:
                 //CommonWidgets.mycustomDivider(context),
                 leaderBoardMonthly.length > 3
-                    ? listofTeams(context, leaderBoardMonthly,userLogin)
+                    ? listofTeams(context, leaderBoardMonthly,widget.userLogin)
                     : Container()),
         // listofTeams(context, leaderBoardMonthly)
       ],
     );
   }
 
-  Widget failedWidget(BuildContext context) {
-    return FlatButton(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 0.0),
-              child: Icon(Icons.refresh, size: 60, color: AppTheme.nearlyBlue),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              "Tap to reload".tr().toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white54),
-            ),
-          ],
-        ),
-      ),
-      onPressed: () {
-        BlocProvider.of<LeaderBoardBloc>(context)
-            .add(GetLeaderBoardListEvent());
-      },
-    );
-  }
-
-  Widget postionedBaseUserCards(List<LeaderBoardMonthly> leaderBoardMonthly) {
+  Widget postionedBaseUserCards(List<LeaderBoard> leaderBoardMonthly) {
     return Container(
         child: Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.all(
-                Radius.circular(0),
-              )),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add_alert,
-                  size: 15,
-                  color: Colors.redAccent,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Each correct answer will give you 1 points for Leaderboard."
-                      .tr()
-                      .toString(),
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.black54, fontSize: 11),
-                ),
-              ],
+        
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical:8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(0),
+                )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_alert,
+                    size: 15,
+                    color: Colors.redAccent,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Each correct answer will give you 1 point(s) for Leaderboard."
+                        .tr()
+                        .toString(),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: Colors.black54, fontSize: 11),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -200,7 +160,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
                   height: 10,
                 ),
                 creditWidget(context, Colors.amberAccent,
-                    leaderBoardMonthly[1].winningCoins),
+                    int.parse(leaderBoardMonthly[1].pointsScored)),
               ],
             ),
             Column(
@@ -255,7 +215,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
                   height: 8,
                 ),
                 creditWidget(context, Colors.blueGrey[100],
-                    leaderBoardMonthly[0].winningCoins),
+                    int.parse(leaderBoardMonthly[0].pointsScored)),
                 SizedBox(
                   height: 0,
                 )
@@ -310,7 +270,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
                   height: 8,
                 ),
                 creditWidget(context, AppTheme.background3,
-                    leaderBoardMonthly[2].winningCoins),
+                    int.parse(leaderBoardMonthly[2].pointsScored)),
               ],
             ),
           ],
@@ -367,6 +327,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
   Widget creditWidgetForListItemCard(
       BuildContext context, Color backgroundColor, var coins) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.20,
       decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.all(
@@ -382,7 +343,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
               height: 10,
               width: 10,
               decoration: BoxDecoration(
-                  color: AppTheme.nearlyGold,
+                  color: Colors.orange,
                   borderRadius: BorderRadius.all(
                     Radius.circular(50),
                   )),
@@ -390,11 +351,14 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
             SizedBox(
               width: 8,
             ),
-            Text(coins == null || coins == "" ? "N/A" : "$coins",
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppTheme.appDefaultColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900)),
+            Expanded(
+              child: Text(coins == null || coins == "" ? "N/A" : "$coins",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: AppTheme.appDefaultColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900)),
+            ),
           ],
         ),
       ),
@@ -412,26 +376,24 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
             borderRadius: BorderRadius.all(
               Radius.circular(0),
             )),
-       
-          child: ListView.builder(
-              padding: EdgeInsets.only(top:2,bottom: 100),
-              itemCount: leaderBoardGenericList.length == 0
-                  ? 1
-                  : leaderBoardGenericList.length,
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return leaderBoardGenericList.length == 0
-                    ? Center(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 25.0),
-                            child: Text(
-                              "No Items".tr().toString(),
-                            )))
-                    : listWiewItemCard(
-                        context, index, leaderBoardGenericList[index],userLogin);
-              }),
-        
+        child: ListView.builder(
+            padding: EdgeInsets.only(top: 2, bottom: 100),
+            itemCount: leaderBoardGenericList.length == 0
+                ? 1
+                : leaderBoardGenericList.length,
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return leaderBoardGenericList.length == 0
+                  ? Center(
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: Text(
+                            "No Items".tr().toString(),
+                          )))
+                  : listWiewItemCard(
+                      context, index, leaderBoardGenericList[index],userLogin);
+            }),
       ),
     );
   }
@@ -517,7 +479,7 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
               ],
             ),
             creditWidgetForListItemCard(context, AppTheme.background3,
-                leaderBordGenericItem.winningCoins),
+                leaderBordGenericItem.pointsScored),
           ],
         ),
       ),
@@ -537,80 +499,11 @@ class _AgentSideGeneralRankingState extends State<AgentSideGeneralRanking> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        // extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white38),
+    return Scaffold(
+      // extendBodyBehindAppBar: true,
 
-          elevation: 0.0,
-          actions: [
-            actionWidget(context),
-          ],
-          // toolbarHeight: 50,
-          centerTitle: true,
-          // backgroundColor: AppTheme.appDefaultColor,
-
-          title: Text(
-            "Ranking".tr().toString(),
-            style: Theme.of(context).textTheme.button.copyWith(
-                color: Colors.white70,
-                fontSize: 16,
-                fontWeight: FontWeight.w700),
-          ),
-
-          backgroundColor: AppTheme.appDefaultColor,
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                  icon: Text(
-                "Monthly".tr().toString(),
-                style: Theme.of(context).textTheme.button.copyWith(
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700),
-              )),
-              Tab(
-                  icon: Text(
-                "All Time".tr().toString(),
-                style: Theme.of(context).textTheme.button.copyWith(
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700),
-              )),
-            ],
-          ),
-        ),
-        body: BlocListener<LeaderBoardBloc, LeaderBoardState>(
-            listener: (BuildContext context, state) {
-          print("Printing state from bloc lstener, and state is :  $state");
-        }, child: BlocBuilder<LeaderBoardBloc, LeaderBoardState>(
-          builder: (BuildContext context, state) {
-            if (state is LeaderBoardFailureState) {
-              return Center(child: failedWidget(context));
-            }
-            if (state is LeaderBoardSuccessState) {
-              return TabBarView(
-                children: [
-                  _buildBodyForThisMonth(
-                      context, state.leaderBoardModel.leaderBoardMonthly,state.userLogin),
-                  listofTeams(
-                      context, state.leaderBoardModel.leaderBoardAllTime,state.userLogin),
-                ],
-              );
-            }
-            if (state is LeaderBoardInProgressState) {
-              return LoadingIndicator(Colors.indigo);
-            }
-            return Container();
-          },
-        )),
-
-       
-      ),
-    ));
+      body: _buildBodyForThisMonth(context, widget.leaderBoard),
+    );
   }
 }
 

@@ -90,7 +90,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       //  extendBodyBehindAppBar: true,
-      //backgroundColor: AppTheme.background,
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white38),
@@ -276,7 +276,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
       child: Container(
         width: MediaQuery.of(context).size.width * 10,
         decoration: BoxDecoration(
-            color: AppTheme.background,
+            color: AppTheme.background2,
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             )),
@@ -316,7 +316,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.cyan[100],
+                             // color: Colors.cyan[100],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(2),
                               )),
@@ -357,7 +357,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.blue[100],
+                             // color: Colors.blue[100],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(2),
                               )),
@@ -394,7 +394,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.red[100],
+                             // color: Colors.red[100],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(2),
                               )),
@@ -431,7 +431,7 @@ class _MyLeagueState extends State<MyLeague> with WidgetsBindingObserver {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.green[100],
+                             // color: Colors.green[100],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(2),
                               )),

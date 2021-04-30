@@ -31,4 +31,18 @@ class SendCoinRepository {
     }
     return null;
   }
+
+  Future<SendCoin> sendCoinRecipt(int recordId) async {
+//custom delay
+    // await Future.delayed(Duration(seconds: 1));
+
+    SendCoin sendCoin = SendCoin();
+
+    sendCoin = await sendCoinService.sentCoinsRecipt(recordId);
+
+    if (sendCoin != null) {
+      return sendCoin;
+    }
+    return null;
+  }
 }

@@ -99,4 +99,43 @@ class SendCoinService {
 
     return sendCoin;
   }
+
+  Future<SendCoin> sentCoinsRecipt(int recordId) async {
+    SendCoin sendCoin;
+
+    UserAuthRepository userAuthRepository = UserAuthRepository();
+
+    userLogin = await userAuthRepository.getUserDataFromSharedPrefrences();
+
+    Map<String, dynamic> requestBody = <String, dynamic>{
+      'record_id': recordId,
+    };
+    final http.Response response = await httpService.postRequestWithToken(
+        endPoint: APIConstants.coinSentTicketDetailEndPoint,
+        header: _getRequestHeaders(),
+        data: requestBody);
+    print("status code ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print("response body  in sentCoinsRecipt : : ${response.body}");
+
+      var json = jsonDecode(response.body);
+
+      sendCoin = SendCoin.fromJson(json);
+
+      print("response body  in sentCoinsRecipt : ${sendCoin.message}");
+    } else if (response.statusCode == 404) {
+      var json = jsonDecode(response.body);
+
+      sendCoin = SendCoin.fromJson(json);
+    } else if (response.statusCode == 209) {
+      var json = jsonDecode(response.body);
+
+      sendCoin = SendCoin.fromJson(json);
+    } else {
+      throw Exception("sentCoinsRecipt : Failed to get sentCoinsRecipt");
+    }
+
+    return sendCoin;
+  }
 }

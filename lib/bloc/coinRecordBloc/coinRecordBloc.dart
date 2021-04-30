@@ -1,13 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:locteca/bloc/agentsBloc/agentsEvent.dart';
-import 'package:locteca/bloc/agentsBloc/agentsState.dart';
+
 import 'package:locteca/bloc/coinRecordBloc/coinRecordEvent.dart';
 import 'package:locteca/bloc/coinRecordBloc/coinRecordState.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/model/coinRecord.dart';
 import 'package:locteca/repository/coinRecordRepository.dart';
+import 'package:locteca/repository/mainRoundRepository.dart';
+import 'package:locteca/repository/sendCoinRepository.dart';
+
+CoinRecord coinRecordGlobal;
 
 class CoinRecordBloc extends Bloc<CoinRecordEvent, CoinRecordState> {
   CoinRecordRepository coinRecordRepository = CoinRecordRepository();
+  SendCoinRepository sendCoinRepository = SendCoinRepository();
+  MainRoundRepository mainRoundRepository = MainRoundRepository();
 
   CoinRecordBloc();
 
@@ -22,10 +28,10 @@ class CoinRecordBloc extends Bloc<CoinRecordEvent, CoinRecordState> {
       try {
         yield CoinRecordInProgressState();
 
-        final coinRecord = await coinRecordRepository.getCoinRecord();
+        coinRecordGlobal = await coinRecordRepository.getCoinRecord();
 
-        if (coinRecord.response == "true") {
-          yield CoinRecordSuccessState(coinRecord: coinRecord);
+        if (coinRecordGlobal.response == "true") {
+          yield CoinRecordSuccessState(coinRecord: coinRecordGlobal);
         } else {
           yield CoinRecordFailureState(
               errorMessage: "Something Went Wrong".tr().toString());
@@ -36,9 +42,7 @@ class CoinRecordBloc extends Bloc<CoinRecordEvent, CoinRecordState> {
       }
     }
 
-
-    
-if (event is GetUserCoinRecordEvent) {
+    if (event is GetUserCoinRecordEvent) {
       try {
         yield CoinRecordInProgressState();
 
@@ -57,5 +61,36 @@ if (event is GetUserCoinRecordEvent) {
     }
     // bool _hasReachedMax(SalarySlipState state) =>
     //     state is SalarySlipSuccessState && state.hasReachedMax;
+    //
+
+    if (event is GetRecordReciptDetailsEvent) {
+      try {
+        yield UserCoinRecordReciptInProgressState();
+
+        if (event.apiDirectionalCall == 1) {
+          final userCoinRecordRecipt =
+              await sendCoinRepository.sendCoinRecipt(event.id);
+
+          if (userCoinRecordRecipt.response == "true") {
+            yield UserCoinRecordReciptSuccessState(
+                sendCoin: userCoinRecordRecipt);
+          }}
+
+          if (event.apiDirectionalCall == 2) {
+            final mainRound =
+                await mainRoundRepository.getUserBetReciptRcord(event.id);
+
+            if (mainRound.response == "true") {
+              yield UserBetRecordReciptSuccessState(mainRound: mainRound);
+            }
+          }
+
+          //yield CoinRecordSuccessState(coinRecord: coinRecordGlobal);
+        
+      } catch (_) {
+        yield CoinRecordFailureState(
+            errorMessage: "Something Went Wrong".tr().toString());
+      }
+    }
   }
 }

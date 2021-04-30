@@ -13,8 +13,6 @@ import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/validateUser.dart';
 import 'package:locteca/model/validateUser.dart' as useAsValidateUser;
 import 'package:locteca/ui/Screen/AboutScreen/aboutScreen.dart';
-import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/agentBetScreen.dart';
-import 'package:locteca/ui/Screen/BetOnBehalfOfUserScreen/betOnBehalfOfUserScreen.dart';
 import 'package:locteca/ui/Screen/CoinRecordScreen/coinRecordScreen.dart';
 import 'package:locteca/ui/Screen/ContactUsScreen/contactUsScreen.dart';
 import 'package:locteca/ui/Screen/FeedBackScreen/feedBackScreen.dart';
@@ -26,12 +24,13 @@ import 'package:locteca/model/userLogin.dart';
 import 'package:locteca/repository/userAuthRepository.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawerItems.dart';
-import 'package:locteca/ui/Screen/MakeBet/makeBet.dart';
 import 'package:locteca/ui/Screen/MyLeague/agentLeague.dart';
 import 'package:locteca/ui/Screen/SendCoinScreen/SendCoinScreen.dart';
 import 'package:locteca/ui/Screen/SignUpScreen/signUpScreen.dart';
 import 'package:locteca/ui/Screen/UserProfileScreen/userProfileScreen.dart'
     as Userprofile;
+
+import '../Result/result.dart';
 
 class AgentNavDrawerMain extends StatelessWidget {
   @override
@@ -147,22 +146,22 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                           ),
                         ),
                       }),
-              // Divider(),
-              // new MyDrawerItems(context).drawerItem(
-              //     icon: FontAwesomeIcons.battleNet,
-              //     colorData: Colors.blue[900],
-              //     text: 'Bet For Special User'.tr().toString(),
-              //     onTap: () => {
-              //           //clossing the nav drawer after click
-              //           Navigator.pop(context),
+              Divider(),
+              new MyDrawerItems(context).drawerItem(
+                  icon: FontAwesomeIcons.list,
+                  colorData: Colors.blue[900],
+                  text: 'Result'.tr().toString(),
+                  onTap: () => {
+                        //clossing the nav drawer after click
+                        Navigator.pop(context),
 
-              //             Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //               builder: (context) => MakeBetMain(1),
-              //             ),
-              //           ),
-              //         }),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResultMain(0),
+                          ),
+                        ),
+                      }),
               Divider(),
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.userEdit,
@@ -196,14 +195,12 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
                   onTap: () => {
                         //clossing the nav drawer after click
                         Navigator.pop(context),
-                         Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SendCoinScreenMain(),
-              ),
-            ),
-
-                       
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SendCoinScreenMain(),
+                          ),
+                        ),
                       }),
 
               SizedBox(
@@ -213,7 +210,7 @@ class _AgentNavDrawerState extends State<AgentNavDrawer> {
               new MyDrawerItems(context).drawerItem(
                   icon: FontAwesomeIcons.coins,
                   colorData: AppTheme.nearlyGold,
-                  text: 'Coin History'.tr().toString(),
+                  text: 'History'.tr().toString(),
                   onTap: () => {
                         Navigator.pop(context),
                         NetworkConnectivity.check().then((internet) {
