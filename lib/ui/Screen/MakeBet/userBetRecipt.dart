@@ -338,7 +338,7 @@ class _UserBetReciptState extends State<UserBetRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name".tr().toString(),
+                widget.mainRound.agent == null ? "User Name".tr().toString() :  "Agent Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1

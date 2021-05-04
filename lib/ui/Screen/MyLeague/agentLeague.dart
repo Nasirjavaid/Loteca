@@ -106,7 +106,7 @@ class _AgentLeagueState extends State<AgentLeague> with WidgetsBindingObserver {
           actionWidget(context),
         ],
         title: Text(
-          "My Leagues".tr().toString(),
+          "Minhas Apostas E Resultados",
           style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w700),
         ),

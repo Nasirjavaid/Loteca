@@ -321,7 +321,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                 )),
             child: Center(
                 child: Text(
-              "Make Bet for others".tr().toString(),
+              "Apostas",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: AppTheme.appCardColor,
                   fontSize: 12,
@@ -350,7 +350,7 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
                 )),
             child: Center(
                 child: Text(
-              "Make My Bet".tr().toString(),
+              "Area Do Agente",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                   color: AppTheme.appCardColor,
                   fontSize: 12,

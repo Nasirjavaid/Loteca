@@ -80,8 +80,6 @@ void main() async {
             BlocProvider<UserProfileBloc>(
               create: (context) => UserProfileBloc(),
             ),
-
-       
             BlocProvider<FeedbackBloc>(
               create: (context) => FeedbackBloc(),
             ),
@@ -218,7 +216,7 @@ class _AppState extends State<App> {
       theme: AppTheme.lightTheme,
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
-        final scale = mediaQueryData.textScaleFactor.clamp(0.95,0.95);
+        final scale = mediaQueryData.textScaleFactor.clamp(0.95, 0.95);
         return MediaQuery(
           child: child,
           data: MediaQuery.of(context).copyWith(textScaleFactor: scale),

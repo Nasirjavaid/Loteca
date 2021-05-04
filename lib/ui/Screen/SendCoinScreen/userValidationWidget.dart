@@ -9,6 +9,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
 import 'package:locteca/model/validateUser.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/Screen/GeneralRanking/generalRanking.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -21,15 +22,17 @@ class UserValidationWidget extends StatefulWidget {
 }
 
 class UserValidationWidgetState extends State<UserValidationWidget> {
-final ValidateUser validateUser;
+  final ValidateUser validateUser;
   UserValidationWidgetState({this.validateUser});
-  submitButtonPressed(String coins,BuildContext context,String email) {
+  submitButtonPressed(String coins, BuildContext context, String email) {
     if (coins == null || coins.isEmpty) {
-      Methods.showToast(context, "Please Enter Coins".tr().toString(),);
+      Methods.showToast(
+        context,
+        "Please Enter Coins".tr().toString(),
+      );
     } else {
       BlocProvider.of<SendCoinBloc>(context).add(
-        SendCoinsToUserEvent(
-            email: email, coins: coins),
+        SendCoinsToUserEvent(email: email, coins: coins),
       );
     }
   }
@@ -195,7 +198,8 @@ class UserInfo extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.topLeft,
-                      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18, horizontal: 15),
                       child: Column(
                         children: <Widget>[
                           Column(
@@ -205,10 +209,10 @@ class UserInfo extends StatelessWidget {
                                 tiles: [
                                   ListTile(
                                     dense: true,
-                                    leading: Icon(
-                                      FontAwesomeIcons.anchor,
-                                      color: AppTheme.appBackgroundColorforCard2,
-                                    ),
+                                    leading: CirculerStaticImageView(
+                                        height: 45,
+                                        width: 20,
+                                        imageUrl: 'assets/images/icon.png'),
                                     title: Text(
                                       "Role".tr().toString(),
                                       style: Theme.of(context).textTheme.button,
@@ -217,7 +221,7 @@ class UserInfo extends StatelessWidget {
                                             userLogin.user.roles == ""
                                         ? Text("N/A")
                                         : Text(
-                                            "Available as".tr().toString()+" ${userLogin.user.roles == "1" ? "'Player'" : "'Agent'"}",
+                                            " ${userLogin.user.roles == "1" ? "Usuario" : "Agente"}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1
@@ -274,28 +278,31 @@ class UserInfo extends StatelessWidget {
                                       ),
                                       title: Text(
                                         "Phone".tr().toString(),
-                                        style: Theme.of(context).textTheme.button,
+                                        style:
+                                            Theme.of(context).textTheme.button,
                                       ),
-                                      subtitle: userLogin
-                                                      .user.contacts[0].phone ==
-                                                  null ||
-                                              userLogin.user.contacts[0].phone ==
-                                                  ""
-                                          ? Text("N/A")
-                                          : Text(
-                                              "${userLogin.user.contacts[0].phone}",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  .copyWith(fontSize: 12),
-                                            )),
+                                      subtitle:
+                                          userLogin.user.contacts[0].phone ==
+                                                      null ||
+                                                  userLogin.user.contacts[0]
+                                                          .phone ==
+                                                      ""
+                                              ? Text("N/A")
+                                              : Text(
+                                                  "${userLogin.user.contacts[0].phone}",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1
+                                                      .copyWith(fontSize: 12),
+                                                )),
                                   ListTile(
                                       dense: true,
                                       leading: Icon(FontAwesomeIcons.whatsapp,
                                           color: Colors.cyan),
                                       title: Text(
                                         "WhatsApp".tr().toString(),
-                                        style: Theme.of(context).textTheme.button,
+                                        style:
+                                            Theme.of(context).textTheme.button,
                                       ),
                                       subtitle:
                                           userLogin.user.contacts[0].whatsapp ==
@@ -312,7 +319,8 @@ class UserInfo extends StatelessWidget {
                                                       .copyWith(fontSize: 12),
                                                 )),
 
-                                  dataInputAndSubmitFields(context,userLogin.user.email),
+                                  dataInputAndSubmitFields(
+                                      context, userLogin.user.email),
                                 ],
                               ),
                             ],
@@ -330,9 +338,17 @@ class UserInfo extends StatelessWidget {
     );
   }
 
-  Widget dataInputAndSubmitFields(BuildContext context,String email) {
-    return Column(
-        children: [SizedBox(height: 20,),enterCoinsInputField(context), SizedBox(height: 20,), subMitButton(context,email)]);
+  Widget dataInputAndSubmitFields(BuildContext context, String email) {
+    return Column(children: [
+      SizedBox(
+        height: 20,
+      ),
+      enterCoinsInputField(context),
+      SizedBox(
+        height: 20,
+      ),
+      subMitButton(context, email)
+    ]);
   }
 
   Widget enterCoinsInputField(BuildContext context) {
@@ -345,17 +361,17 @@ class UserInfo extends StatelessWidget {
           maxLines: 1,
           minLines: 1,
           keyboardType: TextInputType.number,
-   
           autocorrect: false,
 
           //validator: _validateFirstName,
 
           decoration: InputDecoration(
-            prefixIcon: Icon(FontAwesomeIcons.coins, color: AppTheme.nearlyGold),
+            prefixIcon:
+                Icon(FontAwesomeIcons.coins, color: AppTheme.nearlyGold),
             counterText: "",
             // filled: true,
             // fillColor: AppTheme.appDefaultColor,
-            labelText: "Enter Coins".tr().toString(),
+            labelText: "Quantidade De Moedas A Eviar",
             labelStyle:
                 TextStyle(color: AppTheme.appDefaultColor, fontSize: 12),
             focusedBorder: OutlineInputBorder(
@@ -375,7 +391,7 @@ class UserInfo extends StatelessWidget {
     );
   }
 
-  Widget subMitButton(BuildContext context,String email) {
+  Widget subMitButton(BuildContext context, String email) {
     return SizedBox(
       height: 40,
       width: MediaQuery.of(context).size.width * 0.5,
@@ -421,11 +437,13 @@ class UserInfo extends StatelessWidget {
                   if (internet) {
                     UserValidationWidgetState userValidationWidgetState =
                         UserValidationWidgetState();
-                    userValidationWidgetState.submitButtonPressed(etCoins.text,context,email);
+                    userValidationWidgetState.submitButtonPressed(
+                        etCoins.text, context, email);
                   } else {
                     //show network erro
 
-                    Methods.showToast(context, "Check your network".tr().toString());
+                    Methods.showToast(
+                        context, "Check your network".tr().toString());
                   }
                 });
               }),
@@ -490,7 +508,6 @@ class ProfileHeader extends StatelessWidget {
           width: double.infinity,
           margin: EdgeInsets.only(top: dynamicPadding),
           child: Column(
-     
             children: <Widget>[
               Avatar(
                 height: 70,

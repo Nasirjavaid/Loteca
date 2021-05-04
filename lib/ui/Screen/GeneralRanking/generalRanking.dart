@@ -9,6 +9,7 @@ import 'package:locteca/config/appConstants.dart';
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/model/leaderBoard.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
@@ -115,7 +116,7 @@ class _GeneralRankingState extends State<GeneralRanking> {
       children: [
         Container(
           decoration: BoxDecoration(
-              color: Colors.amber,
+              color: Colors.black12,
               borderRadius: BorderRadius.all(
                 Radius.circular(0),
               )),
@@ -124,11 +125,11 @@ class _GeneralRankingState extends State<GeneralRanking> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.add_alert,
-                  size: 15,
-                  color: Colors.redAccent,
-                ),
+               Center(
+                  child: CirculerStaticImageView(
+                      height: 20,
+                      width: 20,
+                      imageUrl: 'assets/images/icon.png')),
                 SizedBox(
                   width: 5,
                 ),

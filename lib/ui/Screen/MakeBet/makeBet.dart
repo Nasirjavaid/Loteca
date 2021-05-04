@@ -15,7 +15,7 @@ import 'package:locteca/model/mainRound.dart';
 import 'package:locteca/ui/CommonWidget/commonWidgets.dart';
 import 'package:locteca/ui/CommonWidget/loadingIndicator.dart';
 import 'package:locteca/ui/CommonWidget/roundedImageViewWithoutBorderDynamic.dart';
-import 'package:locteca/ui/Screen/DashboardScreen/myNavDrawer.dart';
+
 import 'package:locteca/ui/Screen/MakeBet/NoRoundLiveWidget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -180,10 +180,10 @@ class _MakeBetState extends State<MakeBet> {
       child: SafeArea(
         maintainBottomViewPadding: true,
         child: WillPopScope(
-                  onWillPop: () { 
-                    Navigator.pop(context,true);
-                   },
-                  child: Scaffold(
+          onWillPop: () {
+            Navigator.pop(context, true);
+          },
+          child: Scaffold(
             key: _scaffoldKey,
             extendBodyBehindAppBar: true,
             // appBar: AppBar(
@@ -243,7 +243,10 @@ class _MakeBetState extends State<MakeBet> {
           widegtSwitch1 = false;
           widegtSwitch2 = false;
           selectedPackageId = 0;
-          Methods.showDialogueForUserBetDetail(context, state.mainRound,);
+          Methods.showDialogueForUserBetDetail(
+            context,
+            state.mainRound,
+          );
         }
       }
     }, child:
@@ -1080,23 +1083,39 @@ class _MakeBetState extends State<MakeBet> {
             Radius.circular(25),
           )),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(FontAwesomeIcons.coins, size: 15, color: AppTheme.nearlyGold),
-            SizedBox(
-              width: 14,
-            ),
-            anitext.AnimatedText(
-              globalUserCoinsValue == 0
-                  ? "${mainRound.user.coins}"
-                  : globalUserCoinsValue.toString(),
-              duration: const Duration(milliseconds: 500),
+            Text(
+              "Meu Saldo",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  color: AppTheme.appDefaultColor,
-                  fontSize: 14,
+                  color: Colors.black38,
+                  fontSize: 9,
                   fontWeight: FontWeight.w900),
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(FontAwesomeIcons.coins,
+                    size: 15, color: AppTheme.nearlyGold),
+                SizedBox(
+                  width: 14,
+                ),
+                anitext.AnimatedText(
+                  globalUserCoinsValue == 0
+                      ? "${mainRound.user.coins}"
+                      : globalUserCoinsValue.toString(),
+                  duration: const Duration(milliseconds: 500),
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: AppTheme.appDefaultColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900),
+                ),
+              ],
             ),
           ],
         ),
@@ -1115,11 +1134,24 @@ class _MakeBetState extends State<MakeBet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Choose Amount".tr().toString(),
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: AppTheme.appBackgroundColorforCard1,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Choose Amount".tr().toString(),
+                        style: Theme.of(context).textTheme.bodyText2.copyWith(
+                            color: AppTheme.appBackgroundColorforCard1,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900)),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Text("Escolher  O  Valor  Do  Bolao".tr().toString(),
+                        style: Theme.of(context).textTheme.bodyText2.copyWith(
+                            color: AppTheme.appBackgroundColorforCard1,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
                 Container(
                   height: 1,
                   color: AppTheme.background1,
@@ -1627,10 +1659,9 @@ class _MakeBetState extends State<MakeBet> {
                                                     .add(
                                                         SubmitBetButtonClickedEvent(
                                                   mainRound: mainRound,
-                                                  name:etName.text,
-                                                  email:etEmail.text,
-                                                  phone:etMobile.text,
-                                                  
+                                                  name: etName.text,
+                                                  email: etEmail.text,
+                                                  phone: etMobile.text,
                                                 ));
                                               }
                                             } else {

@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 library contactus;
 
 import 'package:flutter/material.dart';
@@ -155,7 +162,7 @@ class ContactUsWidget extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(Typicons.link),
                   title: Text(
-                    websiteText ?? 'Website',
+                    websiteText ?? 'Site',
                     style: TextStyle(
                       color: textColor,
                     ),
@@ -180,7 +187,7 @@ class ContactUsWidget extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(Typicons.phone),
                   title: Text(
-                    phoneNumberText ?? 'Phone Number',
+                    phoneNumberText ?? 'Telefone',
                     style: TextStyle(
                       color: textColor,
                     ),
@@ -203,7 +210,7 @@ class ContactUsWidget extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Typicons.mail),
                 title: Text(
-                  emailText ?? 'Email ID',
+                  emailText ?? 'Email',
                   style: TextStyle(
                     color: textColor,
                   ),

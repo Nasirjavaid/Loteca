@@ -184,7 +184,10 @@ class _CoinReciptState extends State<CoinRecipt> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: widget.apiDirectionalCall ==1 ||  widget.apiDirectionalCall==2 ? 55 : 110,
+                  height: widget.apiDirectionalCall == 1 ||
+                          widget.apiDirectionalCall == 2
+                      ? 55
+                      : 110,
                   child: Column(
                     children: [
                       saveAndShareButton(context),
@@ -277,7 +280,9 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name".tr().toString(),
+                  user.roles == "1"
+                      ? "User Name".tr().toString()
+                      : "Agent Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -369,7 +374,7 @@ class _CoinReciptState extends State<CoinRecipt> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "User Name".tr().toString(),
+                  "Agent Name".tr().toString(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1

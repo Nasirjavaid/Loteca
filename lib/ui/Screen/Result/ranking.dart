@@ -11,6 +11,7 @@ import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/ui/CommonWidget/circulerImageView.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:locteca/ui/CommonWidget/circulerStaticImageView.dart';
 
 import '../../../config/appTheme.dart';
 import '../../../model/roundDetail.dart';
@@ -74,7 +75,7 @@ class _RankingState extends State<Ranking> {
           padding: const EdgeInsets.symmetric(vertical:8.0),
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.amber,
+                color: Colors.black12,
                 borderRadius: BorderRadius.all(
                   Radius.circular(0),
                 )),
@@ -83,11 +84,11 @@ class _RankingState extends State<Ranking> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.add_alert,
-                    size: 15,
-                    color: Colors.redAccent,
-                  ),
+                 Center(
+                  child: CirculerStaticImageView(
+                      height: 20,
+                      width: 20,
+                      imageUrl: 'assets/images/icon.png')),
                   SizedBox(
                     width: 5,
                   ),

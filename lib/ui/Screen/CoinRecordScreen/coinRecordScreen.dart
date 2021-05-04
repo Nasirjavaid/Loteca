@@ -57,7 +57,7 @@ class _CoinRecordScreenState extends State<CoinRecordScreen> {
                 elevation: 0.0,
                 actions: [actionWidget(context)],
                 title: Text(
-                  "Coin History".tr().toString(),
+                  "Historico De Transacoes",
                   style: Theme.of(context).textTheme.button.copyWith(
                       color: Colors.white70,
                       fontSize: 16,
