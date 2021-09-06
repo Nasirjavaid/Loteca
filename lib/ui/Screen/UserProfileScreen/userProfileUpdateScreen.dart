@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:locteca/bloc/profileUpdateBloc/userProfileUpdateBloc.dart';
 import 'package:locteca/bloc/profileUpdateBloc/userProfileUpdateEvent.dart';
 import 'package:locteca/bloc/profileUpdateBloc/userProfileUpdateState.dart';
-import 'package:locteca/bloc/signUpBloc/signUpSate.dart';
+
 import 'package:locteca/config/appTheme.dart';
 import 'package:locteca/config/methods.dart';
 import 'package:locteca/config/networkConnectivity.dart';
